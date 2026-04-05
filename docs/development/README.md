@@ -51,12 +51,17 @@ Open http://localhost:3000.
 make help
 make setup
 make check
+npm run start
 npm run dev
 cd backend && .venv\\Scripts\\python.exe scripts/seed_opensquad_control_plane.py
 ```
 
 - `make setup`: sync backend + frontend deps
 - `make check`: lint + typecheck + tests + build (closest CI parity)
+- `npm run start`: starts `db` + `redis`, builds the frontend if `frontend/.next` is missing, seeds the local OpenSquad control plane when the backend venv exists, and runs the frontend without hot reload. On Windows it prefers the Docker backend service for auth/database stability; on other platforms it runs the backend on the host.
+- `npm run start:docker`: starts the full stack in Docker Compose (`db`, `redis`, `backend`, `frontend`) with the root `.env`
+- `npm run start:docker:logs`: tails the Docker Compose logs for the full stack
+- `npm run start:docker:down`: stops and removes the Docker Compose stack
 - `npm run dev`: starts `db` + `redis`, seeds the local OpenSquad control plane, keeps the seeded agents alive for local status demos, and runs backend/frontend on the host
 - `seed_opensquad_control_plane.py`: bootstraps the 3 local Virtual Office squads used in manual validation
 - `keep_seed_agents_alive.py`: refreshes heartbeat timestamps for seeded demo agents during local development

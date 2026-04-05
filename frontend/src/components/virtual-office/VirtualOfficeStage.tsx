@@ -51,10 +51,11 @@ type FurnitureProp = {
 };
 
 const SCENE_WIDTH = 768;
-const SCENE_HEIGHT = 448;
+const SCENE_HEIGHT = 500;
 const CHARACTER_FRAME_WIDTH = 16;
-const CHARACTER_FRAME_HEIGHT = 24;
+const CHARACTER_FRAME_HEIGHT = 32;
 const CHARACTER_SCALE = 3;
+const CHARACTER_ROWS = 3;
 const CHARACTER_SHEETS = Array.from(
   { length: 6 },
   (_, index) => `/virtual-office/pixel-agents/characters/char_${index}.png`,
@@ -73,36 +74,36 @@ const ROOM_BY_LANE: Record<VirtualOfficeLane, SceneRoom> = {
 
 const LANE_SLOTS: Record<VirtualOfficeLane, SceneSlot[]> = {
   lead: [
-    { dir: "up", room: "workspace", x: 112, y: 188 },
-    { dir: "up", room: "workspace", x: 248, y: 188 },
-    { dir: "right", room: "workspace", x: 176, y: 110 },
+    { dir: "up", room: "workspace", x: 112, y: 212 },
+    { dir: "up", room: "workspace", x: 248, y: 212 },
+    { dir: "right", room: "workspace", x: 176, y: 132 },
   ],
   research: [
-    { dir: "up", room: "workspace", x: 112, y: 320 },
-    { dir: "up", room: "workspace", x: 248, y: 320 },
-    { dir: "down", room: "workspace", x: 192, y: 248 },
+    { dir: "up", room: "workspace", x: 112, y: 352 },
+    { dir: "up", room: "workspace", x: 248, y: 352 },
+    { dir: "down", room: "workspace", x: 192, y: 274 },
   ],
   build: [
-    { dir: "down", room: "workspace", x: 66, y: 140 },
-    { dir: "down", room: "workspace", x: 292, y: 140 },
-    { dir: "down", room: "workspace", x: 66, y: 276 },
-    { dir: "down", room: "workspace", x: 292, y: 276 },
-    { dir: "right", room: "workspace", x: 188, y: 362 },
+    { dir: "down", room: "workspace", x: 66, y: 164 },
+    { dir: "down", room: "workspace", x: 292, y: 164 },
+    { dir: "down", room: "workspace", x: 66, y: 304 },
+    { dir: "down", room: "workspace", x: 292, y: 304 },
+    { dir: "right", room: "workspace", x: 188, y: 398 },
   ],
   monitor: [
-    { dir: "down", room: "utility", x: 586, y: 118 },
-    { dir: "left", room: "utility", x: 676, y: 118 },
-    { dir: "down", room: "utility", x: 726, y: 92 },
+    { dir: "down", room: "utility", x: 586, y: 126 },
+    { dir: "left", room: "utility", x: 676, y: 126 },
+    { dir: "down", room: "utility", x: 726, y: 102 },
   ],
   review: [
-    { dir: "right", room: "lounge", x: 546, y: 318 },
-    { dir: "left", room: "lounge", x: 638, y: 318 },
-    { dir: "down", room: "lounge", x: 516, y: 372 },
+    { dir: "right", room: "lounge", x: 538, y: 318 },
+    { dir: "left", room: "lounge", x: 630, y: 318 },
+    { dir: "down", room: "lounge", x: 494, y: 390 },
   ],
   publish: [
-    { dir: "down", room: "lounge", x: 688, y: 318 },
-    { dir: "left", room: "lounge", x: 730, y: 372 },
-    { dir: "down", room: "lounge", x: 614, y: 372 },
+    { dir: "down", room: "lounge", x: 690, y: 318 },
+    { dir: "left", room: "lounge", x: 716, y: 390 },
+    { dir: "down", room: "lounge", x: 610, y: 390 },
   ],
 };
 
@@ -110,29 +111,29 @@ const ROOM_OVERFLOW: Record<
   SceneRoom,
   { cols: number; dir: SceneDirection; startX: number; startY: number; stepX: number; stepY: number }
 > = {
-  lounge: { cols: 3, dir: "down", startX: 504, startY: 258, stepX: 88, stepY: 76 },
-  utility: { cols: 3, dir: "down", startX: 522, startY: 78, stepX: 74, stepY: 56 },
-  workspace: { cols: 4, dir: "down", startX: 84, startY: 132, stepX: 76, stepY: 88 },
+  lounge: { cols: 3, dir: "down", startX: 500, startY: 258, stepX: 88, stepY: 84 },
+  utility: { cols: 3, dir: "down", startX: 522, startY: 88, stepX: 74, stepY: 60 },
+  workspace: { cols: 4, dir: "down", startX: 84, startY: 150, stepX: 76, stepY: 96 },
 };
 
 const OFFICE_PROPS: FurnitureProp[] = [
   { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 46, y: 34, zIndex: 12 },
   { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 146, y: 34, zIndex: 12 },
   { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 246, y: 34, zIndex: 12 },
-  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 42, y: 98, zIndex: 28 },
-  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 178, y: 98, zIndex: 28 },
-  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 42, y: 230, zIndex: 28 },
-  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 178, y: 230, zIndex: 28 },
-  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_1.png", width: 48, x: 96, y: 98, zIndex: 20 },
-  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_2.png", width: 48, x: 232, y: 98, zIndex: 20 },
-  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_3.png", width: 48, x: 96, y: 230, zIndex: 20 },
-  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_1.png", width: 48, x: 232, y: 230, zIndex: 20 },
-  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 106, y: 178, zIndex: 18 },
-  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 242, y: 178, zIndex: 18 },
-  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 106, y: 310, zIndex: 18 },
-  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 242, y: 310, zIndex: 18 },
-  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 20, y: 300, zIndex: 24 },
-  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 312, y: 300, zIndex: 24 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 42, y: 116, zIndex: 28 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 178, y: 116, zIndex: 28 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 42, y: 256, zIndex: 28 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 178, y: 256, zIndex: 28 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_1.png", width: 48, x: 96, y: 116, zIndex: 20 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_2.png", width: 48, x: 232, y: 116, zIndex: 20 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_3.png", width: 48, x: 96, y: 256, zIndex: 20 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_1.png", width: 48, x: 232, y: 256, zIndex: 20 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 106, y: 196, zIndex: 18 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 242, y: 196, zIndex: 18 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 106, y: 336, zIndex: 18 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 242, y: 336, zIndex: 18 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 20, y: 350, zIndex: 24 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 312, y: 350, zIndex: 24 },
   { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 468, y: 52, zIndex: 12 },
   { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 700, y: 42, zIndex: 22 },
   { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 424, y: 306, zIndex: 22 },
@@ -313,6 +314,7 @@ function PixelCharacter({
   tick: number;
 }) {
   const { flip, frame, row } = resolveCharacterPose(sceneAgent.agent.status, sceneAgent.dir, tick);
+  const bubbleBelow = sceneAgent.y < 112;
 
   return (
     <button
@@ -329,7 +331,11 @@ function PixelCharacter({
       onClick={() => onSelectAgent(sceneAgent.agent.id)}
     >
       {sceneAgent.bubble ? (
-        <div className={`prompthub-office-bubble ${bubbleTone(sceneAgent.agent.status)}`}>
+        <div
+          className={`prompthub-office-bubble ${bubbleTone(sceneAgent.agent.status)} ${
+            bubbleBelow ? "prompthub-office-bubble--below" : ""
+          }`}
+        >
           {sceneAgent.bubble}
         </div>
       ) : null}
@@ -342,7 +348,7 @@ function PixelCharacter({
             row * CHARACTER_FRAME_HEIGHT * CHARACTER_SCALE
           }px`,
           backgroundSize: `${CHARACTER_FRAME_WIDTH * 7 * CHARACTER_SCALE}px ${
-            CHARACTER_FRAME_HEIGHT * 4 * CHARACTER_SCALE
+            CHARACTER_FRAME_HEIGHT * CHARACTER_ROWS * CHARACTER_SCALE
           }px`,
           transform: flip ? "scaleX(-1)" : undefined,
         }}
@@ -432,7 +438,34 @@ export function VirtualOfficeStage({
 
       <div className="mt-4 rounded-[28px] border border-white/10 bg-[#080b18]/80 p-3">
         <div className="prompthub-office-shell">
-          <div className="flex justify-center px-2 py-4 md:px-4">
+          <div className="prompthub-office-topbar">
+            <div className="prompthub-office-chipbar">
+              <div className="prompthub-office-chip">
+                <span>Active</span>
+                <strong>{derived.signals.active_count}</strong>
+              </div>
+              <div className="prompthub-office-chip">
+                <span>Attention</span>
+                <strong>{derived.signals.attention_count}</strong>
+              </div>
+              <div className="prompthub-office-chip">
+                <span>Handoffs</span>
+                <strong>{derived.signals.delivery_count}</strong>
+              </div>
+            </div>
+
+            <div className="prompthub-office-sync">
+              {board?.name ? <span className="truncate text-slate-200">{board.name}</span> : null}
+              <Badge variant="outline" className="border-white/15 text-slate-200">
+                {board?.sync_source ?? "mission_control"}
+              </Badge>
+              <Badge variant="outline" className="border-white/15 text-slate-200">
+                {board?.sync_state ?? "healthy"}
+              </Badge>
+            </div>
+          </div>
+
+          <div className="flex justify-center px-2 py-2 md:px-4">
             <div
               className="relative transition-transform duration-200"
               style={{
@@ -463,31 +496,6 @@ export function VirtualOfficeStage({
                   <PixelProp key={`${prop.src}-${prop.x}-${prop.y}`} {...prop} />
                 ))}
 
-                <div className="prompthub-office-chipbar">
-                  <div className="prompthub-office-chip">
-                    <span>Active</span>
-                    <strong>{derived.signals.active_count}</strong>
-                  </div>
-                  <div className="prompthub-office-chip">
-                    <span>Attention</span>
-                    <strong>{derived.signals.attention_count}</strong>
-                  </div>
-                  <div className="prompthub-office-chip">
-                    <span>Handoffs</span>
-                    <strong>{derived.signals.delivery_count}</strong>
-                  </div>
-                </div>
-
-                <div className="prompthub-office-sync">
-                  {board?.name ? <span className="truncate text-slate-200">{board.name}</span> : null}
-                  <Badge variant="outline" className="border-white/15 text-slate-200">
-                    {board?.sync_source ?? "mission_control"}
-                  </Badge>
-                  <Badge variant="outline" className="border-white/15 text-slate-200">
-                    {board?.sync_state ?? "healthy"}
-                  </Badge>
-                </div>
-
                 {handoffLine ? (
                   <svg className="pointer-events-none absolute inset-0 z-[34] h-full w-full overflow-visible">
                     <line
@@ -511,33 +519,61 @@ export function VirtualOfficeStage({
                     onSelectAgent={onSelectAgent}
                   />
                 ))}
-
-                {focusedAgent ? (
-                  <div className="prompthub-office-focus">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
-                          Selected Agent
-                        </p>
-                        <p className="mt-2 text-lg font-semibold text-white">{focusedAgent.name}</p>
-                        <p className="mt-1 text-sm text-slate-300">{focusedAgent.role}</p>
-                      </div>
-                      <span
-                        className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${statusBadgeTone(focusedAgent.status)}`}
-                      >
-                        {statusLabel(focusedAgent.status)}
-                      </span>
-                    </div>
-                    <p className="mt-3 text-sm leading-6 text-slate-300">
-                      {resolveBubble(focusedAgent) ?? "Standing by for the next board instruction."}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="prompthub-office-empty">No live agents on this board yet.</div>
-                )}
               </div>
             </div>
           </div>
+
+          {focusedAgent ? (
+            <div className="prompthub-office-footer">
+              <div className="prompthub-office-focus">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                      Selected Agent
+                    </p>
+                    <p className="mt-2 text-lg font-semibold text-white">{focusedAgent.name}</p>
+                    <p className="mt-1 text-sm text-slate-300">{focusedAgent.role}</p>
+                  </div>
+                  <span
+                    className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${statusBadgeTone(focusedAgent.status)}`}
+                  >
+                    {statusLabel(focusedAgent.status)}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  {resolveBubble(focusedAgent) ?? "Standing by for the next board instruction."}
+                </p>
+              </div>
+
+              <div className="prompthub-office-runtime">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                  Runtime
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="prompthub-office-runtime-pill">
+                    Step {derived.pipeline.current}/{derived.pipeline.total}
+                  </span>
+                  {derived.pipeline.phase ? (
+                    <span className="prompthub-office-runtime-pill">{derived.pipeline.phase}</span>
+                  ) : null}
+                  {derived.pipeline.quality_gate_status ? (
+                    <span className="prompthub-office-runtime-pill">
+                      Gate {derived.pipeline.quality_gate_status}
+                    </span>
+                  ) : null}
+                  {derived.handoff ? (
+                    <span className="prompthub-office-runtime-pill">
+                      {derived.handoff.from} {"->"} {derived.handoff.to}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="prompthub-office-footer">
+              <div className="prompthub-office-empty">No live agents on this board yet.</div>
+            </div>
+          )}
         </div>
       </div>
     </section>
