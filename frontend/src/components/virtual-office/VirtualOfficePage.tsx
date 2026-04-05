@@ -355,6 +355,7 @@ export function VirtualOfficePage() {
                   ) : null}
 
                   <VirtualOfficeStage
+                    board={selectedBoard}
                     boardKey={selectedBoardId}
                     derived={boardState.derived}
                     onSelectAgent={setPreferredAgentId}

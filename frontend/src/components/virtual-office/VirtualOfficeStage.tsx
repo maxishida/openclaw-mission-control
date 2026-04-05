@@ -1,108 +1,150 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
+import type { BoardRead } from "@/api/generated/model";
 import { Badge } from "@/components/ui/badge";
-import { buildPixelAgentSprite } from "@/lib/virtual-office-pixel";
-import { buildVirtualOfficeLayout, type VirtualOfficeDerivedState } from "@/lib/virtual-office";
+import type {
+  VirtualOfficeAgentStatus,
+  VirtualOfficeAgentView,
+  VirtualOfficeDerivedState,
+  VirtualOfficeLane,
+} from "@/lib/virtual-office";
 
 type VirtualOfficeStageProps = {
+  board?: Pick<
+    BoardRead,
+    "id" | "last_synced_at" | "name" | "slug" | "sync_source" | "sync_state" | "updated_at"
+  > | null;
   boardKey?: string | null;
   derived: VirtualOfficeDerivedState;
   onSelectAgent: (agentId: string) => void;
   selectedAgentId: string | null;
 };
 
-type LayoutPreset = "atlas" | "broadcast" | "lab";
+type SceneDirection = "down" | "up" | "left" | "right";
+type SceneRoom = "workspace" | "utility" | "lounge";
 
-const STORAGE_KEY_PREFIX = "prompthub.virtual-office.layout";
-
-const laneLabels = {
-  build: "Build bay",
-  lead: "Lead desk",
-  monitor: "Control room",
-  publish: "Release booth",
-  research: "Research pod",
-  review: "Review station",
-} as const;
-
-const OFFICE_LAYOUT_PRESETS: Record<
-  LayoutPreset,
-  {
-    accent: string;
-    floor: string;
-    glow: string;
-    label: string;
-    line: string;
-    panel: string;
-    tag: string;
-    furniture: Array<{
-      h: number;
-      rotate?: number;
-      tone: "plant" | "rack" | "screen" | "seat";
-      w: number;
-      x: number;
-      y: number;
-    }>;
-  }
-> = {
-  atlas: {
-    accent: "#a8f0d1",
-    floor:
-      "linear-gradient(180deg, rgba(19,31,54,0.96) 0%, rgba(11,18,31,0.98) 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0 30px, transparent 30px 60px)",
-    glow: "0 0 42px rgba(125, 221, 182, 0.14)",
-    label: "Atlas grid",
-    line: "rgba(168,240,209,0.24)",
-    panel: "rgba(8, 15, 29, 0.78)",
-    tag: "#a8f0d1",
-    furniture: [
-      { h: 48, tone: "rack", w: 124, x: 42, y: 38 },
-      { h: 44, tone: "screen", w: 88, x: 208, y: 52 },
-      { h: 40, tone: "seat", w: 58, x: 560, y: 56 },
-      { h: 38, tone: "plant", w: 42, x: 734, y: 72 },
-      { h: 48, tone: "rack", w: 124, x: 640, y: 344 },
-      { h: 44, rotate: -2, tone: "screen", w: 88, x: 132, y: 332 },
-    ],
-  },
-  broadcast: {
-    accent: "#fff4a1",
-    floor:
-      "linear-gradient(180deg, rgba(42,19,48,0.96) 0%, rgba(20,10,26,0.98) 100%), repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 34px, transparent 34px 68px)",
-    glow: "0 0 52px rgba(255, 190, 120, 0.14)",
-    label: "Broadcast lounge",
-    line: "rgba(255,244,161,0.22)",
-    panel: "rgba(22, 11, 29, 0.8)",
-    tag: "#fff4a1",
-    furniture: [
-      { h: 52, tone: "screen", w: 104, x: 96, y: 66 },
-      { h: 52, rotate: 1, tone: "rack", w: 128, x: 272, y: 54 },
-      { h: 40, tone: "plant", w: 40, x: 458, y: 60 },
-      { h: 46, tone: "seat", w: 64, x: 658, y: 66 },
-      { h: 52, tone: "screen", w: 102, x: 732, y: 320 },
-      { h: 40, tone: "plant", w: 40, x: 210, y: 344 },
-    ],
-  },
-  lab: {
-    accent: "#7cc4ff",
-    floor:
-      "linear-gradient(180deg, rgba(14,24,32,0.97) 0%, rgba(7,13,20,0.99) 100%), radial-gradient(circle at top left, rgba(124,196,255,0.08), transparent 40%)",
-    glow: "0 0 56px rgba(124, 196, 255, 0.12)",
-    label: "Operator lab",
-    line: "rgba(124,196,255,0.22)",
-    panel: "rgba(8, 14, 22, 0.82)",
-    tag: "#7cc4ff",
-    furniture: [
-      { h: 48, tone: "rack", w: 120, x: 60, y: 50 },
-      { h: 42, tone: "screen", w: 86, x: 232, y: 58 },
-      { h: 42, tone: "seat", w: 62, x: 408, y: 62 },
-      { h: 42, tone: "screen", w: 84, x: 604, y: 56 },
-      { h: 42, tone: "plant", w: 38, x: 760, y: 52 },
-      { h: 48, tone: "rack", w: 120, x: 660, y: 344 },
-    ],
-  },
+type SceneSlot = {
+  dir: SceneDirection;
+  room: SceneRoom;
+  x: number;
+  y: number;
 };
 
-const statusLabel = (status: string) => {
+type SceneAgent = SceneSlot & {
+  agent: VirtualOfficeAgentView;
+  bubble: string | null;
+  characterIndex: number;
+  highlighted: boolean;
+  zIndex: number;
+};
+
+type FurnitureProp = {
+  height: number;
+  src: string;
+  width: number;
+  x: number;
+  y: number;
+  zIndex: number;
+};
+
+const SCENE_WIDTH = 768;
+const SCENE_HEIGHT = 448;
+const CHARACTER_FRAME_WIDTH = 16;
+const CHARACTER_FRAME_HEIGHT = 24;
+const CHARACTER_SCALE = 3;
+const CHARACTER_SHEETS = Array.from(
+  { length: 6 },
+  (_, index) => `/virtual-office/pixel-agents/characters/char_${index}.png`,
+);
+
+const LANE_ORDER: VirtualOfficeLane[] = ["lead", "research", "build", "review", "publish", "monitor"];
+
+const ROOM_BY_LANE: Record<VirtualOfficeLane, SceneRoom> = {
+  build: "workspace",
+  lead: "workspace",
+  monitor: "utility",
+  publish: "lounge",
+  research: "workspace",
+  review: "lounge",
+};
+
+const LANE_SLOTS: Record<VirtualOfficeLane, SceneSlot[]> = {
+  lead: [
+    { dir: "up", room: "workspace", x: 112, y: 188 },
+    { dir: "up", room: "workspace", x: 248, y: 188 },
+    { dir: "right", room: "workspace", x: 176, y: 110 },
+  ],
+  research: [
+    { dir: "up", room: "workspace", x: 112, y: 320 },
+    { dir: "up", room: "workspace", x: 248, y: 320 },
+    { dir: "down", room: "workspace", x: 192, y: 248 },
+  ],
+  build: [
+    { dir: "down", room: "workspace", x: 66, y: 140 },
+    { dir: "down", room: "workspace", x: 292, y: 140 },
+    { dir: "down", room: "workspace", x: 66, y: 276 },
+    { dir: "down", room: "workspace", x: 292, y: 276 },
+    { dir: "right", room: "workspace", x: 188, y: 362 },
+  ],
+  monitor: [
+    { dir: "down", room: "utility", x: 586, y: 118 },
+    { dir: "left", room: "utility", x: 676, y: 118 },
+    { dir: "down", room: "utility", x: 726, y: 92 },
+  ],
+  review: [
+    { dir: "right", room: "lounge", x: 546, y: 318 },
+    { dir: "left", room: "lounge", x: 638, y: 318 },
+    { dir: "down", room: "lounge", x: 516, y: 372 },
+  ],
+  publish: [
+    { dir: "down", room: "lounge", x: 688, y: 318 },
+    { dir: "left", room: "lounge", x: 730, y: 372 },
+    { dir: "down", room: "lounge", x: 614, y: 372 },
+  ],
+};
+
+const ROOM_OVERFLOW: Record<
+  SceneRoom,
+  { cols: number; dir: SceneDirection; startX: number; startY: number; stepX: number; stepY: number }
+> = {
+  lounge: { cols: 3, dir: "down", startX: 504, startY: 258, stepX: 88, stepY: 76 },
+  utility: { cols: 3, dir: "down", startX: 522, startY: 78, stepX: 74, stepY: 56 },
+  workspace: { cols: 4, dir: "down", startX: 84, startY: 132, stepX: 76, stepY: 88 },
+};
+
+const OFFICE_PROPS: FurnitureProp[] = [
+  { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 46, y: 34, zIndex: 12 },
+  { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 146, y: 34, zIndex: 12 },
+  { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 246, y: 34, zIndex: 12 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 42, y: 98, zIndex: 28 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 178, y: 98, zIndex: 28 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 42, y: 230, zIndex: 28 },
+  { height: 144, src: "/virtual-office/pixel-agents/furniture/DESK/DESK_FRONT.png", width: 216, x: 178, y: 230, zIndex: 28 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_1.png", width: 48, x: 96, y: 98, zIndex: 20 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_2.png", width: 48, x: 232, y: 98, zIndex: 20 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_3.png", width: 48, x: 96, y: 230, zIndex: 20 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/PC/PC_FRONT_ON_1.png", width: 48, x: 232, y: 230, zIndex: 20 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 106, y: 178, zIndex: 18 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 242, y: 178, zIndex: 18 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 106, y: 310, zIndex: 18 },
+  { height: 72, src: "/virtual-office/pixel-agents/furniture/WOODEN_CHAIR/WOODEN_CHAIR_FRONT.png", width: 36, x: 242, y: 310, zIndex: 18 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 20, y: 300, zIndex: 24 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 312, y: 300, zIndex: 24 },
+  { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 468, y: 52, zIndex: 12 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 700, y: 42, zIndex: 22 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 424, y: 306, zIndex: 22 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/LARGE_PLANT/LARGE_PLANT.png", width: 64, x: 678, y: 308, zIndex: 22 },
+  { height: 48, src: "/virtual-office/pixel-agents/furniture/BOOKSHELF/BOOKSHELF.png", width: 96, x: 604, y: 240, zIndex: 12 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/SMALL_PAINTING/SMALL_PAINTING.png", width: 48, x: 548, y: 226, zIndex: 13 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/CUSHIONED_CHAIR/CUSHIONED_CHAIR_FRONT.png", width: 48, x: 502, y: 296, zIndex: 18 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/CUSHIONED_CHAIR/CUSHIONED_CHAIR_FRONT.png", width: 48, x: 628, y: 296, zIndex: 18 },
+  { height: 96, src: "/virtual-office/pixel-agents/furniture/COFFEE_TABLE/COFFEE_TABLE.png", width: 96, x: 558, y: 294, zIndex: 18 },
+];
+
+const statusLabel = (status: VirtualOfficeAgentStatus) => {
   switch (status) {
     case "working":
       return "Working";
@@ -123,173 +165,233 @@ const statusLabel = (status: string) => {
   }
 };
 
-const statusTone = (status: string) => {
+const statusBadgeTone = (status: VirtualOfficeAgentStatus) => {
   switch (status) {
     case "working":
-      return {
-        badge: "bg-sky-500/15 text-sky-100",
-        border: "border-sky-400/35",
-        glow: "shadow-[0_0_26px_rgba(56,189,248,0.28)]",
-      };
+      return "border-sky-300/30 bg-sky-500/10 text-sky-100";
     case "delivering":
-      return {
-        badge: "bg-cyan-500/15 text-cyan-100",
-        border: "border-cyan-400/35",
-        glow: "shadow-[0_0_26px_rgba(34,211,238,0.22)]",
-      };
+      return "border-cyan-300/30 bg-cyan-500/10 text-cyan-100";
     case "done":
-      return {
-        badge: "bg-emerald-500/15 text-emerald-100",
-        border: "border-emerald-400/35",
-        glow: "shadow-[0_0_26px_rgba(34,197,94,0.22)]",
-      };
+      return "border-emerald-300/30 bg-emerald-500/10 text-emerald-100";
     case "checkpoint":
-      return {
-        badge: "bg-amber-500/15 text-amber-100",
-        border: "border-amber-300/35",
-        glow: "shadow-[0_0_26px_rgba(245,158,11,0.22)]",
-      };
+      return "border-amber-300/30 bg-amber-500/10 text-amber-100";
     case "retry":
-      return {
-        badge: "bg-orange-500/15 text-orange-100",
-        border: "border-orange-300/35",
-        glow: "shadow-[0_0_26px_rgba(249,115,22,0.22)]",
-      };
+      return "border-orange-300/30 bg-orange-500/10 text-orange-100";
     case "error":
-      return {
-        badge: "bg-rose-500/15 text-rose-100",
-        border: "border-rose-300/35",
-        glow: "shadow-[0_0_26px_rgba(244,63,94,0.24)]",
-      };
+      return "border-rose-300/30 bg-rose-500/10 text-rose-100";
     case "monitoring":
-      return {
-        badge: "bg-teal-500/15 text-teal-100",
-        border: "border-teal-300/35",
-        glow: "shadow-[0_0_26px_rgba(45,212,191,0.18)]",
-      };
+      return "border-teal-300/30 bg-teal-500/10 text-teal-100";
     default:
-      return {
-        badge: "bg-white/8 text-slate-200",
-        border: "border-white/10",
-        glow: "",
-      };
+      return "border-white/10 bg-white/6 text-slate-200";
   }
 };
 
-const signalTone = (accent: "info" | "warning" | "neutral" | "success") => {
-  if (accent === "info") return "border-sky-300/30 bg-sky-500/12 text-sky-100";
-  if (accent === "warning") return "border-amber-300/30 bg-amber-500/12 text-amber-100";
-  if (accent === "success") return "border-emerald-300/30 bg-emerald-500/12 text-emerald-100";
-  return "border-white/10 bg-white/6 text-slate-100";
+const bubbleTone = (status: VirtualOfficeAgentStatus) => {
+  switch (status) {
+    case "checkpoint":
+      return "prompthub-office-bubble--checkpoint";
+    case "error":
+      return "prompthub-office-bubble--error";
+    case "retry":
+      return "prompthub-office-bubble--retry";
+    case "delivering":
+      return "prompthub-office-bubble--handoff";
+    default:
+      return "";
+  }
 };
 
-const getAgentBubble = (status: string, taskLabel?: string | null, deliverTo?: string | null) => {
-  if (status === "checkpoint") return "Waiting on checkpoint";
-  if (status === "error") return "Needs operator input";
-  if (status === "retry") return "Reworking current pass";
-  if (status === "delivering" && deliverTo) return `Route to ${deliverTo}`;
-  if (status === "working" && taskLabel) return taskLabel;
-  if (status === "monitoring") return "Watching live signals";
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(index);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+};
+
+const resolveBubble = (agent: VirtualOfficeAgentView) => {
+  if (agent.status === "checkpoint") return "Waiting on checkpoint";
+  if (agent.status === "error") return "Needs operator input";
+  if (agent.status === "retry") return "Reworking current pass";
+  if (agent.status === "delivering" && agent.deliver_to) return `Handoff to ${agent.deliver_to}`;
+  if (agent.status === "working" && agent.task_label) return agent.task_label;
+  if (agent.status === "monitoring") return "Watching live signals";
   return null;
 };
 
-const resolveStoredPreset = (value: string | null | undefined): LayoutPreset =>
-  value && Object.prototype.hasOwnProperty.call(OFFICE_LAYOUT_PRESETS, value)
-    ? (value as LayoutPreset)
-    : "atlas";
+const resolveCharacterPose = (status: VirtualOfficeAgentStatus, direction: SceneDirection, tick: number) => {
+  const row = direction === "down" ? 0 : direction === "up" ? 1 : 2;
+  const flip = direction === "left";
 
-function PixelSprite({
-  selected,
-  sprite,
-}: {
-  selected: boolean;
-  sprite: ReturnType<typeof buildPixelAgentSprite>;
-}) {
+  if (status === "working") return { flip, frame: tick % 2 === 0 ? 3 : 4, row };
+  if (status === "monitoring" || status === "checkpoint") {
+    return { flip, frame: tick % 2 === 0 ? 5 : 6, row };
+  }
+  if (status === "delivering") return { flip, frame: [0, 1, 2, 1][tick % 4], row };
+  if (status === "retry") return { flip, frame: [0, 1, 2, 1][tick % 4], row };
+  return { flip, frame: 1, row };
+};
+
+const buildOverflowSlot = (room: SceneRoom, index: number): SceneSlot => {
+  const config = ROOM_OVERFLOW[room];
+  const column = index % config.cols;
+  const row = Math.floor(index / config.cols);
+
+  return {
+    dir: config.dir,
+    room,
+    x: config.startX + column * config.stepX,
+    y: config.startY + row * config.stepY,
+  };
+};
+
+const buildSceneAgents = (
+  agents: VirtualOfficeAgentView[],
+  selectedAgentId: string | null,
+  highlightIds: Set<string>,
+) => {
+  const grouped = new Map<VirtualOfficeLane, VirtualOfficeAgentView[]>();
+  LANE_ORDER.forEach((lane) => grouped.set(lane, []));
+  agents.forEach((agent) => grouped.get(agent.lane)?.push(agent));
+
+  const positioned: SceneAgent[] = [];
+
+  LANE_ORDER.forEach((lane) => {
+    const laneAgents = grouped.get(lane) ?? [];
+    const presetSlots = LANE_SLOTS[lane];
+    const room = ROOM_BY_LANE[lane];
+
+    laneAgents.forEach((agent, index) => {
+      const slot = presetSlots[index] ?? buildOverflowSlot(room, index - presetSlots.length);
+      positioned.push({
+        agent,
+        bubble: highlightIds.has(agent.id) ? resolveBubble(agent) : agent.status === "delivering" ? resolveBubble(agent) : null,
+        characterIndex: hashString(`${agent.id}:${agent.name}:${agent.role}`) % CHARACTER_SHEETS.length,
+        highlighted: agent.id === selectedAgentId,
+        zIndex: 30 + Math.round(slot.y),
+        ...slot,
+      });
+    });
+  });
+
+  return positioned.sort((left, right) => left.zIndex - right.zIndex);
+};
+
+function PixelProp({ height, src, width, x, y, zIndex }: FurnitureProp) {
   return (
     <div
-      className={`pixel-sprite-frame ${selected ? "ring-2 ring-[#fff4a1]" : ""}`}
+      className="prompthub-office-prop"
       style={{
-        background: sprite.background,
-        borderColor: sprite.frame,
-        boxShadow: `0 0 0 2px rgba(3,7,18,0.95), 0 0 24px ${sprite.glow}`,
+        height,
+        left: x,
+        top: y,
+        width,
+        zIndex,
       }}
     >
-      <div
-        className="grid"
-        style={{
-          gap: 1,
-          gridTemplateColumns: `repeat(${sprite.size}, minmax(0, 1fr))`,
-        }}
-      >
-        {sprite.cells.map((cell, index) => (
-          <span
-            key={index}
-            className="h-2.5 w-2.5"
-            style={{
-              background: cell,
-              boxShadow: cell === "transparent" ? "none" : "inset 0 0 0 1px rgba(255,255,255,0.08)",
-            }}
-          />
-        ))}
-      </div>
+      <Image
+        alt=""
+        aria-hidden
+        draggable={false}
+        height={height}
+        sizes={`${width}px`}
+        src={src}
+        width={width}
+      />
     </div>
   );
 }
 
+function PixelCharacter({
+  sceneAgent,
+  tick,
+  onSelectAgent,
+}: {
+  onSelectAgent: (agentId: string) => void;
+  sceneAgent: SceneAgent;
+  tick: number;
+}) {
+  const { flip, frame, row } = resolveCharacterPose(sceneAgent.agent.status, sceneAgent.dir, tick);
+
+  return (
+    <button
+      className={`prompthub-office-agent prompthub-office-agent--${sceneAgent.agent.status} ${
+        sceneAgent.highlighted ? "prompthub-office-agent--selected" : ""
+      }`}
+      style={{
+        left: sceneAgent.x,
+        top: sceneAgent.y,
+        zIndex: sceneAgent.zIndex,
+      }}
+      title={sceneAgent.agent.name}
+      type="button"
+      onClick={() => onSelectAgent(sceneAgent.agent.id)}
+    >
+      {sceneAgent.bubble ? (
+        <div className={`prompthub-office-bubble ${bubbleTone(sceneAgent.agent.status)}`}>
+          {sceneAgent.bubble}
+        </div>
+      ) : null}
+      <div className="prompthub-office-agent-shadow" />
+      <div
+        className="prompthub-office-agent-sheet"
+        style={{
+          backgroundImage: `url(${CHARACTER_SHEETS[sceneAgent.characterIndex]})`,
+          backgroundPosition: `-${frame * CHARACTER_FRAME_WIDTH * CHARACTER_SCALE}px -${
+            row * CHARACTER_FRAME_HEIGHT * CHARACTER_SCALE
+          }px`,
+          backgroundSize: `${CHARACTER_FRAME_WIDTH * 7 * CHARACTER_SCALE}px ${
+            CHARACTER_FRAME_HEIGHT * 4 * CHARACTER_SCALE
+          }px`,
+          transform: flip ? "scaleX(-1)" : undefined,
+        }}
+      />
+    </button>
+  );
+}
+
 export function VirtualOfficeStage({
-  boardKey,
+  board,
   derived,
   onSelectAgent,
   selectedAgentId,
 }: VirtualOfficeStageProps) {
-  const normalizedBoardKey = boardKey || "global";
   const [zoom, setZoom] = useState(1);
-  const [layoutState, setLayoutState] = useState<{
-    boardKey: string;
-    preset: LayoutPreset;
-  }>(() => ({
-    boardKey: normalizedBoardKey,
-    preset:
-      typeof window !== "undefined"
-        ? resolveStoredPreset(
-            window.localStorage.getItem(`${STORAGE_KEY_PREFIX}:${normalizedBoardKey}`),
-          )
-        : "atlas",
-  }));
-  const layout = useMemo(() => buildVirtualOfficeLayout(derived.agents), [derived.agents]);
-
-  if (layoutState.boardKey !== normalizedBoardKey) {
-    const storedValue =
-      typeof window !== "undefined"
-        ? window.localStorage.getItem(`${STORAGE_KEY_PREFIX}:${normalizedBoardKey}`)
-        : null;
-    setLayoutState({
-      boardKey: normalizedBoardKey,
-      preset: resolveStoredPreset(storedValue),
-    });
-  }
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const storageKey = `${STORAGE_KEY_PREFIX}:${layoutState.boardKey}`;
-    window.localStorage.setItem(storageKey, layoutState.preset);
-  }, [layoutState]);
+    const interval = window.setInterval(() => {
+      setTick((current) => (current + 1) % 8);
+    }, 260);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   const focusedAgent =
     derived.agents.find((agent) => agent.id === selectedAgentId) ??
     derived.attention_agents[0] ??
     derived.agents[0] ??
     null;
-  const selectedAgent = focusedAgent?.id ?? null;
-  const layoutPreset = layoutState.preset;
-  const preset = OFFICE_LAYOUT_PRESETS[layoutPreset];
+  const highlightIds = useMemo(() => {
+    const ids = new Set<string>();
+    if (focusedAgent) ids.add(focusedAgent.id);
+    derived.attention_agents.slice(0, 2).forEach((agent) => ids.add(agent.id));
+    return ids;
+  }, [derived.attention_agents, focusedAgent]);
+
+  const sceneAgents = useMemo(
+    () => buildSceneAgents(derived.agents, focusedAgent?.id ?? null, highlightIds),
+    [derived.agents, focusedAgent?.id, highlightIds],
+  );
+
   const handoffLine = useMemo(() => {
     if (!derived.handoff) return null;
-    const from = layout.positionedAgents.find((item) => item.agent.id === derived.handoff?.from_agent_id);
-    const to = layout.positionedAgents.find((item) => item.agent.id === derived.handoff?.to_agent_id);
+    const from = sceneAgents.find((agent) => agent.agent.id === derived.handoff?.from_agent_id);
+    const to = sceneAgents.find((agent) => agent.agent.id === derived.handoff?.to_agent_id);
     if (!from || !to) return null;
     return { from, to };
-  }, [derived.handoff, layout.positionedAgents]);
+  }, [derived.handoff, sceneAgents]);
 
   return (
     <section className="galaxy-card rounded-[32px] p-4 md:p-5">
@@ -304,7 +406,7 @@ export function VirtualOfficeStage({
           <button
             type="button"
             className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-sky-300/30 hover:bg-white/10"
-            onClick={() => setZoom((current) => Math.max(0.72, Number((current - 0.1).toFixed(2))))}
+            onClick={() => setZoom((current) => Math.max(0.75, Number((current - 0.1).toFixed(2))))}
           >
             -
           </button>
@@ -314,7 +416,7 @@ export function VirtualOfficeStage({
           <button
             type="button"
             className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-sky-300/30 hover:bg-white/10"
-            onClick={() => setZoom((current) => Math.min(1.55, Number((current + 0.1).toFixed(2))))}
+            onClick={() => setZoom((current) => Math.min(1.45, Number((current + 0.1).toFixed(2))))}
           >
             +
           </button>
@@ -329,277 +431,110 @@ export function VirtualOfficeStage({
       </div>
 
       <div className="mt-4 rounded-[28px] border border-white/10 bg-[#080b18]/80 p-3">
-        <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(125,55,200,0.18),_transparent_34%),linear-gradient(180deg,_rgba(19,24,35,0.98),_rgba(10,14,24,0.98))]">
-          <div className="absolute left-3 top-3 z-20 flex max-w-[min(100%,24rem)] flex-col gap-3">
-            <div className="rounded-[20px] border border-white/10 bg-[#0b111a]/80 px-4 py-3 shadow-[0_18px_38px_rgba(0,0,0,0.2)] backdrop-blur-xl">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-[10px] uppercase tracking-[0.26em] text-slate-500">Live Signals</p>
-                <Badge variant="outline" className="border-white/15 text-slate-300">
-                  {preset.label}
-                </Badge>
-              </div>
-              <div className="mt-3 grid grid-cols-2 gap-2">
-                <div className={`rounded-2xl border px-3 py-2 ${signalTone("info")}`}>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Active</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
-                    {derived.signals.active_count}
-                  </p>
-                </div>
-                <div className={`rounded-2xl border px-3 py-2 ${signalTone("warning")}`}>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Attention</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
-                    {derived.signals.attention_count}
-                  </p>
-                </div>
-                <div className={`rounded-2xl border px-3 py-2 ${signalTone("neutral")}`}>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Watching</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
-                    {derived.signals.watching_count}
-                  </p>
-                </div>
-                <div className={`rounded-2xl border px-3 py-2 ${signalTone("success")}`}>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Handoffs</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
-                    {derived.signals.delivery_count}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-3 flex items-center justify-between gap-3 text-xs text-slate-300">
-                <span>{derived.signals.completed_count} tasks complete</span>
-                <span>
-                  {derived.handoff ? `${derived.handoff.from} -> ${derived.handoff.to}` : "No active handoff"}
-                </span>
-              </div>
-            </div>
+        <div className="prompthub-office-shell">
+          <div className="flex justify-center px-2 py-4 md:px-4">
+            <div
+              className="relative transition-transform duration-200"
+              style={{
+                height: SCENE_HEIGHT,
+                transform: `scale(${zoom})`,
+                transformOrigin: "center center",
+                width: SCENE_WIDTH,
+              }}
+            >
+              <div className="prompthub-office-scene">
+                <div className="prompthub-office-room prompthub-office-room--workspace" />
+                <div className="prompthub-office-room prompthub-office-room--utility" />
+                <div className="prompthub-office-room prompthub-office-room--lounge" />
+                <div className="prompthub-office-divider prompthub-office-divider--vertical" />
+                <div className="prompthub-office-divider prompthub-office-divider--horizontal" />
 
-            {focusedAgent ? (
-              <div
-                className={`rounded-[20px] border bg-[#0b111a]/80 px-4 py-3 shadow-[0_18px_38px_rgba(0,0,0,0.2)] backdrop-blur-xl ${statusTone(focusedAgent.status).border}`}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.26em] text-slate-500">
-                    <span>{focusedAgent.glyph}</span>
-                    <span>Focused agent</span>
+                <div className="prompthub-office-plaque" style={{ left: 72, top: 34 }}>
+                  Workroom
+                </div>
+                <div className="prompthub-office-plaque" style={{ left: 474, top: 32 }}>
+                  Relay
+                </div>
+                <div className="prompthub-office-plaque" style={{ left: 554, top: 208 }}>
+                  Review Lounge
+                </div>
+
+                {OFFICE_PROPS.map((prop) => (
+                  <PixelProp key={`${prop.src}-${prop.x}-${prop.y}`} {...prop} />
+                ))}
+
+                <div className="prompthub-office-chipbar">
+                  <div className="prompthub-office-chip">
+                    <span>Active</span>
+                    <strong>{derived.signals.active_count}</strong>
                   </div>
-                  <Badge className={statusTone(focusedAgent.status).badge}>
-                    {statusLabel(focusedAgent.status)}
+                  <div className="prompthub-office-chip">
+                    <span>Attention</span>
+                    <strong>{derived.signals.attention_count}</strong>
+                  </div>
+                  <div className="prompthub-office-chip">
+                    <span>Handoffs</span>
+                    <strong>{derived.signals.delivery_count}</strong>
+                  </div>
+                </div>
+
+                <div className="prompthub-office-sync">
+                  {board?.name ? <span className="truncate text-slate-200">{board.name}</span> : null}
+                  <Badge variant="outline" className="border-white/15 text-slate-200">
+                    {board?.sync_source ?? "mission_control"}
+                  </Badge>
+                  <Badge variant="outline" className="border-white/15 text-slate-200">
+                    {board?.sync_state ?? "healthy"}
                   </Badge>
                 </div>
-                <div className="mt-3 flex items-start gap-3">
-                  <PixelSprite selected sprite={buildPixelAgentSprite(focusedAgent)} />
-                  <div className="min-w-0">
-                    <p className="text-lg font-semibold text-white">{focusedAgent.name}</p>
-                    <p className="mt-1 text-sm text-slate-300">{focusedAgent.role}</p>
-                    <p className="mt-3 text-sm leading-6 text-slate-300">
-                      {focusedAgent.task_label
-                        ? `${statusLabel(focusedAgent.status)} around ${focusedAgent.task_label}.`
-                        : "Standing by for the next board instruction."}
-                    </p>
-                    {focusedAgent.deliver_to ? (
-                      <p className="mt-3 text-xs text-cyan-100">
-                        Route: <span className="font-semibold">{focusedAgent.deliver_to}</span>
-                      </p>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </div>
 
-          {derived.attention_agents.length > 0 ? (
-            <div className="absolute bottom-3 left-3 z-20 w-[min(100%-1.5rem,19rem)] rounded-[20px] border border-amber-300/25 bg-[rgba(20,16,10,0.72)] px-3 py-3 shadow-[0_18px_38px_rgba(0,0,0,0.2)] backdrop-blur-xl">
-              <p className="text-[10px] uppercase tracking-[0.26em] text-slate-500">Attention Queue</p>
-              <div className="mt-3 space-y-2">
-                {derived.attention_agents.slice(0, 4).map((agent) => {
-                  const tone = statusTone(agent.status);
-                  return (
-                    <button
-                      key={agent.id}
-                      type="button"
-                      onClick={() => onSelectAgent(agent.id)}
-                      className={`flex w-full items-center justify-between gap-3 rounded-2xl border px-3 py-2 text-left transition hover:translate-x-0.5 ${tone.border} ${tone.glow} ${
-                        selectedAgent === agent.id ? "bg-white/10" : "bg-white/[0.03]"
-                      }`}
-                    >
-                      <span className="flex min-w-0 items-center gap-2">
-                        <span className="text-base">{agent.glyph}</span>
-                        <span className="truncate text-sm font-medium text-white">{agent.name}</span>
-                      </span>
-                      <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-200">
-                        {statusLabel(agent.status)}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ) : null}
-
-          <div className="relative min-h-[620px] overflow-hidden">
-            <div className="absolute inset-0 opacity-35">
-              <div className="galaxy-grid h-full w-full" />
-            </div>
-
-            <div className="absolute inset-0 flex items-center justify-center p-10">
-              <div
-                className="relative"
-                style={{
-                  height: layout.stageH,
-                  transform: `scale(${zoom})`,
-                  transformOrigin: "center center",
-                  transition: "transform 220ms ease",
-                  width: layout.stageW,
-                }}
-              >
-                <div
-                  className="absolute overflow-hidden rounded-[38px] border"
-                  style={{
-                    background: preset.floor,
-                    borderColor: preset.line,
-                    boxShadow: preset.glow,
-                    height: layout.floorH,
-                    left: layout.floorX,
-                    top: layout.floorY,
-                    width: layout.floorW,
-                  }}
-                >
-                  <div className="pixel-floor-grid absolute inset-0 opacity-70" />
-                  <div
-                    className="absolute inset-5 rounded-[30px] border"
-                    style={{ borderColor: preset.line }}
-                  />
-                  <div className="pixel-office-beam absolute inset-x-10 top-[23%]" />
-                  <div className="pixel-office-beam absolute inset-x-10 top-[54%]" />
-                  <div
-                    className="absolute left-[32%] top-8 bottom-8 w-px"
-                    style={{ background: `linear-gradient(180deg, transparent, ${preset.line}, transparent)` }}
-                  />
-                  <div
-                    className="absolute left-[66%] top-8 bottom-8 w-px"
-                    style={{ background: `linear-gradient(180deg, transparent, ${preset.line}, transparent)` }}
-                  />
-
-                  {preset.furniture.map((piece, index) => (
-                    <div
-                      key={`${layoutPreset}-${index}`}
-                      className={`pixel-furniture pixel-furniture-${piece.tone}`}
-                      style={{
-                        height: piece.h,
-                        left: piece.x,
-                        top: piece.y,
-                        transform: piece.rotate ? `rotate(${piece.rotate}deg)` : undefined,
-                        width: piece.w,
-                      }}
+                {handoffLine ? (
+                  <svg className="pointer-events-none absolute inset-0 z-[34] h-full w-full overflow-visible">
+                    <line
+                      x1={handoffLine.from.x}
+                      x2={handoffLine.to.x}
+                      y1={handoffLine.from.y - 28}
+                      y2={handoffLine.to.y - 28}
+                      stroke="#80f5ff"
+                      strokeDasharray="8 8"
+                      strokeLinecap="round"
+                      strokeWidth="3"
                     />
-                  ))}
+                  </svg>
+                ) : null}
 
-                  {Object.entries(laneLabels).map(([lane, label]) => {
-                    const anchor = layout.positionedAgents.find((item) => item.agent.lane === lane);
-                    if (!anchor) return null;
-                    return (
-                      <div
-                        key={lane}
-                        className="absolute -translate-x-1/2 rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em]"
-                        style={{
-                          background: preset.panel,
-                          borderColor: preset.line,
-                          color: preset.tag,
-                          left: anchor.centerX - layout.floorX,
-                          top: anchor.centerY - layout.floorY - 70,
-                        }}
-                      >
-                        {label}
+                {sceneAgents.map((sceneAgent) => (
+                  <PixelCharacter
+                    key={sceneAgent.agent.id}
+                    sceneAgent={sceneAgent}
+                    tick={tick}
+                    onSelectAgent={onSelectAgent}
+                  />
+                ))}
+
+                {focusedAgent ? (
+                  <div className="prompthub-office-focus">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                          Selected Agent
+                        </p>
+                        <p className="mt-2 text-lg font-semibold text-white">{focusedAgent.name}</p>
+                        <p className="mt-1 text-sm text-slate-300">{focusedAgent.role}</p>
                       </div>
-                    );
-                  })}
-
-                  {handoffLine ? (
-                    <svg className="absolute inset-0 h-full w-full overflow-visible">
-                      <line
-                        x1={handoffLine.from.centerX - layout.floorX}
-                        y1={handoffLine.from.centerY - layout.floorY}
-                        x2={handoffLine.to.centerX - layout.floorX}
-                        y2={handoffLine.to.centerY - layout.floorY}
-                        stroke={preset.accent}
-                        strokeDasharray="8 7"
-                        strokeWidth="3"
-                      />
-                    </svg>
-                  ) : null}
-
-                  {layout.positionedAgents.map((positionedAgent) => {
-                    const sprite = buildPixelAgentSprite(positionedAgent.agent);
-                    const selected = selectedAgent === positionedAgent.agent.id;
-                    const bubble = getAgentBubble(
-                      positionedAgent.agent.status,
-                      positionedAgent.agent.task_label,
-                      positionedAgent.agent.deliver_to,
-                    );
-                    return (
-                      <button
-                        key={positionedAgent.agent.id}
-                        type="button"
-                        onClick={() => onSelectAgent(positionedAgent.agent.id)}
-                        className={`pixel-agent-node ${selected ? "pixel-agent-node-active" : ""}`}
-                        style={{
-                          left: positionedAgent.centerX - layout.floorX,
-                          top: positionedAgent.centerY - layout.floorY,
-                        }}
+                      <span
+                        className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${statusBadgeTone(focusedAgent.status)}`}
                       >
-                        {bubble ? (
-                          <span className="pixel-speech-bubble max-w-[130px] truncate">{bubble}</span>
-                        ) : null}
-                        <PixelSprite selected={selected} sprite={sprite} />
-                        <span className="mt-2 max-w-[92px] truncate font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f4f6ff]">
-                          {positionedAgent.agent.name}
-                        </span>
-                        <span className="mt-1 text-[10px] uppercase tracking-[0.14em] text-[#95a3cf]">
-                          {statusLabel(positionedAgent.agent.status)}
-                        </span>
-                        <span className="pixel-agent-shadow" />
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute bottom-3 right-3 z-20 w-[240px] rounded-[20px] border border-white/10 bg-[#141a25]/92 px-3 py-3 shadow-[0_18px_38px_rgba(0,0,0,0.2)]">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Room layout</p>
-                <Badge variant="outline" className="border-white/15 text-slate-300">
-                  Persistent
-                </Badge>
-              </div>
-              <div className="mt-3 grid gap-2">
-                {(Object.entries(OFFICE_LAYOUT_PRESETS) as Array<[LayoutPreset, (typeof OFFICE_LAYOUT_PRESETS)[LayoutPreset]]>).map(
-                  ([presetKey, presetValue]) => (
-                    <button
-                      key={presetKey}
-                      type="button"
-                      onClick={() =>
-                        setLayoutState((current) => ({
-                          ...current,
-                          preset: presetKey,
-                        }))
-                      }
-                      className={`pixel-select-card ${layoutPreset === presetKey ? "pixel-select-card-active" : ""}`}
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#f4f6ff]">
-                          {presetValue.label}
-                        </span>
-                        <span
-                          className="pixel-roster-swatch"
-                          style={{ background: presetValue.accent, borderColor: presetValue.line }}
-                        />
-                      </div>
-                    </button>
-                  ),
+                        {statusLabel(focusedAgent.status)}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-slate-300">
+                      {resolveBubble(focusedAgent) ?? "Standing by for the next board instruction."}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="prompthub-office-empty">No live agents on this board yet.</div>
                 )}
-              </div>
-              <div className="mt-3 rounded-[16px] border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300">
-                Checkpoints, retries and handoffs surface as speech bubbles directly on the floor.
               </div>
             </div>
           </div>

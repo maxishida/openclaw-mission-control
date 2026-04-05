@@ -362,6 +362,49 @@ body {
   }
 }
 
+@keyframes pixel-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, calc(-50% - 2px));
+  }
+}
+
+@keyframes pixel-type {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  25% {
+    transform: translate(calc(-50% - 1px), -50%) scale(1.02);
+  }
+  75% {
+    transform: translate(calc(-50% + 1px), -50%) scale(1.02);
+  }
+}
+
+@keyframes pixel-read {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, calc(-50% - 2px)) rotate(-1deg);
+  }
+}
+
+@keyframes pixel-alert {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.18);
+  }
+}
+
 .landing-enterprise .landing-nav {
   position: fixed;
   top: 0;
@@ -1265,6 +1308,72 @@ body {
   white-space: nowrap;
 }
 
+.pixel-debug-panel {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  z-index: 25;
+  width: min(420px, calc(100% - 32px));
+  border: 1px solid rgba(255, 244, 161, 0.18);
+  border-radius: 22px;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 161, 0.08), transparent 28%),
+    rgba(7, 12, 24, 0.92);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.3);
+}
+
+.pixel-debug-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border: 1px solid rgba(114, 134, 198, 0.2);
+  border-radius: 16px;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.pixel-debug-readout span {
+  color: #95a3cf;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+    monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pixel-debug-readout strong {
+  color: #f4f6ff;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.pixel-debug-agent-card {
+  border: 1px solid rgba(114, 134, 198, 0.18);
+  border-radius: 16px;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.pixel-debug-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(114, 134, 198, 0.18);
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: #cfd8f5;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+    monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .pixel-agent-node {
   position: absolute;
   display: flex;
@@ -1284,6 +1393,28 @@ body {
   filter: brightness(1.08);
 }
 
+.pixel-agent-motion-idle,
+.pixel-agent-motion-cooldown {
+  animation: pixel-float 2.8s ease-in-out infinite;
+}
+
+.pixel-agent-motion-typing,
+.pixel-agent-motion-rerouting {
+  animation: pixel-type 0.95s steps(2, end) infinite;
+}
+
+.pixel-agent-motion-reading,
+.pixel-agent-motion-waiting,
+.pixel-agent-motion-walking {
+  animation: pixel-read 1.8s ease-in-out infinite;
+}
+
+.pixel-agent-motion-blocked {
+  animation:
+    pixel-float 2.5s ease-in-out infinite,
+    pixel-alert 1.4s ease-in-out infinite;
+}
+
 .pixel-agent-node-active {
   filter: drop-shadow(0 0 18px rgba(255, 244, 161, 0.25));
 }
@@ -1294,6 +1425,379 @@ body {
   border: 2px solid transparent;
   border-radius: 14px;
   background: rgba(8, 13, 23, 0.92);
+}
+
+.pixel-sprite-free {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.prompthub-office-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(117, 146, 229, 0.18);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top, rgba(124, 92, 255, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(10, 16, 28, 0.98) 0%, rgba(6, 10, 19, 1) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 26px 60px rgba(3, 7, 18, 0.32);
+}
+
+.prompthub-office-scene {
+  position: relative;
+  overflow: hidden;
+  width: 768px;
+  height: 448px;
+  border: 2px solid rgba(122, 144, 236, 0.26);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top left, rgba(121, 91, 245, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(9, 14, 24, 1) 0%, rgba(4, 8, 16, 1) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 0 6px rgba(4, 10, 21, 0.72);
+}
+
+.prompthub-office-room {
+  position: absolute;
+  overflow: hidden;
+  border: 2px solid rgba(11, 18, 31, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.prompthub-office-room::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.32;
+}
+
+.prompthub-office-room--workspace {
+  left: 24px;
+  top: 24px;
+  width: 344px;
+  height: 368px;
+  background:
+    linear-gradient(180deg, rgba(144, 94, 39, 0.96), rgba(110, 67, 28, 0.98)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent);
+}
+
+.prompthub-office-room--workspace::after {
+  background-image:
+    linear-gradient(90deg, rgba(73, 43, 18, 0.42) 0 8px, transparent 8px 42px),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px, 100% 48px;
+}
+
+.prompthub-office-room--utility {
+  left: 408px;
+  top: 24px;
+  width: 336px;
+  height: 136px;
+  background:
+    linear-gradient(180deg, rgba(231, 222, 214, 0.98), rgba(212, 203, 196, 0.98)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent);
+}
+
+.prompthub-office-room--utility::after {
+  background-image:
+    linear-gradient(rgba(77, 65, 58, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 65, 58, 0.11) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.prompthub-office-room--lounge {
+  left: 408px;
+  top: 200px;
+  width: 336px;
+  height: 192px;
+  background:
+    linear-gradient(180deg, rgba(88, 120, 154, 0.98), rgba(70, 100, 136, 0.98)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent);
+}
+
+.prompthub-office-room--lounge::after {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.prompthub-office-divider {
+  position: absolute;
+  background: rgba(11, 18, 31, 0.88);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.prompthub-office-divider--vertical {
+  left: 384px;
+  top: 24px;
+  width: 12px;
+  height: 368px;
+}
+
+.prompthub-office-divider--horizontal {
+  left: 408px;
+  top: 176px;
+  width: 336px;
+  height: 12px;
+}
+
+.prompthub-office-plaque {
+  position: absolute;
+  z-index: 26;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 0.32rem 0.62rem;
+  background: rgba(9, 13, 22, 0.76);
+  color: #eef2ff;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+    monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.prompthub-office-chipbar {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  z-index: 32;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.prompthub-office-chip {
+  display: flex;
+  min-width: 88px;
+  flex-direction: column;
+  gap: 0.2rem;
+  border: 1px solid rgba(129, 167, 255, 0.18);
+  border-radius: 16px;
+  padding: 0.55rem 0.8rem;
+  background: rgba(8, 12, 21, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.prompthub-office-chip span {
+  color: #95a3cf;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+    monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.prompthub-office-chip strong {
+  color: #f4f6ff;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.prompthub-office-sync {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  z-index: 32;
+  display: flex;
+  max-width: 320px;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(129, 167, 255, 0.18);
+  border-radius: 999px;
+  padding: 0.5rem 0.75rem;
+  background: rgba(8, 12, 21, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.prompthub-office-prop {
+  position: absolute;
+  pointer-events: none;
+}
+
+.prompthub-office-prop img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.prompthub-office-agent {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  transform: translate(-50%, -100%);
+  transition: filter 180ms ease;
+}
+
+.prompthub-office-agent:hover {
+  filter: brightness(1.08);
+}
+
+.prompthub-office-agent--selected {
+  filter: drop-shadow(0 0 12px rgba(255, 244, 161, 0.35));
+}
+
+.prompthub-office-agent--idle,
+.prompthub-office-agent--done,
+.prompthub-office-agent--monitoring,
+.prompthub-office-agent--checkpoint {
+  animation: prompthub-agent-idle 2.8s ease-in-out infinite;
+}
+
+.prompthub-office-agent--working,
+.prompthub-office-agent--delivering,
+.prompthub-office-agent--retry {
+  animation: prompthub-agent-walk 1.25s ease-in-out infinite;
+}
+
+.prompthub-office-agent--error {
+  animation:
+    prompthub-agent-idle 2.8s ease-in-out infinite,
+    prompthub-agent-alert 1.35s ease-in-out infinite;
+}
+
+.prompthub-office-agent-sheet {
+  position: relative;
+  z-index: 2;
+  width: 48px;
+  height: 72px;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.prompthub-office-agent-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  z-index: 1;
+  width: 30px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(3, 6, 12, 0.34);
+  transform: translateX(-50%);
+  filter: blur(2px);
+}
+
+.prompthub-office-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 4;
+  min-width: 104px;
+  max-width: 210px;
+  padding: 0.44rem 0.58rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(8, 12, 21, 0.92);
+  color: #f8faff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+  transform: translateX(-50%);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+}
+
+.prompthub-office-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border-right: inherit;
+  border-bottom: inherit;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.prompthub-office-bubble--checkpoint {
+  border-color: rgba(255, 207, 102, 0.34);
+  color: #fff0be;
+}
+
+.prompthub-office-bubble--error {
+  border-color: rgba(255, 143, 156, 0.34);
+  color: #ffd6dd;
+}
+
+.prompthub-office-bubble--retry {
+  border-color: rgba(255, 176, 103, 0.34);
+  color: #ffe2c5;
+}
+
+.prompthub-office-bubble--handoff {
+  border-color: rgba(128, 245, 255, 0.34);
+  color: #d8fbff;
+}
+
+.prompthub-office-focus {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 32;
+  width: 280px;
+  border: 1px solid rgba(129, 167, 255, 0.18);
+  border-radius: 20px;
+  padding: 1rem;
+  background: rgba(8, 12, 21, 0.78);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+}
+
+.prompthub-office-empty {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 32;
+  border: 1px solid rgba(129, 167, 255, 0.18);
+  border-radius: 18px;
+  padding: 0.9rem 1rem;
+  background: rgba(8, 12, 21, 0.78);
+  color: #cbd5f5;
+  font-size: 14px;
+}
+
+@keyframes prompthub-agent-idle {
+  0%,
+  100% {
+    transform: translate(-50%, -100%);
+  }
+  50% {
+    transform: translate(-50%, -103%);
+  }
+}
+
+@keyframes prompthub-agent-walk {
+  0%,
+  100% {
+    transform: translate(-50%, -100%);
+  }
+  50% {
+    transform: translate(-50%, -101.5%);
+  }
+}
+
+@keyframes prompthub-agent-alert {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(255, 143, 156, 0.18));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(255, 143, 156, 0.34));
+  }
 }
 
 .pixel-chip {

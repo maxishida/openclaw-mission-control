@@ -33,19 +33,24 @@ const statusText = {
 } as const;
 
 function PixelSprite({
+  mode = "panel",
   selected,
   sprite,
 }: {
+  mode?: "free" | "panel";
   selected: boolean;
   sprite: ReturnType<typeof buildPixelAgentSprite>;
 }) {
   return (
     <div
-      className={`pixel-sprite-frame ${selected ? "ring-2 ring-[#fff4a1]" : ""}`}
+      className={`${mode === "free" ? "pixel-sprite-free" : "pixel-sprite-frame"} ${selected ? "ring-2 ring-[#fff4a1]" : ""}`}
       style={{
-        background: sprite.background,
-        borderColor: sprite.frame,
-        boxShadow: `0 0 0 2px rgba(3,7,18,0.95), 0 0 24px ${sprite.glow}`,
+        background: mode === "free" ? "transparent" : "rgba(8, 13, 23, 0.92)",
+        borderColor: mode === "free" ? "transparent" : sprite.frame,
+        boxShadow:
+          mode === "free"
+            ? `0 0 20px ${sprite.glow}`
+            : `0 0 0 2px rgba(3,7,18,0.95), 0 0 24px ${sprite.glow}`,
       }}
     >
       <div
@@ -260,7 +265,7 @@ export function PixelVirtualOfficeStage({
                         top: positionedAgent.centerY - layout.floorY,
                       }}
                     >
-                      <PixelSprite selected={selected} sprite={sprite} />
+                      <PixelSprite mode="free" selected={selected} sprite={sprite} />
                       <span className="mt-2 max-w-[92px] truncate font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f4f6ff]">
                         {positionedAgent.agent.name}
                       </span>

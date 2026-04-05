@@ -8,56 +8,39 @@ export type PixelAgentSprite = {
   size: number;
 };
 
-const SPRITE_SIZE = 8;
+const SPRITE_WIDTH = 12;
+const SPRITE_HEIGHT = 16;
 
 const lanePalettes = {
   build: {
-    background: "#131c30",
-    frame: "#74b7ff",
+    accent: "#67b9ff",
+    accentAlt: "#1d7bd8",
     glow: "rgba(80, 173, 255, 0.24)",
-    primary: "#86c6ff",
-    secondary: "#1d7bd8",
-    accent: "#eff8ff",
   },
   lead: {
-    background: "#24180d",
-    frame: "#ffcf66",
+    accent: "#ffcf66",
+    accentAlt: "#ce8b20",
     glow: "rgba(255, 205, 102, 0.22)",
-    primary: "#ffda83",
-    secondary: "#ce8b20",
-    accent: "#fff8cf",
   },
   monitor: {
-    background: "#0f2724",
-    frame: "#7bd5b8",
+    accent: "#7bd5b8",
+    accentAlt: "#1f9a7c",
     glow: "rgba(107, 217, 182, 0.22)",
-    primary: "#91f0cf",
-    secondary: "#1f9a7c",
-    accent: "#dffef2",
   },
   publish: {
-    background: "#251326",
-    frame: "#ff90d0",
+    accent: "#ff90d0",
+    accentAlt: "#cb4f9f",
     glow: "rgba(255, 130, 195, 0.22)",
-    primary: "#ffade1",
-    secondary: "#cb4f9f",
-    accent: "#fff1fb",
   },
   research: {
-    background: "#151734",
-    frame: "#a394ff",
+    accent: "#a394ff",
+    accentAlt: "#6657dc",
     glow: "rgba(163, 148, 255, 0.22)",
-    primary: "#beb4ff",
-    secondary: "#6657dc",
-    accent: "#f4f1ff",
   },
   review: {
-    background: "#2a1f11",
-    frame: "#ffc880",
+    accent: "#ffc880",
+    accentAlt: "#cd8b2b",
     glow: "rgba(255, 182, 92, 0.2)",
-    primary: "#ffd899",
-    secondary: "#cd8b2b",
-    accent: "#fff2dc",
   },
 } as const;
 
@@ -66,7 +49,7 @@ const statusFrame: Record<VirtualOfficeAgentStatus, string> = {
   delivering: "#80f5ff",
   done: "#7ef0a2",
   error: "#ff8f9c",
-  idle: "#94a3b8",
+  idle: "rgba(255,255,255,0.12)",
   monitoring: "#6ad9b6",
   retry: "#ffb067",
   working: "#74b7ff",
@@ -83,6 +66,198 @@ const statusGlow: Record<VirtualOfficeAgentStatus, string> = {
   working: "rgba(116, 183, 255, 0.24)",
 };
 
+type CharacterPalette = {
+  hair: string;
+  hairShade: string;
+  outfit: string;
+  outfitShade: string;
+  skin: string;
+  skinShade: string;
+};
+
+type CharacterTemplate = {
+  name: string;
+  palette: CharacterPalette;
+  pattern: string[];
+};
+
+const CHARACTER_TEMPLATES: CharacterTemplate[] = [
+  {
+    name: "metro-blonde-analyst",
+    palette: {
+      hair: "#b88851",
+      hairShade: "#6f4828",
+      outfit: "#4b76c7",
+      outfitShade: "#294782",
+      skin: "#f0c8a1",
+      skinShade: "#bb8d63",
+    },
+    pattern: [
+      "....HHHH....",
+      "...HHHHHH...",
+      "...HhHHhH...",
+      "...HHHHHH...",
+      "...HSSSSH...",
+      "..HHSSSSHH..",
+      "..HOOSSOOH..",
+      "..HOAOAAOH..",
+      "..HOOOOOOH..",
+      "...DOOOD....",
+      "...DOOOD....",
+      "...OIIOI....",
+      "...OIIOI....",
+      "..OO..OO....",
+      "..OO..OO....",
+      "..DD..DD....",
+    ],
+  },
+  {
+    name: "metro-curly-operator",
+    palette: {
+      hair: "#c58a52",
+      hairShade: "#7c4c27",
+      outfit: "#3d2f47",
+      outfitShade: "#221926",
+      skin: "#f2c9ac",
+      skinShade: "#bc8d72",
+    },
+    pattern: [
+      "...HHHHH....",
+      "..HHHHHHH...",
+      "..HhHHHhH...",
+      "...HHHHHH...",
+      "...HSSSSH...",
+      "..HHSSSSHH..",
+      "..HOOIIOOH..",
+      "..HOOAAOOH..",
+      "...OOOOOO...",
+      "...DOOOD....",
+      "...DOOOD....",
+      "...OIIIO....",
+      "...OIIIO....",
+      "..OO..OO....",
+      "..OO..OO....",
+      "..DD..DD....",
+    ],
+  },
+  {
+    name: "metro-orange-strategist",
+    palette: {
+      hair: "#2b1b14",
+      hairShade: "#140b08",
+      outfit: "#ef7f39",
+      outfitShade: "#9c471c",
+      skin: "#6b452e",
+      skinShade: "#402619",
+    },
+    pattern: [
+      "...HHHHH....",
+      "..HHHHHH....",
+      "..HHHHHH....",
+      "...HSSSH....",
+      "...SSSSS....",
+      "..HHSSSSHH..",
+      "..HOOIIOOH..",
+      "..HOOAAOOH..",
+      "...OOOOOO...",
+      "...DOOOD....",
+      "..DOOOOD....",
+      "..OIIIII....",
+      "..OIIIII....",
+      "..OO..OO....",
+      "..OO..OO....",
+      "..DD..DD....",
+    ],
+  },
+  {
+    name: "metro-red-editor",
+    palette: {
+      hair: "#222326",
+      hairShade: "#0f1114",
+      outfit: "#d45b56",
+      outfitShade: "#8f3535",
+      skin: "#f1c0a8",
+      skinShade: "#b87f6f",
+    },
+    pattern: [
+      "...HHHHH....",
+      "..HHHHHH....",
+      "..HHHHHH....",
+      "...HHSSSH...",
+      "...SSSSSS...",
+      "..HHSSSSHH..",
+      "..HOOIIOOH..",
+      "..HOOAAOOH..",
+      "...OOOOOO...",
+      "...DOOOD....",
+      "..DOOOOD....",
+      "..OIIIIO....",
+      "..OIIIIO....",
+      "..OO..OO....",
+      "..OO..OO....",
+      "..DD..DD....",
+    ],
+  },
+  {
+    name: "metro-silver-reviewer",
+    palette: {
+      hair: "#d7dce8",
+      hairShade: "#8f99ab",
+      outfit: "#a7a8b6",
+      outfitShade: "#656878",
+      skin: "#f3cfb9",
+      skinShade: "#ba8f76",
+    },
+    pattern: [
+      "...HHHHH....",
+      "..HHHHHHH...",
+      "..HHHhHHH...",
+      "...HHHHHH...",
+      "...HSSSSH...",
+      "..HHSSSSHH..",
+      "..HOOIIOOH..",
+      "..HOOAAOOH..",
+      "...OOOOOO...",
+      "...DOOOD....",
+      "...DOOOD....",
+      "..OIIIII....",
+      "..OIIIII....",
+      "..OO..OO....",
+      "..OO..OO....",
+      "..DD..DD....",
+    ],
+  },
+  {
+    name: "metro-brown-builder",
+    palette: {
+      hair: "#71411f",
+      hairShade: "#452410",
+      outfit: "#5f9be0",
+      outfitShade: "#365e94",
+      skin: "#f0c6a4",
+      skinShade: "#b98765",
+    },
+    pattern: [
+      "...HHHHH....",
+      "..HHHHHH....",
+      "..HhHHHhH...",
+      "...HHHHHH...",
+      "...HSSSSH...",
+      "..HHSSSSHH..",
+      "..HOOIIOOH..",
+      "..HOOAAOOH..",
+      "...OOOOOO...",
+      "..DOOOOD....",
+      "..DOOOOD....",
+      "...OIIIO....",
+      "...OIIIO....",
+      "..OO..OO....",
+      "..OO..OO....",
+      "..DD..DD....",
+    ],
+  },
+];
+
 const hashString = (value: string): number => {
   let hash = 2166136261;
   for (let index = 0; index < value.length; index += 1) {
@@ -92,80 +267,58 @@ const hashString = (value: string): number => {
   return hash >>> 0;
 };
 
-const nextSeed = (seed: number) => (Math.imul(seed, 1664525) + 1013904223) >>> 0;
-
-const setPixel = (cells: string[], row: number, col: number, color: string, size = SPRITE_SIZE) => {
-  if (row < 0 || row >= size || col < 0 || col >= size) return;
-  cells[row * size + col] = color;
-};
-
-const mirrorPixel = (
-  cells: string[],
-  row: number,
-  col: number,
-  color: string,
-  size = SPRITE_SIZE,
+const renderPattern = (
+  pattern: string[],
+  palette: CharacterPalette & { accent: string; accentAlt: string },
 ) => {
-  setPixel(cells, row, col, color, size);
-  setPixel(cells, row, size - 1 - col, color, size);
+  const colorMap: Record<string, string> = {
+    A: palette.accent,
+    D: "rgba(13,18,31,0.72)",
+    H: palette.hair,
+    I: palette.outfitShade,
+    O: palette.outfit,
+    S: palette.skin,
+    h: palette.hairShade,
+    s: palette.skinShade,
+  };
+
+  const cells: string[] = [];
+  for (const row of pattern) {
+    for (const token of row) {
+      if (token === ".") {
+        cells.push("transparent");
+        continue;
+      }
+      cells.push(colorMap[token] ?? palette.accentAlt);
+    }
+  }
+  return cells;
 };
 
 export const buildPixelAgentSprite = (
   agent: VirtualOfficeAgentView,
-  size = SPRITE_SIZE,
+  size = SPRITE_WIDTH,
 ): PixelAgentSprite => {
   const palette = lanePalettes[agent.lane];
-  const cells = Array.from({ length: size * size }, () => "transparent");
-  let seed = hashString(`${agent.id}:${agent.name}:${agent.lane}:${agent.role}`);
-
-  mirrorPixel(cells, 0, 2, palette.secondary, size);
-  if ((seed & 1) === 1) {
-    setPixel(cells, 0, 3, palette.accent, size);
-    setPixel(cells, 0, 4, palette.accent, size);
-  } else {
-    setPixel(cells, 0, 3, palette.secondary, size);
-    setPixel(cells, 0, 4, palette.secondary, size);
-  }
-
-  for (let row = 1; row <= 5; row += 1) {
-    for (let col = 1; col <= 3; col += 1) {
-      seed = nextSeed(seed);
-      const active = row <= 3 || (seed & 3) !== 0;
-      if (!active) continue;
-      const color =
-        row === 2 && col === 2
-          ? palette.secondary
-          : (seed & 1) === 0
-            ? palette.primary
-            : palette.secondary;
-      mirrorPixel(cells, row, col, color, size);
-    }
-  }
-
-  setPixel(cells, 2, 2, palette.accent, size);
-  setPixel(cells, 2, 5, palette.accent, size);
-  setPixel(cells, 3, 3, palette.primary, size);
-  setPixel(cells, 3, 4, palette.primary, size);
-
-  seed = nextSeed(seed);
-  if ((seed & 1) === 0) {
-    mirrorPixel(cells, 4, 1, palette.secondary, size);
-  }
-
-  seed = nextSeed(seed);
-  mirrorPixel(cells, 5, 1, (seed & 1) === 0 ? palette.primary : palette.secondary, size);
-  mirrorPixel(cells, 6, 2, palette.secondary, size);
-  mirrorPixel(cells, 7, 2, palette.secondary, size);
+  const templateIndex = hashString(`${agent.id}:${agent.name}:${agent.role}`) % CHARACTER_TEMPLATES.length;
+  const template = CHARACTER_TEMPLATES[templateIndex];
+  const cells = renderPattern(template.pattern, {
+    ...template.palette,
+    accent: palette.accent,
+    accentAlt: palette.accentAlt,
+  });
 
   if (agent.is_lead) {
-    setPixel(cells, 1, 3, palette.accent, size);
-    setPixel(cells, 1, 4, palette.accent, size);
+    const badgeIndex = 6 * SPRITE_WIDTH + 5;
+    const badgeIndexAlt = 6 * SPRITE_WIDTH + 6;
+    cells[badgeIndex] = palette.accent;
+    cells[badgeIndexAlt] = palette.accentAlt;
   }
 
   return {
-    background: palette.background,
-    cells,
-    frame: statusFrame[agent.status] ?? palette.frame,
+    background: "transparent",
+    cells: cells.slice(0, size * SPRITE_HEIGHT),
+    frame: statusFrame[agent.status] ?? "rgba(255,255,255,0.12)",
     glow: statusGlow[agent.status] ?? palette.glow,
     size,
   };

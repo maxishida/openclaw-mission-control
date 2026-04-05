@@ -37,7 +37,7 @@ describe("virtual-office pixel sprites", () => {
 
     expect(first.cells).toEqual(second.cells);
     expect(first.frame).toBe(second.frame);
-    expect(first.size).toBe(8);
+    expect(first.size).toBe(12);
   });
 
   it("changes the frame color based on runtime status", () => {
@@ -61,7 +61,7 @@ describe("virtual-office pixel sprites", () => {
       }),
     );
 
-    expect(worker.cells[1 * 8 + 3]).not.toBe(lead.cells[1 * 8 + 3]);
-    expect(lead.cells[1 * 8 + 3]).not.toBe("transparent");
+    expect(worker.cells[6 * 12 + 5]).not.toBe(lead.cells[6 * 12 + 5]);
+    expect(lead.cells[6 * 12 + 5]).not.toBe("transparent");
   });
 });
