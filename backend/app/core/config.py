@@ -13,6 +13,7 @@ from app.core.auth_mode import AuthMode
 from app.core.rate_limit_backend import RateLimitBackend
 
 BACKEND_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = BACKEND_ROOT.parent
 DEFAULT_ENV_FILE = BACKEND_ROOT / ".env"
 LOCAL_AUTH_TOKEN_MIN_LENGTH = 50
 LOCAL_AUTH_TOKEN_PLACEHOLDERS = frozenset(
@@ -84,6 +85,12 @@ class Settings(BaseSettings):
     # OpenClaw gateway runtime compatibility
     gateway_min_version: str = "2026.02.9"
 
+    # OpenSquad hybrid sync
+    opensquad_sync_enabled: bool = False
+    opensquad_root: str = ""
+    opensquad_sync_interval_seconds: float = Field(default=2.0, ge=0.5)
+    opensquad_gateway_name: str = "OpenSquad Bridge"
+
     # Logging
     log_level: str = "INFO"
     log_format: str = "text"
@@ -138,6 +145,11 @@ class Settings(BaseSettings):
         # schema drift (e.g. missing newly-added columns).
         if "db_auto_migrate" not in self.model_fields_set and self.environment == "dev":
             self.db_auto_migrate = True
+
+        self.opensquad_root = self.opensquad_root.strip()
+        if not self.opensquad_root and (REPO_ROOT / "squads").is_dir():
+            self.opensquad_root = str(REPO_ROOT)
+        self.opensquad_gateway_name = self.opensquad_gateway_name.strip() or "OpenSquad Bridge"
         return self
 
 

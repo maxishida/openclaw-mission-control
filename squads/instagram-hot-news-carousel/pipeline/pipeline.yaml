@@ -1,0 +1,23 @@
+name: Instagram Hot News Carousel
+description: Pipeline orquestrado com briefing, estrategia, variacao editorial, layout controlado e gates antes da publicacao.
+steps:
+  - step-01-intake-briefing.md
+  - step-02-content-strategy.md
+  - step-03-anti-repetition-plan.md
+  - step-04-hook-options.md
+  - step-05-write-carousel.md
+  - step-06-copy-qa.md
+  - step-07-visual-direction.md
+  - step-08-design-prompt-build.md
+  - step-09-generate-images.md
+  - step-10-layout-compose.md
+  - step-11-ocr-leakage-validate.md
+  - step-12-brand-consistency.md
+  - step-13-final-publishing-qa.md
+  - step-14-approve-package.md
+  - step-15-dry-run-publish.md
+  - step-16-confirm-live-publish.md
+  - step-17-live-publish.md
+checkpoints:
+  - step-14-approve-package.md
+  - step-16-confirm-live-publish.md

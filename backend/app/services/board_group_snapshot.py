@@ -15,12 +15,12 @@ from app.models.board_groups import BoardGroup
 from app.models.boards import Board
 from app.models.tasks import Task
 from app.schemas.board_groups import BoardGroupRead
-from app.schemas.boards import BoardRead
 from app.schemas.view_models import (
     BoardGroupBoardSnapshot,
     BoardGroupSnapshot,
     BoardGroupTaskSummary,
 )
+from app.services.opensquad_sync import build_board_read
 from app.services.tags import TagState, load_tag_state
 
 if TYPE_CHECKING:
@@ -204,7 +204,7 @@ async def build_group_snapshot(
     )
     snapshots = [
         BoardGroupBoardSnapshot(
-            board=BoardRead.model_validate(board, from_attributes=True),
+            board=build_board_read(board),
             task_counts=dict(task_counts.get(board.id, {})),
             tasks=tasks_by_board.get(board.id, []),
         )

@@ -1,0 +1,45 @@
+code: instagram-hot-news-carousel
+name: Instagram Hot News Carousel
+description: >
+  Squad para receber briefs de lote, planejar diversidade editorial,
+  escrever e validar carrosseis, compor layouts com gates de leakage,
+  consistencia de marca e publicar no Instagram com dry-run e aprovacao.
+skills:
+  - web_search
+  - web_fetch
+  - image-generator
+  - instagram-publisher
+data:
+  - pipeline/data/research-brief.md
+  - pipeline/data/domain-framework.md
+  - pipeline/data/quality-criteria.md
+  - pipeline/data/output-examples.md
+  - pipeline/data/anti-patterns.md
+  - pipeline/data/tone-of-voice.md
+pipeline:
+  steps:
+    - pipeline/steps/step-01-intake-briefing.md
+    - pipeline/steps/step-02-content-strategy.md
+    - pipeline/steps/step-03-anti-repetition-plan.md
+    - pipeline/steps/step-04-hook-options.md
+    - pipeline/steps/step-05-write-carousel.md
+    - pipeline/steps/step-06-copy-qa.md
+    - pipeline/steps/step-07-visual-direction.md
+    - pipeline/steps/step-08-design-prompt-build.md
+    - pipeline/steps/step-09-generate-images.md
+    - pipeline/steps/step-10-layout-compose.md
+    - pipeline/steps/step-11-ocr-leakage-validate.md
+    - pipeline/steps/step-12-brand-consistency.md
+    - pipeline/steps/step-13-final-publishing-qa.md
+    - pipeline/steps/step-14-approve-package.md
+    - pipeline/steps/step-15-dry-run-publish.md
+    - pipeline/steps/step-16-confirm-live-publish.md
+    - pipeline/steps/step-17-live-publish.md
+modes:
+  carousel:
+    description: Mantem o fluxo atual de carrossel HTML/CSS sem alteracao.
+    pipeline: pipeline/pipeline.yaml
+  infographic:
+    description: Gera um post unico de infografico com OpenRouter, referencia em ai/ref e composicao final pronta para publicacao.
+    pipeline: pipeline/infographic.pipeline.yaml
+    referenceDir: ai/ref

@@ -44,7 +44,7 @@ type LocalAuthLoginProps = {
   onAuthenticated?: () => void;
 };
 
-const defaultOnAuthenticated = () => window.location.reload();
+const defaultOnAuthenticated = () => window.location.assign("/dashboard");
 
 export function LocalAuthLogin({ onAuthenticated }: LocalAuthLoginProps) {
   const [token, setToken] = useState("");

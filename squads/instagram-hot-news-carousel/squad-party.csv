@@ -1,0 +1,17 @@
+id,displayName,icon,path
+chief-orchestrator,Chief Orchestrator,orchestrator,./agents/chief-orchestrator.agent.md
+intake-briefing,Intake Briefing,brief,./agents/intake-briefing.agent.md
+content-strategy,Content Strategy,strategy,./agents/content-strategy.agent.md
+anti-repetition-planner,Anti-Repetition Planner,variety,./agents/anti-repetition-planner.agent.md
+hook-agent,Hook Agent,hook,./agents/hook-agent.agent.md
+carousel-writer,Carousel Writer,carousel,./agents/carousel-writer.agent.md
+infographic-writer,Infographic Writer,infographic,./agents/infographic-writer.agent.md
+copy-qa,Copy QA,qa,./agents/copy-qa.agent.md
+visual-direction,Visual Direction,visual,./agents/visual-direction.agent.md
+design-prompt-builder,Prompt Builder,prompt,./agents/design-prompt-builder.agent.md
+visual-designer,Image Generator,image,./agents/visual-designer.agent.md
+layout-composer,Layout Composer,layout,./agents/layout-composer.agent.md
+ocr-leakage-validator,OCR Leakage Validator,ocr,./agents/ocr-leakage-validator.agent.md
+brand-consistency,Brand Consistency,brand,./agents/brand-consistency.agent.md
+final-publishing-qa,Final Publishing QA,shield,./agents/final-publishing-qa.agent.md
+instagram-publisher,Instagram Publisher,publish,./agents/instagram-publisher.agent.md

@@ -13,9 +13,9 @@ from app.models.board_memory import BoardMemory
 from app.models.tasks import Task
 from app.schemas.approvals import ApprovalRead
 from app.schemas.board_memory import BoardMemoryRead
-from app.schemas.boards import BoardRead
 from app.schemas.view_models import BoardSnapshot, TaskCardRead
 from app.services.approval_task_links import load_task_ids_by_approval, task_counts_for_board
+from app.services.opensquad_sync import build_board_read
 from app.services.openclaw.provisioning_db import AgentLifecycleService
 from app.services.tags import TagState, load_tag_state
 from app.services.task_dependencies import (
@@ -89,7 +89,7 @@ def _task_to_card(
 
 async def build_board_snapshot(session: AsyncSession, board: Board) -> BoardSnapshot:
     """Build a board snapshot with tasks, agents, approvals, and chat history."""
-    board_read = BoardRead.model_validate(board, from_attributes=True)
+    board_read = build_board_read(board)
 
     tasks = list(
         await Task.objects.filter_by(board_id=board.id)

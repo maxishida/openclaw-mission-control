@@ -53,6 +53,7 @@ from app.schemas.pagination import DefaultLimitOffsetPage
 from app.schemas.tags import TagRef
 from app.schemas.tasks import TaskCommentCreate, TaskCommentRead, TaskCreate, TaskRead, TaskUpdate
 from app.services.activity_log import record_activity
+from app.services.opensquad_sync import build_board_read
 from app.services.openclaw.coordination_service import GatewayCoordinationService
 from app.services.openclaw.policies import OpenClawAuthorizationPolicy
 from app.services.openclaw.provisioning_db import AgentLifecycleService
@@ -382,7 +383,13 @@ async def list_boards(
             col(Board.organization_id) == gateway.organization_id,
         )
     statement = statement.order_by(col(Board.created_at).desc())
-    return await paginate(session, statement)
+    return await paginate(
+        session,
+        statement,
+        transformer=lambda items: [
+            build_board_read(item) for item in items if isinstance(item, Board)
+        ],
+    )
 
 
 @router.get(
@@ -441,14 +448,14 @@ async def list_boards(
 def get_board(
     board: Board = BOARD_DEP,
     agent_ctx: AgentAuthContext = AGENT_CTX_DEP,
-) -> Board:
+) -> BoardRead:
     """Return one board if the authenticated agent can access it.
 
     Use this when an agent needs board metadata (objective, status, target date)
     before planning or posting updates.
     """
     _guard_board_access(agent_ctx, board)
-    return board
+    return build_board_read(board)
 
 
 @router.get(

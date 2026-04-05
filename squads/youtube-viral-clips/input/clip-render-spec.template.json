@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=a1MVf8eGlG8",
+  "source_video": "squads/youtube-viral-clips/output/source/a1MVf8eGlG8.mp4",
+  "clips": [
+    {
+      "id": "clip-01",
+      "title": "Substitua pelo titulo final",
+      "start": "00:00:30.000",
+      "end": "00:00:45.000",
+      "notes": "Defina um trecho real depois de revisar o transcript."
+    }
+  ]
+}

@@ -1,0 +1,1069 @@
+{
+  "squad": "instagram-hot-news-carousel",
+  "status": "completed",
+  "step": {
+    "current": 17,
+    "total": 17,
+    "label": "complete"
+  },
+  "agents": [
+    {
+      "id": "chief-orchestrator",
+      "name": "Chief Orchestrator",
+      "icon": "🧠",
+      "status": "idle",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "intake-briefing",
+      "name": "Intake Briefing",
+      "icon": "🗂️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "content-strategy",
+      "name": "Content Strategy",
+      "icon": "🧭",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 1
+      }
+    },
+    {
+      "id": "anti-repetition-planner",
+      "name": "Anti-Repetition Planner",
+      "icon": "🧩",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 2
+      }
+    },
+    {
+      "id": "hook-agent",
+      "name": "Hook Agent",
+      "icon": "🪝",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 2
+      }
+    },
+    {
+      "id": "carousel-writer",
+      "name": "Carousel Writer",
+      "icon": "✍️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 2
+      }
+    },
+    {
+      "id": "copy-qa",
+      "name": "Copy QA",
+      "icon": "✅",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 3
+      }
+    },
+    {
+      "id": "visual-direction",
+      "name": "Visual Direction",
+      "icon": "🎛️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 3
+      }
+    },
+    {
+      "id": "design-prompt-builder",
+      "name": "Prompt Builder",
+      "icon": "🧪",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 3
+      }
+    },
+    {
+      "id": "visual-designer",
+      "name": "Image Generator",
+      "icon": "🎨",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 4
+      }
+    },
+    {
+      "id": "layout-composer",
+      "name": "Layout Composer",
+      "icon": "📐",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 4
+      }
+    },
+    {
+      "id": "ocr-leakage-validator",
+      "name": "OCR Leakage Validator",
+      "icon": "🔎",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 4
+      }
+    },
+    {
+      "id": "brand-consistency",
+      "name": "Brand Consistency",
+      "icon": "🫧",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 5
+      }
+    },
+    {
+      "id": "final-publishing-qa",
+      "name": "Final Publishing QA",
+      "icon": "🛡️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 5
+      }
+    },
+    {
+      "id": "instagram-publisher",
+      "name": "Instagram Publisher",
+      "icon": "📲",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 5
+      }
+    }
+  ],
+  "handoff": null,
+  "startedAt": "2026-03-30T12:37:28.782Z",
+  "updatedAt": "2026-03-30T12:37:40.474Z",
+  "pipeline": {
+    "phase": "MONITOR",
+    "loop": 1,
+    "retries": 0,
+    "maxRetries": 3,
+    "validationStatus": "approved",
+    "currentAgentId": "instagram-publisher",
+    "lastCompletedPhase": "PUBLISH"
+  },
+  "orchestrator": {
+    "agentId": "chief-orchestrator",
+    "status": "monitoring",
+    "mode": "editorial-control-loop",
+    "lastDecision": "Package published",
+    "decisionReason": "All gates passed and the live publish finished successfully.",
+    "nextAction": "Monitor post performance and feed the next batch with winning patterns.",
+    "updatedAt": "2026-03-30T12:37:40.051Z"
+  },
+  "job": {
+    "id": "instagram-hot-news-carousel-job-001",
+    "status": "published",
+    "source": "instagram_batch_request",
+    "format": "instagram_carousel",
+    "context": {
+      "topic": "Carrosseis editoriais sobre agentes de IA e workflow real",
+      "audience": "founders, PMs, builders e operadores",
+      "platform": "instagram_carousel",
+      "language": "pt-BR"
+    },
+    "language": "pt-BR",
+    "durationSeconds": null,
+    "clips": [
+      {
+        "id": "post-01",
+        "title": "Instagram carousel 1",
+        "status": "published",
+        "format": "1080x1350",
+        "score": 90
+      },
+      {
+        "id": "post-02",
+        "title": "Instagram carousel 2",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-03",
+        "title": "Instagram carousel 3",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-04",
+        "title": "Instagram carousel 4",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-05",
+        "title": "Instagram carousel 5",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-06",
+        "title": "Instagram carousel 6",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-07",
+        "title": "Instagram carousel 7",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-08",
+        "title": "Instagram carousel 8",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-09",
+        "title": "Instagram carousel 9",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      },
+      {
+        "id": "post-10",
+        "title": "Instagram carousel 10",
+        "status": "queued",
+        "format": "1080x1350",
+        "score": null
+      }
+    ],
+    "title": "Noticias quentes de IA",
+    "description": "As noticias quentes de IA desta semana mostram uma virada clara: modelos melhores ja nao bastam.\n\nQuem esta ganhando tracao esta conectando raciocinio, agentes e uso real no trabalho.\n\nSe voce lidera produto, growth ou operacoes, estas sao as frentes para observar agora:\n- reasoning mais confiavel\n- contexto longo para tarefas multi-etapa\n- IA nativa em ferramentas como planilhas\n- imagem e multimodalidade com velocidade de producao\n\nSalve este carrossel para revisar seu roadmap de IA.\n\nFontes usadas:\nOpenAI — GPT-5.4 e ChatGPT for Excel\nAnthropic — Claude Opus 4.6\nGoogle — AI updates de fevereiro\n\n#inteligenciaartificial #ainews #tecnologia #produtodigital #automacao #openai #anthropic #googleai",
+    "hashtags": [
+      "#AI",
+      "#AIAgents",
+      "#WorkflowAutomation",
+      "#ProductManagement"
+    ],
+    "score": 90,
+    "attempts": 0,
+    "priority": "high",
+    "published_url": "https://www.instagram.com/p/example/",
+    "outputs": {
+      "briefing": {
+        "status": "ok",
+        "data": {
+          "batch_objective": "criar 10 carrosseis para Instagram",
+          "audience": "founders, PMs, builders e operadores",
+          "pillars": [
+            "automacao com agentes",
+            "produtividade com IA",
+            "workflow real",
+            "ferramentas para devs",
+            "bastidores de sistemas"
+          ],
+          "visual_style": "cyberpunk dark tech com verde neon",
+          "restrictions": [
+            "sem prompt vazado",
+            "texto centralizado",
+            "limite de texto por slide"
+          ]
+        },
+        "score": 95,
+        "notes": "Brief estruturado e pronto para planejamento do lote."
+      },
+      "strategy": {
+        "status": "ok",
+        "data": {
+          "batch_matrix": [
+            "noticia",
+            "tutorial",
+            "comparacao",
+            "erro",
+            "bastidor",
+            "ferramenta",
+            "tendencia",
+            "checklist",
+            "case",
+            "autoridade"
+          ],
+          "duplicate_themes": 0,
+          "duplicate_ctas": 0
+        },
+        "score": 91,
+        "notes": "Lote planejado com amplitude editorial suficiente."
+      },
+      "anti_repetition": {
+        "status": "ok",
+        "data": {
+          "dominant_colors": [
+            "verde_escuro",
+            "azul_petroleo",
+            "roxo_escuro",
+            "preto_grafite"
+          ],
+          "repeated_color_runs": 0,
+          "composition_rotation": [
+            "headline_center",
+            "headline_left_card",
+            "headline_with_mockup"
+          ]
+        },
+        "score": 94,
+        "notes": "Variação controlada preserva marca sem gerar clones."
+      },
+      "hook": {
+        "status": "ok",
+        "data": {
+          "selected_hook": "IA saiu do chat e entrou no workflow",
+          "options_count": 5
+        },
+        "score": 89,
+        "notes": "Hooks fortes com boa variação de cadência."
+      },
+      "content": {
+        "status": "ok",
+        "data": {
+          "slide_count": 6,
+          "caption_ready": true,
+          "hashtags_ready": true,
+          "cta": "salve este carrossel para revisar com o time"
+        },
+        "score": 87,
+        "notes": "Copy pronta para o primeiro gate editorial."
+      },
+      "copy_qa": {
+        "status": "ok",
+        "data": {
+          "approved": true,
+          "blockers": [],
+          "banned_terms_found": 0
+        },
+        "score": 90,
+        "notes": "Copy natural, limpa e sem vazamento tecnico."
+      },
+      "visual_direction": {
+        "status": "ok",
+        "data": {
+          "dominant_color": "verde_escuro",
+          "secondary_color": "verde_neon",
+          "composition": "headline_center",
+          "typography": "sans_heavy_centered"
+        },
+        "score": 92,
+        "notes": "Direção visual consistente com o DNA aprovado."
+      },
+      "prompt_build": {
+        "status": "ok",
+        "data": {
+          "prompt_clean": true,
+          "negative_prompt": "prompt text, random letters, distorted typography",
+          "text_overlay_spec": "headline centered, support centered card, safe margins 72px"
+        },
+        "score": 93,
+        "notes": "Prompt bundle limpo e seguro para a camada visual."
+      },
+      "image": {
+        "status": "ok",
+        "data": {
+          "assets_ready": true,
+          "image_count": 7,
+          "format": "jpeg"
+        },
+        "score": 88,
+        "notes": "Assets prontos para a montagem final dos slides."
+      },
+      "layout": {
+        "status": "ok",
+        "data": {
+          "safe_margins": true,
+          "centered_text": true,
+          "text_blocks_per_slide": 2
+        },
+        "score": 90,
+        "notes": "Layout dentro da safe area e pronto para validacao automatica."
+      },
+      "ocr": {
+        "status": "ok",
+        "data": {
+          "prompt_leakage": false,
+          "truncation": false,
+          "illegible_text": false
+        },
+        "score": 94,
+        "notes": "Sem texto tecnico vazado e sem truncamento detectado."
+      },
+      "brand": {
+        "status": "ok",
+        "data": {
+          "dominant_color_ok": true,
+          "composition_ok": true,
+          "monotony_flag": false
+        },
+        "score": 88,
+        "notes": "DNA da marca preservado com variacao suficiente no lote."
+      },
+      "final_qa": {
+        "status": "ok",
+        "data": {
+          "approved": true,
+          "fail_reasons": []
+        },
+        "score": 90,
+        "notes": "Pacote editorial pronto para dry run e liberacao final."
+      },
+      "publish": {
+        "status": "ok",
+        "data": {
+          "mode": "dry_run",
+          "images": 7,
+          "caption_ready": true,
+          "containers_ready": true
+        },
+        "score": 95,
+        "notes": "Dry-run operacional aprovado sem erro."
+      },
+      "publish_live": {
+        "status": "ok",
+        "data": {
+          "status": "success",
+          "permalink": "https://www.instagram.com/p/example/",
+          "image_count": 7
+        },
+        "score": 100,
+        "notes": "Publicacao concluida com o pacote aprovado."
+      }
+    }
+  },
+  "qualityGate": {
+    "status": "approved",
+    "thresholdPublish": 85,
+    "minimumScore": 80,
+    "average": 90,
+    "scores": {
+      "hook": 90,
+      "retention": 91,
+      "seo": 87,
+      "clarity": 92,
+      "impact": 89
+    },
+    "failedChecks": [],
+    "checklist": [
+      {
+        "id": "hook-strong",
+        "label": "Hook forte na capa",
+        "passed": true
+      },
+      {
+        "id": "no-prompt-leakage",
+        "label": "Sem prompt vazado na arte",
+        "passed": true
+      },
+      {
+        "id": "safe-layout",
+        "label": "Tipografia dentro da safe area",
+        "passed": true
+      },
+      {
+        "id": "brand-consistent",
+        "label": "Consistencia de marca preservada",
+        "passed": true
+      },
+      {
+        "id": "caption-aligned",
+        "label": "Legenda e CTA alinhados ao lote",
+        "passed": true
+      }
+    ]
+  },
+  "monitoring": {
+    "status": "watching",
+    "views": null,
+    "ctr": null,
+    "retention": null,
+    "lastCheckAt": null,
+    "nextAction": "Observe save rate, share rate and comments for replication patterns.",
+    "learning": "Awaiting first performance signal to refine future carousel lots.",
+    "optimizationStatus": "idle"
+  },
+  "activity": [
+    {
+      "id": "instagram-hot-news-carousel-status-00001",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:28.782Z",
+      "kind": "status",
+      "title": "Squad started",
+      "detail": "Chief Orchestrator activated 15 specialists for the editorial batch."
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00002",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:28.828Z",
+      "kind": "step",
+      "title": "Step 1/17",
+      "detail": "intake-briefing"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00003",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:28.828Z",
+      "kind": "agent",
+      "title": "intake-briefing started",
+      "detail": "Structuring batch objective, audience, pillars and hard visual restrictions."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00004",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.150Z",
+      "kind": "agent",
+      "title": "intake-briefing delivering",
+      "detail": "Briefing locked with slide text limits, CTA rules and base style."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00005",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.150Z",
+      "kind": "handoff",
+      "title": "intake-briefing -> content-strategy",
+      "detail": "Completed intake-briefing"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00006",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.415Z",
+      "kind": "step",
+      "title": "Step 2/17",
+      "detail": "content-strategy"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00007",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.415Z",
+      "kind": "agent",
+      "title": "content-strategy started",
+      "detail": "Planning the editorial matrix for the full batch before any copy is written."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00008",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.521Z",
+      "kind": "agent",
+      "title": "content-strategy delivering",
+      "detail": "Batch matrix delivered with 10 post types and unique editorial goals."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00009",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.521Z",
+      "kind": "handoff",
+      "title": "content-strategy -> anti-repetition-planner",
+      "detail": "Completed content-strategy"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00010",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.596Z",
+      "kind": "step",
+      "title": "Step 3/17",
+      "detail": "anti-repetition-plan"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00011",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.597Z",
+      "kind": "agent",
+      "title": "anti-repetition-planner started",
+      "detail": "Distributing themes, colors, CTA rotation and composition rules across the batch."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00012",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.704Z",
+      "kind": "agent",
+      "title": "anti-repetition-planner delivering",
+      "detail": "Diversity plan delivered with no monotony flags."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00013",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.704Z",
+      "kind": "handoff",
+      "title": "anti-repetition-planner -> hook-agent",
+      "detail": "Completed anti-repetition-plan"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00014",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.795Z",
+      "kind": "step",
+      "title": "Step 4/17",
+      "detail": "hook-options"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00015",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:29.795Z",
+      "kind": "agent",
+      "title": "hook-agent started",
+      "detail": "Generating multiple hook options for each approved theme."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00016",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.205Z",
+      "kind": "agent",
+      "title": "hook-agent delivering",
+      "detail": "Hooks selected and routed to copy."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00017",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.205Z",
+      "kind": "handoff",
+      "title": "hook-agent -> carousel-writer",
+      "detail": "Completed hook-options"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00018",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.504Z",
+      "kind": "step",
+      "title": "Step 5/17",
+      "detail": "write-carousel"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00019",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.504Z",
+      "kind": "agent",
+      "title": "carousel-writer started",
+      "detail": "Writing slide structures from the approved hooks and batch objectives."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00020",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.580Z",
+      "kind": "agent",
+      "title": "carousel-writer delivering",
+      "detail": "Carousel scripts delivered for QA."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00021",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.580Z",
+      "kind": "handoff",
+      "title": "carousel-writer -> copy-qa",
+      "detail": "Completed write-carousel"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00022",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.634Z",
+      "kind": "step",
+      "title": "Step 6/17",
+      "detail": "copy-qa"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00023",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.634Z",
+      "kind": "agent",
+      "title": "copy-qa started",
+      "detail": "Checking natural Portuguese, leakage tokens, slide limits and CTA quality."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00024",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.844Z",
+      "kind": "agent",
+      "title": "copy-qa delivering",
+      "detail": "Copy QA passed without editorial blockers."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00025",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.844Z",
+      "kind": "handoff",
+      "title": "copy-qa -> visual-direction",
+      "detail": "Completed copy-qa"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00026",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.980Z",
+      "kind": "step",
+      "title": "Step 7/17",
+      "detail": "visual-direction"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00027",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:30.980Z",
+      "kind": "agent",
+      "title": "visual-direction started",
+      "detail": "Defining color system, texture, composition and typography for the selected post."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00028",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:31.508Z",
+      "kind": "agent",
+      "title": "visual-direction delivering",
+      "detail": "Visual direction approved for prompt packaging."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00029",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:31.508Z",
+      "kind": "handoff",
+      "title": "visual-direction -> design-prompt-builder",
+      "detail": "Completed visual-direction"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00030",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:32.048Z",
+      "kind": "step",
+      "title": "Step 8/17",
+      "detail": "design-prompt-build"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00031",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:32.048Z",
+      "kind": "agent",
+      "title": "design-prompt-builder started",
+      "detail": "Separating copy text from visual prompt and layout instructions."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00032",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:32.672Z",
+      "kind": "agent",
+      "title": "design-prompt-builder delivering",
+      "detail": "Prompt bundle delivered with negative prompt and text overlay spec."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00033",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:32.672Z",
+      "kind": "handoff",
+      "title": "design-prompt-builder -> visual-designer",
+      "detail": "Completed design-prompt-build"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00034",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:32.735Z",
+      "kind": "step",
+      "title": "Step 9/17",
+      "detail": "generate-images"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00035",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:32.735Z",
+      "kind": "agent",
+      "title": "visual-designer started",
+      "detail": "Generating background assets and visual components for the selected carousel."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00036",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:33.265Z",
+      "kind": "agent",
+      "title": "visual-designer delivering",
+      "detail": "Image assets delivered to layout."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00037",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:33.265Z",
+      "kind": "handoff",
+      "title": "visual-designer -> layout-composer",
+      "detail": "Completed generate-images"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00038",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:33.739Z",
+      "kind": "step",
+      "title": "Step 10/17",
+      "detail": "layout-compose"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00039",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:33.739Z",
+      "kind": "agent",
+      "title": "layout-composer started",
+      "detail": "Composing the final slides with safe margins and centered text."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00040",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:33.964Z",
+      "kind": "agent",
+      "title": "layout-composer delivering",
+      "detail": "Layout package delivered to leakage validation."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00041",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:33.964Z",
+      "kind": "handoff",
+      "title": "layout-composer -> ocr-leakage-validator",
+      "detail": "Completed layout-compose"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00042",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:34.296Z",
+      "kind": "step",
+      "title": "Step 11/17",
+      "detail": "ocr-leakage-validate"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00043",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:34.296Z",
+      "kind": "agent",
+      "title": "ocr-leakage-validator started",
+      "detail": "Checking prompt leakage, truncation and text fidelity on the composed slides."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00044",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:34.960Z",
+      "kind": "agent",
+      "title": "ocr-leakage-validator delivering",
+      "detail": "Leakage validation passed."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00045",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:34.960Z",
+      "kind": "handoff",
+      "title": "ocr-leakage-validator -> brand-consistency",
+      "detail": "Completed ocr-leakage-validate"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00046",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:35.191Z",
+      "kind": "step",
+      "title": "Step 12/17",
+      "detail": "brand-consistency"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00047",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:35.191Z",
+      "kind": "agent",
+      "title": "brand-consistency started",
+      "detail": "Comparing the carousel against the batch to preserve brand without monotony."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00048",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:36.100Z",
+      "kind": "agent",
+      "title": "brand-consistency delivering",
+      "detail": "Brand consistency approved."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00049",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:36.100Z",
+      "kind": "handoff",
+      "title": "brand-consistency -> final-publishing-qa",
+      "detail": "Completed brand-consistency"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00050",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:37.906Z",
+      "kind": "step",
+      "title": "Step 13/17",
+      "detail": "final-publishing-qa"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00051",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:37.906Z",
+      "kind": "agent",
+      "title": "final-publishing-qa started",
+      "detail": "Running the final editorial and packaging gate before user approval."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00052",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.325Z",
+      "kind": "agent",
+      "title": "final-publishing-qa delivering",
+      "detail": "Final QA approved the package for dry run."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00053",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.325Z",
+      "kind": "handoff",
+      "title": "final-publishing-qa -> chief-orchestrator",
+      "detail": "Completed final-publishing-qa"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00054",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.325Z",
+      "kind": "step",
+      "title": "Step 14/17",
+      "detail": "approve-package"
+    },
+    {
+      "id": "instagram-hot-news-carousel-decision-00055",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.426Z",
+      "kind": "decision",
+      "title": "Package checkpoint reached",
+      "detail": "The Chief Orchestrator is holding the package for explicit approval before dry run."
+    },
+    {
+      "id": "instagram-hot-news-carousel-status-00056",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.426Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "approve-package aguardando validacao do Chief Agent."
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00057",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.837Z",
+      "kind": "step",
+      "title": "Step 15/17",
+      "detail": "dry-run-publish"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00058",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.837Z",
+      "kind": "agent",
+      "title": "instagram-publisher started",
+      "detail": "Running dry-run publish with the approved package and caption."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00059",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.923Z",
+      "kind": "agent",
+      "title": "instagram-publisher delivering",
+      "detail": "Dry-run passed and the package is ready for explicit live publish confirmation."
+    },
+    {
+      "id": "instagram-hot-news-carousel-handoff-00060",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.923Z",
+      "kind": "handoff",
+      "title": "instagram-publisher -> chief-orchestrator",
+      "detail": "Completed dry-run-publish"
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00061",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:38.923Z",
+      "kind": "step",
+      "title": "Step 16/17",
+      "detail": "confirm-live-publish"
+    },
+    {
+      "id": "instagram-hot-news-carousel-decision-00062",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:39.471Z",
+      "kind": "decision",
+      "title": "Live publish checkpoint",
+      "detail": "The Chief Orchestrator is waiting for explicit publish approval after the dry run."
+    },
+    {
+      "id": "instagram-hot-news-carousel-status-00063",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:39.471Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "confirm-live-publish aguardando validacao do Chief Agent."
+    },
+    {
+      "id": "instagram-hot-news-carousel-step-00064",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:39.679Z",
+      "kind": "step",
+      "title": "Step 17/17",
+      "detail": "live-publish"
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00065",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:39.679Z",
+      "kind": "agent",
+      "title": "instagram-publisher started",
+      "detail": "Publishing the approved carousel package to Instagram."
+    },
+    {
+      "id": "instagram-hot-news-carousel-agent-00066",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:40.051Z",
+      "kind": "agent",
+      "title": "instagram-publisher delivering",
+      "detail": "Instagram publish completed and the batch is ready for monitoring."
+    },
+    {
+      "id": "instagram-hot-news-carousel-status-00067",
+      "squad": "instagram-hot-news-carousel",
+      "timestamp": "2026-03-30T12:37:40.474Z",
+      "kind": "status",
+      "title": "Squad completed",
+      "detail": "Instagram editorial batch finished with gated publication flow."
+    }
+  ]
+}

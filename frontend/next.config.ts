@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   // when users access via http://localhost:3000 or http://127.0.0.1:3000.
   // Keep the LAN IP as well for dev on the local network.
   allowedDevOrigins: ["192.168.1.101", "localhost", "127.0.0.1"],
+  turbopack: {
+    // Avoid lockfile-based workspace root inference warnings when the repo
+    // also has a root-level package.json/package-lock.json for helper scripts.
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [
       {

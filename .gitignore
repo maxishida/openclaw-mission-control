@@ -11,8 +11,22 @@ node_modules/
 .env
 .env.local
 
+# Markdown
+*.md
+!docs/**/*.md
+
+# Local operational context / generated artifacts
+.context/
+.codex-logs/
+.playwright-cli/
+.tmp/
+.pytest_cache/
+backend/.pytest_cache/
+backend/backend/
+
 # IDE
 .idea/
+.vscode/
 .runlogs/
 
 # Worktrees
@@ -26,3 +40,6 @@ frontend/coverage
 backend/app/services/openclaw/.device-keys
 dashboard/dist/
 dashboard/.vite-debug*.log
+
+# OpenSquad generated outputs
+squads/*/output/

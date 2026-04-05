@@ -1,0 +1,319 @@
+{
+  "squad": "linkedin-ai-trends-posts",
+  "status": "completed",
+  "step": {
+    "current": 9,
+    "total": 9,
+    "label": "complete"
+  },
+  "agents": [
+    {
+      "id": "trend-scout",
+      "name": "Trend Scout",
+      "icon": "🔎",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "linkedin-strategist",
+      "name": "LinkedIn Strategist",
+      "icon": "🧭",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "linkedin-writer",
+      "name": "LinkedIn Writer",
+      "icon": "✍️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 1
+      }
+    },
+    {
+      "id": "quality-reviewer",
+      "name": "Quality Reviewer",
+      "icon": "✅",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 2
+      }
+    },
+    {
+      "id": "linkedin-publisher",
+      "name": "LinkedIn Publisher",
+      "icon": "📲",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 2
+      }
+    }
+  ],
+  "handoff": null,
+  "startedAt": "2026-04-03T02:37:39.344Z",
+  "updatedAt": "2026-04-03T02:37:57.695Z",
+  "activity": [
+    {
+      "id": "linkedin-ai-trends-posts-status-00001",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:39.344Z",
+      "kind": "status",
+      "title": "Squad started",
+      "detail": "Simulation started with 5 agents and 9 steps."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00002",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:39.406Z",
+      "kind": "step",
+      "title": "Step 1/9",
+      "detail": "scout-trends"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00003",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:39.406Z",
+      "kind": "agent",
+      "title": "Trend Scout started",
+      "detail": "Working on \"scout-trends\"."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00004",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:40.508Z",
+      "kind": "agent",
+      "title": "Trend Scout delivering",
+      "detail": "Delivering output to linkedin-strategist."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-handoff-00005",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:40.508Z",
+      "kind": "handoff",
+      "title": "trend-scout -> linkedin-strategist",
+      "detail": "Completed scout-trends"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00006",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:41.242Z",
+      "kind": "step",
+      "title": "Step 2/9",
+      "detail": "build-post-brief"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00007",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:41.242Z",
+      "kind": "agent",
+      "title": "LinkedIn Strategist started",
+      "detail": "Working on \"build-post-brief\"."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00008",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:42.356Z",
+      "kind": "agent",
+      "title": "LinkedIn Strategist delivering",
+      "detail": "Delivering output to linkedin-writer."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-handoff-00009",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:42.356Z",
+      "kind": "handoff",
+      "title": "linkedin-strategist -> linkedin-writer",
+      "detail": "Completed build-post-brief"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00010",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:43.092Z",
+      "kind": "step",
+      "title": "Step 3/9",
+      "detail": "approve-brief"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-status-00011",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:43.092Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "Checkpoint \"approve-brief\" requires confirmation."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00012",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:45.510Z",
+      "kind": "step",
+      "title": "Step 4/9",
+      "detail": "write-linkedin-post"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00013",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:45.510Z",
+      "kind": "agent",
+      "title": "LinkedIn Writer started",
+      "detail": "Working on \"write-linkedin-post\"."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00014",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:46.595Z",
+      "kind": "agent",
+      "title": "LinkedIn Writer delivering",
+      "detail": "Delivering output to quality-reviewer."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-handoff-00015",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:46.595Z",
+      "kind": "handoff",
+      "title": "linkedin-writer -> quality-reviewer",
+      "detail": "Completed write-linkedin-post"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00016",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:47.359Z",
+      "kind": "step",
+      "title": "Step 5/9",
+      "detail": "review-post"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00017",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:47.359Z",
+      "kind": "agent",
+      "title": "Quality Reviewer started",
+      "detail": "Working on \"review-post\"."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00018",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:48.458Z",
+      "kind": "agent",
+      "title": "Quality Reviewer delivering",
+      "detail": "Delivering output to linkedin-publisher."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-handoff-00019",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:48.458Z",
+      "kind": "handoff",
+      "title": "quality-reviewer -> linkedin-publisher",
+      "detail": "Completed review-post"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00020",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:49.195Z",
+      "kind": "step",
+      "title": "Step 6/9",
+      "detail": "approve-final"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-status-00021",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:49.195Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "Checkpoint \"approve-final\" requires confirmation."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00022",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:51.603Z",
+      "kind": "step",
+      "title": "Step 7/9",
+      "detail": "dry-run-publish"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00023",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:51.603Z",
+      "kind": "agent",
+      "title": "LinkedIn Publisher started",
+      "detail": "Working on \"dry-run-publish\"."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00024",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:52.702Z",
+      "kind": "agent",
+      "title": "LinkedIn Publisher delivering",
+      "detail": "Delivering output to linkedin-publisher."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-handoff-00025",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:52.702Z",
+      "kind": "handoff",
+      "title": "linkedin-publisher -> linkedin-publisher",
+      "detail": "Completed dry-run-publish"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00026",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:53.429Z",
+      "kind": "step",
+      "title": "Step 8/9",
+      "detail": "confirm-live-publish"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-status-00027",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:53.429Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "Checkpoint \"confirm-live-publish\" requires confirmation."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-step-00028",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:55.846Z",
+      "kind": "step",
+      "title": "Step 9/9",
+      "detail": "live-publish"
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00029",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:55.846Z",
+      "kind": "agent",
+      "title": "LinkedIn Publisher started",
+      "detail": "Working on \"live-publish\"."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-agent-00030",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:56.944Z",
+      "kind": "agent",
+      "title": "LinkedIn Publisher delivering",
+      "detail": "Delivering final output."
+    },
+    {
+      "id": "linkedin-ai-trends-posts-status-00031",
+      "squad": "linkedin-ai-trends-posts",
+      "timestamp": "2026-04-03T02:37:57.695Z",
+      "kind": "status",
+      "title": "Squad completed",
+      "detail": "All steps finished successfully."
+    }
+  ]
+}

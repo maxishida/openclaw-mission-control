@@ -1,0 +1,35 @@
+code: youtube-viral-clips
+name: YouTube Viral Clips
+icon: "🎬"
+description: >
+  Squad com orquestrador central para receber videos do YouTube, identificar
+  temas com maior potencial de retencao, transformar em hooks e clips
+  verticais com SEO padronizado, revisar qualidade com score, publicar e
+  monitorar performance.
+skills:
+  - web_fetch
+  - youtube-shorts
+  - copywriting
+  - review
+  - social-networks-publishing
+  - youtube-publisher
+data:
+  - pipeline/data/research-brief.md
+  - pipeline/data/domain-framework.md
+  - pipeline/data/quality-criteria.md
+  - pipeline/data/output-examples.md
+  - pipeline/data/anti-patterns.md
+  - pipeline/data/tone-of-voice.md
+pipeline:
+  steps:
+    - pipeline/steps/step-01-intake-youtube-video.md
+    - pipeline/steps/step-02-find-viral-moments.md
+    - pipeline/steps/step-03-approve-moments.md
+    - pipeline/steps/step-04-write-clip-scripts.md
+    - pipeline/steps/step-05-edit-clip-pack.md
+    - pipeline/steps/step-06-review-clip-pack.md
+    - pipeline/steps/step-07-approve-clip-pack.md
+    - pipeline/steps/step-08-dry-run-publish.md
+    - pipeline/steps/step-09-confirm-live-publish.md
+    - pipeline/steps/step-10-live-publish.md
+    - pipeline/steps/step-11-monitor-performance.md

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 
 import { SignedIn, useAuth } from "@/auth/clerk";
 
@@ -93,36 +93,53 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen bg-app text-strong" data-sidebar={sidebarOpen ? "open" : "closed"}>
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
-        <div className="flex items-center py-3">
-          <div className="flex items-center px-4 md:px-6 md:w-[260px]">
+    <div
+      className="galaxy-shell min-h-screen text-strong"
+      data-sidebar={sidebarOpen ? "open" : "closed"}
+    >
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#090b16]/50 backdrop-blur-2xl">
+        <div className="flex items-center gap-4 px-4 py-4 md:px-6">
+          <div className="flex min-w-0 items-center md:w-[260px]">
             {isSignedIn ? (
               <button
                 type="button"
-                className="mr-3 rounded-lg p-2 text-slate-600 hover:bg-slate-100 md:hidden"
+                className="mr-3 rounded-2xl border border-white/10 bg-white/5 p-2 text-slate-200 transition hover:border-fuchsia-400/30 hover:bg-fuchsia-500/10 md:hidden"
                 onClick={toggleSidebar}
                 aria-label="Toggle navigation"
               >
                 {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             ) : null}
-            <BrandMark />
+            <div className="rounded-[26px] border border-white/10 bg-white/5 px-4 py-3 shadow-[0_18px_45px_rgba(3,7,24,0.28)] backdrop-blur-xl">
+              <BrandMark />
+            </div>
           </div>
           <SignedIn>
-            <div className="hidden md:flex flex-1 items-center">
-              <div className="max-w-[220px]">
+            <div className="hidden min-w-0 flex-1 items-center gap-4 md:flex">
+              <div className="hidden xl:block">
                 <OrgSwitcher />
               </div>
+              <label className="galaxy-search flex h-12 flex-1 items-center gap-3 rounded-[20px] px-4 text-sm text-slate-200">
+                <Search className="h-4 w-4 shrink-0 text-violet-200/80" />
+                <input
+                  type="search"
+                  placeholder="Search boards, agents, approvals, signals..."
+                  aria-label="Search"
+                  className="w-full bg-transparent text-sm text-slate-100 outline-none placeholder:text-slate-400"
+                />
+              </label>
             </div>
           </SignedIn>
           <SignedIn>
-            <div className="ml-auto flex items-center gap-3 px-4 md:px-6">
+            <div className="ml-auto flex items-center gap-3">
+              <div className="galaxy-chip hidden rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-violet-100 xl:block">
+                Galaxy relay online
+              </div>
               <div className="hidden text-right lg:block">
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-slate-50">
                   {displayName}
                 </p>
-                <p className="text-xs text-slate-500">Operator</p>
+                <p className="text-xs text-slate-400">Command operator</p>
               </div>
               <UserMenu displayName={displayName} displayEmail={displayEmail} />
             </div>
@@ -133,14 +150,14 @@ export function DashboardShell({ children }: { children: ReactNode }) {
       {/* Mobile sidebar overlay */}
       {sidebarOpen ? (
         <div
-          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          className="fixed inset-0 z-40 bg-[#03040c]/70 backdrop-blur-sm md:hidden"
           onClick={toggleSidebar}
           aria-hidden="true"
           data-cy="sidebar-backdrop"
         />
       ) : null}
 
-      <div className="grid min-h-[calc(100vh-64px)] grid-cols-1 md:grid-cols-[260px_1fr] bg-slate-50">
+      <div className="grid min-h-[calc(100vh-80px)] grid-cols-1 md:grid-cols-[260px_1fr]">
         {children}
       </div>
     </div>

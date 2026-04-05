@@ -1,0 +1,833 @@
+{
+  "squad": "youtube-viral-clips",
+  "status": "completed",
+  "step": {
+    "current": 11,
+    "total": 11,
+    "label": "monitor-performance"
+  },
+  "agents": [
+    {
+      "id": "chief-agent",
+      "name": "Chief Agent",
+      "icon": "🧭",
+      "status": "monitoring",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "video-intake-analyst",
+      "name": "Video Intake Analyst",
+      "icon": "🎥",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "clip-strategist",
+      "name": "Clip Strategist",
+      "icon": "🧠",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 1
+      }
+    },
+    {
+      "id": "hook-writer",
+      "name": "Hook Writer",
+      "icon": "✍️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 2
+      }
+    },
+    {
+      "id": "seo-strategist",
+      "name": "SEO Strategist",
+      "icon": "🔎",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 2
+      }
+    },
+    {
+      "id": "clip-editor",
+      "name": "Clip Editor",
+      "icon": "✂️",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 3,
+        "row": 2
+      }
+    },
+    {
+      "id": "quality-reviewer",
+      "name": "Quality Reviewer",
+      "icon": "✅",
+      "status": "done",
+      "deliverTo": null,
+      "desk": {
+        "col": 1,
+        "row": 3
+      }
+    },
+    {
+      "id": "clip-publisher",
+      "name": "Clip Publisher",
+      "icon": "📲",
+      "status": "monitoring",
+      "deliverTo": null,
+      "desk": {
+        "col": 2,
+        "row": 3
+      }
+    }
+  ],
+  "handoff": null,
+  "startedAt": "2026-04-04T11:56:07.716Z",
+  "updatedAt": "2026-04-04T11:56:38.026Z",
+  "pipeline": {
+    "phase": "MONITOR",
+    "loop": 2,
+    "retries": 1,
+    "maxRetries": 3,
+    "validationStatus": "approved",
+    "currentAgentId": "chief-agent",
+    "lastCompletedPhase": "MONITOR"
+  },
+  "orchestrator": {
+    "agentId": "chief-agent",
+    "status": "monitoring",
+    "mode": "control-loop",
+    "lastDecision": "Pipeline completed in adaptive mode",
+    "decisionReason": "The clip was published and moved into monitored optimization.",
+    "nextAction": "Keep monitoring and push a metadata iteration if CTR stays below target.",
+    "updatedAt": "2026-04-04T11:56:38.026Z"
+  },
+  "job": {
+    "id": "youtube-viral-clips-job-001",
+    "status": "monitoring",
+    "source": "squads/youtube-viral-clips/output/source/Rni7Fz7208c.mp4",
+    "format": "youtube_shorts",
+    "context": {
+      "topic": "AI workflows e automacao de conteudo",
+      "audience": "founders e lideres de produto",
+      "platform": "youtube_shorts",
+      "language": "pt-BR"
+    },
+    "language": "pt-BR",
+    "durationSeconds": 58,
+    "clips": [
+      {
+        "id": "02-on-x-text-vs-video-how-people-communicate",
+        "title": "Elon Musk: On X, text vs video, how people communicate",
+        "status": "published",
+        "format": "9:16 shorts",
+        "score": 89
+      }
+    ],
+    "title": "Founders + IA: o fluxo que corta semanas",
+    "description": "Founders com IA ganham velocidade quando o workflow decide e publica com criterio.\nEsse fluxo de founders com IA tira gargalos e transforma execucao em distribuicao.\n\nSe voce quer founders com IA operando melhor, comece pelo fluxo, nao pela ferramenta.\n\n#ai #automation #founders #shorts #viral #aiworkflow #youtubeautomationtips",
+    "hashtags": [
+      "#ai",
+      "#automation",
+      "#founders",
+      "#shorts",
+      "#viral",
+      "#aiworkflow",
+      "#youtubeautomationtips"
+    ],
+    "score": 89,
+    "attempts": 2,
+    "priority": "trend",
+    "published_url": "https://www.youtube.com/watch?v=Wbs-7juXQLo",
+    "outputs": {
+      "intake": {
+        "status": "ok",
+        "data": {
+          "source_url": "squads/youtube-viral-clips/output/source/Rni7Fz7208c.mp4",
+          "theme": "Automacao com agentes de IA",
+          "audience": "founders e PMs",
+          "duration_seconds": 58,
+          "language": "pt-BR",
+          "key_moments": [
+            "problema operacional",
+            "ganho de velocidade",
+            "padrao replicavel"
+          ]
+        },
+        "score": 91,
+        "notes": "Tema e contexto inicial claros para o resto do pipeline."
+      },
+      "hook": {
+        "status": "ok",
+        "data": {
+          "hook": "Founders perdem semanas por ignorar isso",
+          "script": [
+            {
+              "t": "0-2s",
+              "line": "Founders perdem semanas por ignorar isso."
+            },
+            {
+              "t": "2-10s",
+              "line": "Nao falta ferramenta. Falta um fluxo que decide o proximo passo."
+            },
+            {
+              "t": "10-30s",
+              "line": "Quando agentes recebem contexto, validam e entregam saida, a operacao acelera de verdade."
+            },
+            {
+              "t": "30-40s",
+              "line": "E esse padrao ainda vira conteudo que se distribui sozinho."
+            }
+          ],
+          "loop_end": "Agora olha como isso muda o jogo no proximo corte."
+        },
+        "score": 91,
+        "notes": "Hook refeito com impacto mais alto e mais clareza para founders."
+      },
+      "seo": {
+        "status": "ok",
+        "data": {
+          "keyword_main": "Founders IA",
+          "title": "Founders + IA: o fluxo que corta semanas",
+          "description": "Founders com IA ganham velocidade quando o workflow decide e publica com criterio.\nEsse fluxo de founders com IA tira gargalos e transforma execucao em distribuicao.\n\nSe voce quer founders com IA operando melhor, comece pelo fluxo, nao pela ferramenta.\n\n#ai #automation #founders #shorts #viral #aiworkflow #youtubeautomationtips",
+          "hashtags": [
+            "#ai",
+            "#automation",
+            "#founders",
+            "#shorts",
+            "#viral",
+            "#aiworkflow",
+            "#youtubeautomationtips"
+          ]
+        },
+        "score": 89,
+        "notes": "Titulo mais agressivo e keyword mais alinhada ao novo hook."
+      },
+      "strategy": {
+        "status": "ok",
+        "data": {
+          "cuts": [
+            {
+              "start": "0",
+              "end": "38",
+              "reason": "Single high-density segment with fast payoff."
+            }
+          ],
+          "pacing": "aggressive",
+          "highlights": [
+            {
+              "t": "1",
+              "type": "zoom",
+              "note": "Hit on the hook keyword."
+            },
+            {
+              "t": "7",
+              "type": "cut",
+              "note": "Remove pause before proof point."
+            },
+            {
+              "t": "18",
+              "type": "overlay",
+              "note": "Show the workflow stages visually."
+            }
+          ]
+        },
+        "score": 88,
+        "notes": "Pacing and cut plan are strong enough for editing."
+      },
+      "edit": {
+        "status": "ok",
+        "data": {
+          "edited_video_path": "squads/youtube-viral-clips/output/clips/smoke-test-clip.mp4",
+          "duration_seconds": 35,
+          "subtitle_style": "bold_dynamic",
+          "issues": []
+        },
+        "score": 88,
+        "notes": "Pacing tightened and no visible production issue remains."
+      },
+      "review": {
+        "status": "ok",
+        "data": {
+          "approved": true,
+          "fail_reasons": []
+        },
+        "score": 89,
+        "notes": "Publish gate cleared on the second pass."
+      },
+      "publish": {
+        "status": "ok",
+        "data": {
+          "youtube_url": "https://www.youtube.com/watch?v=Wbs-7juXQLo",
+          "video_id": "Wbs-7juXQLo"
+        },
+        "score": 100,
+        "notes": "Live publish succeeded."
+      }
+    }
+  },
+  "qualityGate": {
+    "status": "approved",
+    "thresholdPublish": 85,
+    "minimumScore": 80,
+    "average": 89,
+    "scores": {
+      "hook": 91,
+      "retention": 88,
+      "seo": 89,
+      "clarity": 87,
+      "impact": 90
+    },
+    "failedChecks": [],
+    "checklist": [
+      {
+        "id": "hook-first-3s",
+        "label": "Hook forte nos primeiros 3 segundos",
+        "passed": true
+      },
+      {
+        "id": "captions-synced",
+        "label": "Legenda sincronizada",
+        "passed": true
+      },
+      {
+        "id": "keyword-title",
+        "label": "Titulo com palavra-chave",
+        "passed": true
+      },
+      {
+        "id": "relevant-hashtags",
+        "label": "Hashtags relevantes",
+        "passed": true
+      },
+      {
+        "id": "short-duration",
+        "label": "Duracao otimizada para shorts",
+        "passed": true
+      }
+    ]
+  },
+  "monitoring": {
+    "status": "optimizing",
+    "views": 1840,
+    "ctr": 4.2,
+    "retention": 67,
+    "lastCheckAt": "2026-04-04T11:56:36.194Z",
+    "nextAction": "CTR is below the target. Swap to a more aggressive title and keep the same clip asset.",
+    "learning": "Founder-first hooks outperformed the generic automation angle. Reuse this template for future clips.",
+    "optimizationStatus": "queued"
+  },
+  "activity": [
+    {
+      "id": "youtube-viral-clips-status-00001",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:07.716Z",
+      "kind": "status",
+      "title": "Squad started",
+      "detail": "Chief Agent activated structured control for 8 specialists."
+    },
+    {
+      "id": "youtube-viral-clips-step-00002",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:08.271Z",
+      "kind": "step",
+      "title": "Step 1/11",
+      "detail": "intake-youtube-video"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00003",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:08.271Z",
+      "kind": "agent",
+      "title": "video-intake-analyst started",
+      "detail": "Selecting the source video, validating metadata and extracting structured context."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00004",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:09.366Z",
+      "kind": "agent",
+      "title": "video-intake-analyst delivering",
+      "detail": "Structured intake package delivered with theme, audience and key moments."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00005",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:09.366Z",
+      "kind": "handoff",
+      "title": "video-intake-analyst -> hook-writer",
+      "detail": "Completed intake-youtube-video"
+    },
+    {
+      "id": "youtube-viral-clips-step-00006",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:10.096Z",
+      "kind": "step",
+      "title": "Step 2/11",
+      "detail": "find-viral-moments"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00007",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:10.096Z",
+      "kind": "agent",
+      "title": "hook-writer started",
+      "detail": "Writing a structured hook and 40-second micro-script for retention."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00008",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:11.188Z",
+      "kind": "agent",
+      "title": "hook-writer delivering",
+      "detail": "Hook package delivered with timeline and loop ending."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00009",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:11.188Z",
+      "kind": "handoff",
+      "title": "hook-writer -> seo-strategist",
+      "detail": "Completed find-viral-moments"
+    },
+    {
+      "id": "youtube-viral-clips-step-00010",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:11.918Z",
+      "kind": "step",
+      "title": "Step 3/11",
+      "detail": "approve-moments"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00011",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:11.918Z",
+      "kind": "agent",
+      "title": "seo-strategist started",
+      "detail": "Generating title, description and layered hashtags for CTR and discovery."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00012",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:13.013Z",
+      "kind": "agent",
+      "title": "seo-strategist delivering",
+      "detail": "SEO package delivered with keyword-first metadata."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00013",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:13.013Z",
+      "kind": "handoff",
+      "title": "seo-strategist -> clip-strategist",
+      "detail": "Completed approve-moments"
+    },
+    {
+      "id": "youtube-viral-clips-step-00014",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:13.762Z",
+      "kind": "step",
+      "title": "Step 4/11",
+      "detail": "write-clip-scripts"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00015",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:13.762Z",
+      "kind": "agent",
+      "title": "clip-strategist started",
+      "detail": "Defining cuts, pacing and highlight events for the approved narrative."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00016",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:14.846Z",
+      "kind": "agent",
+      "title": "clip-strategist delivering",
+      "detail": "Clip strategy delivered with cuts and pacing instructions."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00017",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:14.846Z",
+      "kind": "handoff",
+      "title": "clip-strategist -> clip-editor",
+      "detail": "Completed write-clip-scripts"
+    },
+    {
+      "id": "youtube-viral-clips-step-00018",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:15.585Z",
+      "kind": "step",
+      "title": "Step 5/11",
+      "detail": "edit-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00019",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:15.585Z",
+      "kind": "agent",
+      "title": "clip-editor started",
+      "detail": "Applying cuts, subtitles and keyword emphasis for the first edit pass."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00020",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:16.717Z",
+      "kind": "agent",
+      "title": "clip-editor delivering",
+      "detail": "Draft 1 delivered to the mandatory quality gate."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00021",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:16.717Z",
+      "kind": "handoff",
+      "title": "clip-editor -> quality-reviewer",
+      "detail": "Completed edit-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-step-00022",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:17.439Z",
+      "kind": "step",
+      "title": "Step 6/11",
+      "detail": "review-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00023",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:17.439Z",
+      "kind": "agent",
+      "title": "quality-reviewer started",
+      "detail": "Running the mandatory publish gate across hook, edit and SEO outputs."
+    },
+    {
+      "id": "youtube-viral-clips-validation-00024",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:18.527Z",
+      "kind": "validation",
+      "title": "Quality gate failed",
+      "detail": "Draft 1 scored 80/100. Chief Agent must reroute Hook Writer and Clip Editor."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00025",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:18.527Z",
+      "kind": "agent",
+      "title": "quality-reviewer delivering",
+      "detail": "Draft 1 review failed and requires retry."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00026",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:18.527Z",
+      "kind": "handoff",
+      "title": "quality-reviewer -> chief-agent",
+      "detail": "Completed review-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-retry-00027",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:19.262Z",
+      "kind": "retry",
+      "title": "Chief Agent triggered retry",
+      "detail": "Hook and edit outputs are below 80. Reroute Hook Writer first, then Clip Editor."
+    },
+    {
+      "id": "youtube-viral-clips-step-00028",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:20.272Z",
+      "kind": "step",
+      "title": "Step 2/11",
+      "detail": "find-viral-moments"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00029",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:20.272Z",
+      "kind": "agent",
+      "title": "hook-writer started",
+      "detail": "Rewriting the hook for stronger shock in the first 2 seconds."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00030",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:21.362Z",
+      "kind": "agent",
+      "title": "hook-writer delivering",
+      "detail": "Draft 2 hook delivered with better impact and cleaner loop ending."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00031",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:21.363Z",
+      "kind": "handoff",
+      "title": "hook-writer -> seo-strategist",
+      "detail": "Completed find-viral-moments"
+    },
+    {
+      "id": "youtube-viral-clips-step-00032",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:22.109Z",
+      "kind": "step",
+      "title": "Step 3/11",
+      "detail": "approve-moments"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00033",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:22.109Z",
+      "kind": "agent",
+      "title": "seo-strategist started",
+      "detail": "Refreshing the metadata to match the stronger founder-centric hook."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00034",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:23.196Z",
+      "kind": "agent",
+      "title": "seo-strategist delivering",
+      "detail": "SEO package updated after hook retry."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00035",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:23.196Z",
+      "kind": "handoff",
+      "title": "seo-strategist -> clip-strategist",
+      "detail": "Completed approve-moments"
+    },
+    {
+      "id": "youtube-viral-clips-step-00036",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:23.957Z",
+      "kind": "step",
+      "title": "Step 5/11",
+      "detail": "edit-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00037",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:23.957Z",
+      "kind": "agent",
+      "title": "clip-editor started",
+      "detail": "Re-editing with tighter pacing and stronger caption emphasis."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00038",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:25.090Z",
+      "kind": "agent",
+      "title": "clip-editor delivering",
+      "detail": "Draft 2 delivered for final quality validation."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00039",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:25.090Z",
+      "kind": "handoff",
+      "title": "clip-editor -> quality-reviewer",
+      "detail": "Completed edit-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-step-00040",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:25.825Z",
+      "kind": "step",
+      "title": "Step 6/11",
+      "detail": "review-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00041",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:25.825Z",
+      "kind": "agent",
+      "title": "quality-reviewer started",
+      "detail": "Running the second mandatory publish gate."
+    },
+    {
+      "id": "youtube-viral-clips-validation-00042",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:26.915Z",
+      "kind": "validation",
+      "title": "Quality gate approved",
+      "detail": "Draft 2 scored 89/100 and passed every publish checklist item."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00043",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:26.915Z",
+      "kind": "agent",
+      "title": "quality-reviewer delivering",
+      "detail": "Draft 2 review approved the package for publishing."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00044",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:26.915Z",
+      "kind": "handoff",
+      "title": "quality-reviewer -> chief-agent",
+      "detail": "Completed review-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-step-00045",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:26.915Z",
+      "kind": "step",
+      "title": "Step 7/11",
+      "detail": "approve-clip-pack"
+    },
+    {
+      "id": "youtube-viral-clips-decision-00046",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:27.707Z",
+      "kind": "decision",
+      "title": "Chief Agent approved the clip pack",
+      "detail": "The package cleared the 85+ publish threshold and can move into distribution prep."
+    },
+    {
+      "id": "youtube-viral-clips-status-00047",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:27.707Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "approve-clip-pack aguardando validacao do Chief Agent."
+    },
+    {
+      "id": "youtube-viral-clips-step-00048",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:30.110Z",
+      "kind": "step",
+      "title": "Step 8/11",
+      "detail": "dry-run-publish"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00049",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:30.110Z",
+      "kind": "agent",
+      "title": "clip-publisher started",
+      "detail": "Preparing the YouTube publish batch and validating metadata in dry-run mode."
+    },
+    {
+      "id": "youtube-viral-clips-agent-00050",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:31.199Z",
+      "kind": "agent",
+      "title": "clip-publisher delivering",
+      "detail": "Dry-run publish preview completed with no blocking API issue."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00051",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:31.199Z",
+      "kind": "handoff",
+      "title": "clip-publisher -> chief-agent",
+      "detail": "Completed dry-run-publish"
+    },
+    {
+      "id": "youtube-viral-clips-step-00052",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:31.199Z",
+      "kind": "step",
+      "title": "Step 9/11",
+      "detail": "confirm-live-publish"
+    },
+    {
+      "id": "youtube-viral-clips-decision-00053",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:31.937Z",
+      "kind": "decision",
+      "title": "Chief Agent unlocked live publish",
+      "detail": "Dry-run and quality gate are green. Live publish can proceed."
+    },
+    {
+      "id": "youtube-viral-clips-status-00054",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:31.937Z",
+      "kind": "status",
+      "title": "Checkpoint reached",
+      "detail": "confirm-live-publish aguardando validacao do Chief Agent."
+    },
+    {
+      "id": "youtube-viral-clips-step-00055",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:34.354Z",
+      "kind": "step",
+      "title": "Step 10/11",
+      "detail": "live-publish"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00056",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:34.354Z",
+      "kind": "agent",
+      "title": "clip-publisher started",
+      "detail": "Publishing the approved clip package to YouTube via API."
+    },
+    {
+      "id": "youtube-viral-clips-status-00057",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:35.444Z",
+      "kind": "status",
+      "title": "Video published",
+      "detail": "Published clip is live at https://www.youtube.com/watch?v=Wbs-7juXQLo"
+    },
+    {
+      "id": "youtube-viral-clips-agent-00058",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:35.444Z",
+      "kind": "agent",
+      "title": "clip-publisher delivering",
+      "detail": "Live publish completed and post URL delivered to the Chief Agent."
+    },
+    {
+      "id": "youtube-viral-clips-handoff-00059",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:35.444Z",
+      "kind": "handoff",
+      "title": "clip-publisher -> chief-agent",
+      "detail": "Completed live-publish"
+    },
+    {
+      "id": "youtube-viral-clips-step-00060",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:36.194Z",
+      "kind": "step",
+      "title": "Step 11/11",
+      "detail": "monitor-performance"
+    },
+    {
+      "id": "youtube-viral-clips-monitor-00061",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:36.194Z",
+      "kind": "monitor",
+      "title": "Monitoring started",
+      "detail": "Chief Agent is tracking views, CTR and retention for the published clip."
+    },
+    {
+      "id": "youtube-viral-clips-status-00062",
+      "squad": "youtube-viral-clips",
+      "timestamp": "2026-04-04T11:56:38.026Z",
+      "kind": "status",
+      "title": "Squad completed",
+      "detail": "Adaptive pipeline finished with publish, monitoring and queued optimization."
+    }
+  ]
+}

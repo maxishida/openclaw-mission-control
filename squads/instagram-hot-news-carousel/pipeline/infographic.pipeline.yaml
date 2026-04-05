@@ -1,0 +1,15 @@
+name: Instagram Infographic
+description: Pipeline alternativo para gerar um post unico de infografico com referencia visual da pasta ai/ref e composicao final em imagem unica.
+steps:
+  - step-01-intake-briefing.md
+  - step-02-content-strategy.md
+  - step-04-hook-options.md
+  - step-05-write-infographic.md
+  - step-06-copy-qa.md
+  - step-07-visual-direction.md
+  - step-08-design-infographic-prompt.md
+  - step-09-generate-infographic.md
+  - step-13-final-publishing-qa.md
+  - step-14-approve-package.md
+checkpoints:
+  - step-14-approve-package.md

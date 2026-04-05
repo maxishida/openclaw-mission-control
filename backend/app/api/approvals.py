@@ -38,6 +38,7 @@ from app.services.approval_task_links import (
     replace_approval_task_links,
     task_counts_for_board,
 )
+from app.services.opensquad_sync import get_opensquad_sync_service
 from app.services.openclaw.gateway_dispatch import GatewayDispatchService
 
 if TYPE_CHECKING:
@@ -280,6 +281,26 @@ async def _notify_lead_on_approval_resolution(
     await session.commit()
 
 
+async def _write_opensquad_checkpoint_resolution(
+    *,
+    board: Board,
+    approval: Approval,
+) -> None:
+    service = get_opensquad_sync_service()
+    if service is None or board.goal_source != "opensquad-sync":
+        return
+    await service.append_control_command(
+        board_slug=board.slug,
+        payload={
+            "type": "checkpoint.resolve",
+            "approval_id": str(approval.id),
+            "action_type": approval.action_type,
+            "status": approval.status,
+            "task_id": str(approval.task_id) if approval.task_id is not None else None,
+        },
+    )
+
+
 async def _fetch_approval_events(
     session: AsyncSession,
     board_id: UUID,
@@ -470,6 +491,15 @@ async def update_approval(
     await session.commit()
     await session.refresh(approval)
     if approval.status in {"approved", "rejected"} and approval.status != prior_status:
+        try:
+            await _write_opensquad_checkpoint_resolution(board=board, approval=approval)
+        except Exception:
+            logger.exception(
+                "approval.opensquad_writeback_unexpected board_id=%s approval_id=%s status=%s",
+                board.id,
+                approval.id,
+                approval.status,
+            )
         try:
             await _notify_lead_on_approval_resolution(
                 session=session,

@@ -36,6 +36,7 @@ from app.services.activity_log import record_activity
 from app.services.board_group_snapshot import build_board_group_snapshot
 from app.services.board_lifecycle import delete_board as delete_board_service
 from app.services.board_snapshot import build_board_snapshot
+from app.services.opensquad_sync import build_board_read
 from app.services.openclaw.gateway_dispatch import GatewayDispatchService
 from app.services.openclaw.gateway_rpc import GatewayConfig as GatewayClientConfig
 from app.services.openclaw.gateway_rpc import OpenClawGatewayError
@@ -473,7 +474,13 @@ async def list_boards(
         func.lower(col(Board.name)).asc(),
         col(Board.created_at).desc(),
     )
-    return await paginate(session, statement)
+    return await paginate(
+        session,
+        statement,
+        transformer=lambda items: [
+            build_board_read(item) for item in items if isinstance(item, Board)
+        ],
+    )
 
 
 @router.post("", response_model=BoardRead)
@@ -483,19 +490,20 @@ async def create_board(
     _board_group: BoardGroup | None = BOARD_GROUP_CREATE_DEP,
     session: AsyncSession = SESSION_DEP,
     ctx: OrganizationContext = ORG_ADMIN_DEP,
-) -> Board:
+) -> BoardRead:
     """Create a board in the active organization."""
     data = payload.model_dump()
     data["organization_id"] = ctx.organization.id
-    return await crud.create(session, Board, **data)
+    created = await crud.create(session, Board, **data)
+    return build_board_read(created)
 
 
 @router.get("/{board_id}", response_model=BoardRead)
 def get_board(
     board: Board = BOARD_USER_READ_DEP,
-) -> Board:
+) -> BoardRead:
     """Get a board by id."""
-    return board
+    return build_board_read(board)
 
 
 @router.get("/{board_id}/snapshot", response_model=BoardSnapshot)
@@ -538,7 +546,7 @@ async def update_board(
     payload: BoardUpdate,
     session: AsyncSession = SESSION_DEP,
     board: Board = BOARD_USER_WRITE_DEP,
-) -> Board:
+) -> BoardRead:
     """Update mutable board properties."""
     requested_updates = payload.model_dump(exclude_unset=True)
     previous_values = {
@@ -597,7 +605,7 @@ async def update_board(
                 updated.id,
                 sorted(changed_fields),
             )
-    return updated
+    return build_board_read(updated)
 
 
 @router.delete("/{board_id}", response_model=OkResponse)

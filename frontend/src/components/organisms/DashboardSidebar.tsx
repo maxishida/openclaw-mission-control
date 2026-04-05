@@ -13,6 +13,7 @@ import {
   LayoutGrid,
   Network,
   Settings,
+  Sparkles,
   Store,
   Tags,
 } from "lucide-react";
@@ -56,110 +57,90 @@ export function DashboardSidebar() {
       : systemStatus === "unknown"
         ? "System status unavailable"
         : "System degraded";
+  const navItemClass = (active: boolean) =>
+    cn(
+      "group flex items-center gap-3 rounded-2xl border px-3.5 py-3 text-sm font-medium transition duration-300",
+      active
+        ? "border-fuchsia-400/35 bg-fuchsia-500/14 text-slate-50 shadow-[0_0_28px_rgba(109,13,170,0.16)]"
+        : "border-transparent bg-white/0 text-slate-300 hover:border-white/10 hover:bg-white/5 hover:text-white",
+    );
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 flex w-[280px] -translate-x-full flex-col border-r border-slate-200 bg-white pt-16 shadow-lg transition-transform duration-200 ease-in-out [[data-sidebar=open]_&]:translate-x-0 md:relative md:inset-auto md:z-auto md:w-[260px] md:translate-x-0 md:pt-0 md:shadow-none md:transition-none">
-      <div className="flex-1 px-3 py-4">
-        <p className="px-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+    <aside className="fixed inset-y-0 left-0 z-40 flex w-[280px] -translate-x-full flex-col border-r border-white/10 bg-[#090c18]/88 pt-20 shadow-[0_24px_90px_rgba(2,4,14,0.78)] backdrop-blur-2xl transition-transform duration-300 ease-out [[data-sidebar=open]_&]:translate-x-0 md:relative md:inset-auto md:z-auto md:w-[260px] md:translate-x-0 md:pt-0 md:shadow-none md:transition-none">
+      <div className="galaxy-grid galaxy-noise absolute inset-0 opacity-35" aria-hidden="true" />
+      <div className="relative flex-1 px-3 py-5">
+        <p className="px-3 text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
           Navigation
         </p>
         <nav className="mt-3 space-y-4 text-sm">
           <div>
-            <p className="px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+            <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
               Overview
             </p>
             <div className="mt-1 space-y-1">
               <Link
                 href="/dashboard"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname === "/dashboard"
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname === "/dashboard")}
               >
-                <BarChart3 className="h-4 w-4" />
+                <BarChart3 className="h-4 w-4 text-violet-200 transition group-hover:text-white" />
                 Dashboard
               </Link>
               <Link
                 href="/activity"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname.startsWith("/activity")
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname.startsWith("/activity"))}
               >
-                <Activity className="h-4 w-4" />
+                <Activity className="h-4 w-4 text-sky-200 transition group-hover:text-white" />
                 Live feed
+              </Link>
+              <Link
+                href="/virtual-office"
+                className={navItemClass(pathname.startsWith("/virtual-office"))}
+              >
+                <Sparkles className="h-4 w-4 text-fuchsia-200 transition group-hover:text-white" />
+                Virtual Office
               </Link>
             </div>
           </div>
 
           <div>
-            <p className="px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+            <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
               Boards
             </p>
             <div className="mt-1 space-y-1">
               <Link
                 href="/board-groups"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname.startsWith("/board-groups")
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname.startsWith("/board-groups"))}
               >
-                <Folder className="h-4 w-4" />
+                <Folder className="h-4 w-4 text-violet-200 transition group-hover:text-white" />
                 Board groups
               </Link>
               <Link
                 href="/boards"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname.startsWith("/boards")
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname.startsWith("/boards"))}
               >
-                <LayoutGrid className="h-4 w-4" />
+                <LayoutGrid className="h-4 w-4 text-cyan-200 transition group-hover:text-white" />
                 Boards
               </Link>
               <Link
                 href="/tags"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname.startsWith("/tags")
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname.startsWith("/tags"))}
               >
-                <Tags className="h-4 w-4" />
+                <Tags className="h-4 w-4 text-fuchsia-200 transition group-hover:text-white" />
                 Tags
               </Link>
               <Link
                 href="/approvals"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname.startsWith("/approvals")
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname.startsWith("/approvals"))}
               >
-                <CheckCircle2 className="h-4 w-4" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-200 transition group-hover:text-white" />
                 Approvals
               </Link>
               {isAdmin ? (
                 <Link
                   href="/custom-fields"
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                    pathname.startsWith("/custom-fields")
-                      ? "bg-blue-100 text-blue-800 font-medium"
-                      : "hover:bg-slate-100",
-                  )}
+                  className={navItemClass(pathname.startsWith("/custom-fields"))}
                 >
-                  <Settings className="h-4 w-4" />
+                  <Settings className="h-4 w-4 text-slate-200 transition group-hover:text-white" />
                   Custom fields
                 </Link>
               ) : null}
@@ -169,33 +150,24 @@ export function DashboardSidebar() {
           <div>
             {isAdmin ? (
               <>
-                <p className="px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
                   Skills
                 </p>
                 <div className="mt-1 space-y-1">
                   <Link
                     href="/skills/marketplace"
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                      pathname === "/skills" ||
-                        pathname.startsWith("/skills/marketplace")
-                        ? "bg-blue-100 text-blue-800 font-medium"
-                        : "hover:bg-slate-100",
+                    className={navItemClass(
+                      pathname === "/skills" || pathname.startsWith("/skills/marketplace"),
                     )}
                   >
-                    <Store className="h-4 w-4" />
+                    <Store className="h-4 w-4 text-violet-200 transition group-hover:text-white" />
                     Marketplace
                   </Link>
                   <Link
                     href="/skills/packs"
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                      pathname.startsWith("/skills/packs")
-                        ? "bg-blue-100 text-blue-800 font-medium"
-                        : "hover:bg-slate-100",
-                    )}
+                    className={navItemClass(pathname.startsWith("/skills/packs"))}
                   >
-                    <Boxes className="h-4 w-4" />
+                    <Boxes className="h-4 w-4 text-cyan-200 transition group-hover:text-white" />
                     Packs
                   </Link>
                 </div>
@@ -204,47 +176,32 @@ export function DashboardSidebar() {
           </div>
 
           <div>
-            <p className="px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+            <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
               Administration
             </p>
             <div className="mt-1 space-y-1">
               <Link
                 href="/organization"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                  pathname.startsWith("/organization")
-                    ? "bg-blue-100 text-blue-800 font-medium"
-                    : "hover:bg-slate-100",
-                )}
+                className={navItemClass(pathname.startsWith("/organization"))}
               >
-                <Building2 className="h-4 w-4" />
+                <Building2 className="h-4 w-4 text-slate-200 transition group-hover:text-white" />
                 Organization
               </Link>
               {isAdmin ? (
                 <Link
                   href="/gateways"
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                    pathname.startsWith("/gateways")
-                      ? "bg-blue-100 text-blue-800 font-medium"
-                      : "hover:bg-slate-100",
-                  )}
+                  className={navItemClass(pathname.startsWith("/gateways"))}
                 >
-                  <Network className="h-4 w-4" />
+                  <Network className="h-4 w-4 text-fuchsia-200 transition group-hover:text-white" />
                   Gateways
                 </Link>
               ) : null}
               {isAdmin ? (
                 <Link
                   href="/agents"
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
-                    pathname.startsWith("/agents")
-                      ? "bg-blue-100 text-blue-800 font-medium"
-                      : "hover:bg-slate-100",
-                  )}
+                  className={navItemClass(pathname.startsWith("/agents"))}
                 >
-                  <Bot className="h-4 w-4" />
+                  <Bot className="h-4 w-4 text-violet-200 transition group-hover:text-white" />
                   Agents
                 </Link>
               ) : null}
@@ -252,8 +209,12 @@ export function DashboardSidebar() {
           </div>
         </nav>
       </div>
-      <div className="border-t border-slate-200 p-4">
-        <div className="flex items-center gap-2 text-xs text-slate-500">
+      <div className="relative border-t border-white/10 p-4">
+        <div className="galaxy-subcard rounded-2xl px-3 py-3 text-xs text-slate-300">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+            Fleet status
+          </p>
+          <div className="flex items-center gap-2">
           <span
             className={cn(
               "h-2 w-2 rounded-full",
@@ -263,6 +224,7 @@ export function DashboardSidebar() {
             )}
           />
           {statusLabel}
+        </div>
         </div>
       </div>
     </aside>

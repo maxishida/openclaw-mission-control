@@ -1,0 +1,17 @@
+name: YouTube Viral Clips
+description: Pipeline para transformar videos do YouTube em clips curtos com hook, ritmo e pacote de publicacao.
+steps:
+  - step-01-intake-youtube-video.md
+  - step-02-find-viral-moments.md
+  - step-03-approve-moments.md
+  - step-04-write-clip-scripts.md
+  - step-05-edit-clip-pack.md
+  - step-06-review-clip-pack.md
+  - step-07-approve-clip-pack.md
+  - step-08-dry-run-publish.md
+  - step-09-confirm-live-publish.md
+  - step-10-live-publish.md
+  - step-11-monitor-performance.md
+checkpoints:
+  - step-07-approve-clip-pack.md
+  - step-09-confirm-live-publish.md

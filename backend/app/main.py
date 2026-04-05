@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import asyncio
+import sys
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING, Any
 
@@ -24,6 +26,7 @@ from app.api.boards import router as boards_router
 from app.api.gateway import router as gateway_router
 from app.api.gateways import router as gateways_router
 from app.api.metrics import router as metrics_router
+from app.api.opensquad_sync import router as opensquad_sync_router
 from app.api.organizations import router as organizations_router
 from app.api.skills_marketplace import router as skills_marketplace_router
 from app.api.souls_directory import router as souls_directory_router
@@ -39,10 +42,20 @@ from app.core.rate_limit_backend import RateLimitBackend
 from app.core.security_headers import SecurityHeadersMiddleware
 from app.db.session import init_db
 from app.schemas.health import HealthStatusResponse
+from app.services.opensquad_sync import OpenSquadSyncService, set_opensquad_sync_service
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
 
+
+def _configure_windows_asyncio() -> None:
+    """Use the selector loop on Windows so psycopg async connections can open."""
+    if sys.platform != "win32":
+        return
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+
+_configure_windows_asyncio()
 configure_logging()
 logger = get_logger(__name__)
 OPENAPI_TAGS = [
@@ -439,6 +452,13 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         settings.db_auto_migrate,
     )
     await init_db()
+    opensquad_sync_service: OpenSquadSyncService | None = None
+    if settings.opensquad_sync_enabled:
+        opensquad_sync_service = OpenSquadSyncService()
+        set_opensquad_sync_service(opensquad_sync_service)
+        await opensquad_sync_service.start()
+    else:
+        set_opensquad_sync_service(None)
     if settings.rate_limit_backend == RateLimitBackend.REDIS:
         validate_rate_limit_redis(settings.rate_limit_redis_url)
         logger.info("app.lifecycle.rate_limit backend=redis")
@@ -448,6 +468,8 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     try:
         yield
     finally:
+        if opensquad_sync_service is not None:
+            await opensquad_sync_service.stop()
         logger.info("app.lifecycle.stopped")
 
 
@@ -544,6 +566,7 @@ api_v1.include_router(activity_router)
 api_v1.include_router(gateway_router)
 api_v1.include_router(gateways_router)
 api_v1.include_router(metrics_router)
+api_v1.include_router(opensquad_sync_router)
 api_v1.include_router(organizations_router)
 api_v1.include_router(souls_directory_router)
 api_v1.include_router(skills_marketplace_router)

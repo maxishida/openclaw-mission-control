@@ -15,6 +15,7 @@ import {
   Info,
   LayoutGrid,
   Shield,
+  Sparkles,
   Timer,
 } from "lucide-react";
 
@@ -49,6 +50,7 @@ import {
   formatTimestamp,
   parseTimestamp,
 } from "@/lib/formatters";
+import { isOpenSquadSyncedBoard } from "@/lib/opensquad-sync";
 
 type SessionSummary = {
   key: string;
@@ -82,7 +84,7 @@ type GatewaySnapshot = GatewayTarget & {
   requestError: string | null;
 };
 
-const DASH = "—";
+const DASH = "--";
 const DASHBOARD_RANGE = "7d";
 const DASHBOARD_RANGE_DAYS = 7;
 const DASHBOARD_RANGE_LABEL = "7 days";
@@ -336,10 +338,10 @@ const toSessionSummaries = (
           : DASH;
 
     const subtitleBits = [channel, model].filter(Boolean) as string[];
-    const subtitle = subtitleBits.length > 0 ? subtitleBits.join(" · ") : "Session";
+    const subtitle = subtitleBits.length > 0 ? subtitleBits.join(" / ") : "Session";
     const modelWithProvider =
-      modelProvider && model && modelProvider !== model ? `${model} · ${modelProvider}` : model;
-    const subtitleWithProvider = [channel, modelWithProvider].filter(Boolean).join(" · ");
+      modelProvider && model && modelProvider !== model ? `${model} / ${modelProvider}` : model;
+    const subtitleWithProvider = [channel, modelWithProvider].filter(Boolean).join(" / ");
 
     return {
       key,
@@ -371,24 +373,24 @@ function TopMetricCard({
 }) {
   const iconTone =
     accent === "blue"
-      ? "bg-blue-50 text-blue-600"
+      ? "bg-sky-500/15 text-sky-100 ring-1 ring-sky-400/30"
       : accent === "green"
-        ? "bg-emerald-50 text-emerald-600"
+        ? "bg-emerald-500/15 text-emerald-100 ring-1 ring-emerald-400/30"
         : accent === "violet"
-          ? "bg-violet-50 text-violet-600"
-          : "bg-green-50 text-green-600";
+          ? "bg-fuchsia-500/15 text-fuchsia-100 ring-1 ring-fuchsia-400/30"
+          : "bg-indigo-500/15 text-indigo-100 ring-1 ring-indigo-400/30";
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+    <section className="galaxy-card rounded-[28px] p-5 md:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-1.5">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-400">
               {title}
             </p>
             {infoText ? (
               <span
-                className="inline-flex text-slate-400"
+                className="inline-flex text-slate-500"
                 title={infoText}
                 aria-label={infoText}
               >
@@ -397,16 +399,17 @@ function TopMetricCard({
             ) : null}
           </div>
           <div className="mt-2 flex items-end gap-2">
-            <p className="font-heading text-4xl font-bold text-slate-900">{value}</p>
+            <p className="font-heading text-4xl font-bold text-white md:text-[2.7rem]">{value}</p>
             {secondary ? (
-              <p className="pb-1 text-xs text-slate-500">{secondary}</p>
+              <p className="pb-1 text-xs text-slate-400">{secondary}</p>
             ) : null}
           </div>
         </div>
-        <div className={`rounded-lg p-2 ${iconTone}`}>
+        <div className={`rounded-2xl p-3 shadow-[0_0_30px_rgba(109,13,170,0.12)] ${iconTone}`}>
           {icon}
         </div>
       </div>
+      <div className="mt-5 h-px bg-gradient-to-r from-fuchsia-400/30 via-sky-300/25 to-transparent" />
     </section>
   );
 }
@@ -423,13 +426,13 @@ function InfoBlock({
   rows: SummaryRow[];
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm">
+    <section className="galaxy-card rounded-[28px] p-5 md:p-6">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-1.5">
-          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+          <h3 className="text-lg font-semibold text-white">{title}</h3>
           {infoText ? (
             <span
-              className="inline-flex text-slate-400"
+              className="inline-flex text-slate-500"
               title={infoText}
               aria-label={infoText}
             >
@@ -439,31 +442,34 @@ function InfoBlock({
         </div>
         {badge ? (
           <span
-            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ${
+            className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium ${
               badge.tone === "online"
-                ? "bg-emerald-100 text-emerald-700"
+                ? "border border-emerald-400/30 bg-emerald-500/12 text-emerald-200"
                 : badge.tone === "offline"
-                  ? "bg-rose-100 text-rose-700"
-                  : "bg-slate-200 text-slate-700"
+                  ? "border border-rose-400/30 bg-rose-500/12 text-rose-200"
+                  : "border border-white/10 bg-white/6 text-slate-300"
             }`}
           >
             {badge.text}
           </span>
         ) : null}
       </div>
-      <div className="divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white">
+      <div className="divide-y divide-white/6 rounded-[22px] border border-white/8 bg-white/5">
         {rows.map((row) => (
-          <div key={`${row.label}-${row.value}`} className="flex items-start justify-between gap-3 px-3 py-2">
-            <span className="min-w-0 text-sm text-slate-500">{row.label}</span>
+          <div
+            key={`${row.label}-${row.value}`}
+            className="flex items-start justify-between gap-3 px-4 py-3"
+          >
+            <span className="min-w-0 text-sm text-slate-400">{row.label}</span>
             <span
               className={`max-w-[65%] break-words text-right text-sm font-medium leading-5 ${
                 row.tone === "success"
-                  ? "text-emerald-700"
+                  ? "text-emerald-200"
                   : row.tone === "warning"
-                    ? "text-amber-700"
+                    ? "text-amber-200"
                     : row.tone === "danger"
-                      ? "text-rose-700"
-                      : "text-slate-800"
+                      ? "text-rose-200"
+                      : "text-slate-100"
               }`}
             >
               {row.value}
@@ -472,6 +478,53 @@ function InfoBlock({
         ))}
       </div>
     </section>
+  );
+}
+
+function ThroughputSpectrum({
+  points,
+}: {
+  points: Array<{ label?: string | null; value?: number | null }>;
+}) {
+  const normalizedPoints = points.slice(-7).map((point, index) => ({
+    key: `${point.label ?? "point"}-${index}`,
+    label: point.label ?? `D${index + 1}`,
+    value: Math.max(0, Number(point.value ?? 0)),
+  }));
+  const maxValue = normalizedPoints.reduce((max, point) => Math.max(max, point.value), 0);
+
+  if (normalizedPoints.length === 0) {
+    return (
+      <div className="galaxy-subcard flex min-h-[240px] items-center justify-center rounded-[24px] px-6 text-sm text-slate-400">
+        Throughput data will light up here once your boards emit production signals.
+      </div>
+    );
+  }
+
+  return (
+    <div className="galaxy-subcard rounded-[24px] p-5">
+      <div className="grid h-[240px] grid-cols-7 items-end gap-3">
+        {normalizedPoints.map((point) => {
+          const height = maxValue > 0 ? Math.max(18, (point.value / maxValue) * 100) : 18;
+          return (
+            <div key={point.key} className="flex h-full flex-col justify-end gap-3">
+              <div className="relative flex-1 overflow-hidden rounded-full border border-white/8 bg-[#0c1128]/90">
+                <div
+                  className="absolute inset-x-0 bottom-0 rounded-full bg-gradient-to-t from-fuchsia-500 via-violet-400 to-sky-300 shadow-[0_0_24px_rgba(125,55,200,0.32)] transition-all duration-300"
+                  style={{ height: `${height}%` }}
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-xs font-semibold text-white">{formatCount(point.value)}</p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.24em] text-slate-500">
+                  {point.label}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -551,6 +604,17 @@ export default function DashboardPage() {
   const onlineAgents = useMemo(
     () => agents.filter((agent) => (agent.status ?? "").toLowerCase() === "online").length,
     [agents],
+  );
+  const syncedBoards = useMemo(
+    () => boards.filter(isOpenSquadSyncedBoard),
+    [boards],
+  );
+  const staleSyncedBoards = useMemo(
+    () =>
+      syncedBoards.filter(
+        (board) => board.sync_state === "stale" || board.sync_state === "error",
+      ).length,
+    [syncedBoards],
   );
   const gatewayTargets = useMemo<GatewayTarget[]>(() => {
     const byGateway = new Map<string, GatewayTarget>();
@@ -642,7 +706,7 @@ export default function DashboardPage() {
         return toSessionSummaries(snapshot.sessions, snapshot.mainSession).map((session) => ({
           ...session,
           key: `${snapshot.gatewayId}:${session.key}`,
-          subtitle: `${sourceLabel} · ${session.subtitle}`,
+          subtitle: `${sourceLabel} / ${session.subtitle}`,
         }));
       }),
     [gatewaySnapshots],
@@ -668,13 +732,14 @@ export default function DashboardPage() {
 
   const recentLogs = orderedActivityEvents.slice(0, 8);
 
+  const throughputPoints = metrics?.throughput.primary.points ?? [];
   const latestThroughputPoint =
-    metrics?.throughput.primary.points?.[metrics.throughput.primary.points.length - 1] ?? null;
-  const throughputTotal = (metrics?.throughput.primary.points ?? []).reduce(
+    throughputPoints[throughputPoints.length - 1] ?? null;
+  const throughputTotal = throughputPoints.reduce(
     (sum, point) => sum + Number(point.value ?? 0),
     0,
   );
-  const completionDaysCount = (metrics?.throughput.primary.points ?? []).reduce(
+  const completionDaysCount = throughputPoints.reduce(
     (sum, point) => sum + (Number(point.value ?? 0) > 0 ? 1 : 0),
     0,
   );
@@ -740,6 +805,16 @@ export default function DashboardPage() {
 
   const workloadRows: SummaryRow[] = [
     {
+      label: "OpenSquad synced boards",
+      value: formatCount(syncedBoards.length),
+      tone: syncedBoards.length > 0 ? "success" : "default",
+    },
+    {
+      label: "Stale or errored syncs",
+      value: formatCount(staleSyncedBoards),
+      tone: staleSyncedBoards > 0 ? "warning" : "success",
+    },
+    {
       label: "Total work items",
       value: formatCount(tasksTotal),
     },
@@ -785,7 +860,7 @@ export default function DashboardPage() {
         reviewBacklogRatio !== null
           ? `${reviewBacklogRatio.toFixed(2)}x`
           : reviewTasksMetric > 0
-            ? "∞"
+            ? "inf"
             : "0.00x",
       tone:
         reviewBacklogRatio !== null
@@ -900,15 +975,153 @@ export default function DashboardPage() {
       </SignedOut>
       <SignedIn>
         <DashboardSidebar />
-        <main className="flex-1 overflow-y-auto bg-slate-50">
-          <div className="p-4 md:p-8">
+        <main className="galaxy-main flex-1 overflow-y-auto">
+          <div className="mx-auto w-full max-w-[1600px] p-4 md:p-8">
             {metricsQuery.error ? (
-              <div className="mb-4 rounded-lg border border-rose-300 bg-rose-50 p-3 text-sm text-rose-700">
+              <div className="mb-6 rounded-[24px] border border-rose-400/25 bg-rose-500/10 px-4 py-3 text-sm text-rose-100 backdrop-blur-xl">
                 Load failed: {metricsQuery.error.message}
               </div>
             ) : null}
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <section className="galaxy-panel galaxy-grid galaxy-noise rounded-[34px] p-6 md:p-8">
+              <div
+                className="absolute inset-y-0 right-0 w-[42%] bg-[radial-gradient(circle_at_center,rgba(125,55,200,0.22),transparent_65%)] blur-3xl"
+                aria-hidden="true"
+              />
+              <div className="relative grid gap-6 xl:grid-cols-[1.15fr_0.95fr]">
+                <div>
+                  <div className="galaxy-chip inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-violet-100">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    Of The Galaxy
+                  </div>
+                  <h1 className="mt-5 max-w-3xl font-heading text-4xl font-semibold leading-tight text-white md:text-5xl">
+                    Deep-space mission control for agents, approvals, and gateway telemetry.
+                  </h1>
+                  <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 md:text-base">
+                    A neon command surface tuned for live operations. Track workload, throughput,
+                    sessions, and fleet health from one premium glass control deck.
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <div className="galaxy-chip rounded-full px-4 py-2 text-sm text-slate-100">
+                      {formatCount(activeAgentsMetric)} agents online
+                    </div>
+                    <div className="galaxy-chip rounded-full px-4 py-2 text-sm text-slate-100">
+                      {gatewayStatusLabel}
+                    </div>
+                    <div className="galaxy-chip rounded-full px-4 py-2 text-sm text-slate-100">
+                      {formatCount(pendingApprovalsTotal)} approvals in orbit
+                    </div>
+                    <div className="galaxy-chip rounded-full px-4 py-2 text-sm text-slate-100">
+                      {formatCount(syncedBoards.length)} OpenSquad boards synced
+                    </div>
+                    {staleSyncedBoards > 0 ? (
+                      <div className="galaxy-chip rounded-full px-4 py-2 text-sm text-amber-100">
+                        {formatCount(staleSyncedBoards)} syncs need attention
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                    <div className="galaxy-subcard rounded-[24px] p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                        Live boards
+                      </p>
+                      <p className="mt-3 text-3xl font-semibold text-white">{formatCount(boards.length)}</p>
+                      <p className="mt-2 text-sm text-slate-400">
+                        Connected workflows and review lanes mapped into a single command grid.
+                      </p>
+                    </div>
+                    <div className="galaxy-subcard rounded-[24px] p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                        Active sessions
+                      </p>
+                      <p className="mt-3 text-3xl font-semibold text-white">{formatCount(activeSessions)}</p>
+                      <p className="mt-2 text-sm text-slate-400">
+                        Operator and gateway sessions visible with main-line telemetry.
+                      </p>
+                    </div>
+                    <div className="galaxy-subcard rounded-[24px] p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                        Review velocity
+                      </p>
+                      <p className="mt-3 text-3xl font-semibold text-white">
+                        {formatPerDay(throughputTotal, DASHBOARD_RANGE_DAYS)}
+                      </p>
+                      <p className="mt-2 text-sm text-slate-400">
+                        Completion pace measured across the latest {DASHBOARD_RANGE_LABEL}.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <Link
+                      href="/activity"
+                      className="inline-flex items-center gap-2 rounded-full border border-fuchsia-400/30 bg-fuchsia-500/14 px-4 py-2 text-sm font-medium text-fuchsia-50 transition duration-300 hover:scale-[1.02] hover:border-fuchsia-300/50 hover:bg-fuchsia-500/20"
+                    >
+                      Open live feed
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                    <Link
+                      href="/boards"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm font-medium text-slate-100 transition duration-300 hover:scale-[1.02] hover:border-sky-300/30 hover:bg-white/10"
+                    >
+                      Open command boards
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                    <Link
+                      href="/virtual-office"
+                      className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-50 transition duration-300 hover:scale-[1.02] hover:border-cyan-200/35 hover:bg-cyan-500/16"
+                    >
+                      Open Virtual Office
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+
+                <section className="galaxy-card rounded-[30px] p-5 md:p-6">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                        Throughput Spectrum
+                      </p>
+                      <h2 className="mt-2 text-2xl font-semibold text-white">
+                        Completion pulse across the latest orbit
+                      </h2>
+                    </div>
+                    <div className="rounded-2xl border border-sky-400/25 bg-sky-400/10 px-3 py-2 text-right">
+                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Latest burst</p>
+                      <p className="mt-1 text-lg font-semibold text-white">
+                        {formatCount(Number(latestThroughputPoint?.value ?? 0))}
+                      </p>
+                    </div>
+                  </div>
+                  <ThroughputSpectrum points={throughputPoints} />
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div className="galaxy-subcard rounded-[22px] px-4 py-3">
+                      <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Range</p>
+                      <p className="mt-2 text-base font-semibold text-white">{DASHBOARD_RANGE_LABEL}</p>
+                    </div>
+                    <div className="galaxy-subcard rounded-[22px] px-4 py-3">
+                      <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">
+                        Error rate
+                      </p>
+                      <p className="mt-2 text-base font-semibold text-white">{formatPercent(errorRateMetric)}</p>
+                    </div>
+                    <div className="galaxy-subcard rounded-[22px] px-4 py-3">
+                      <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">
+                        Active days
+                      </p>
+                      <p className="mt-2 text-base font-semibold text-white">
+                        {formatCount(completionDaysCount)}
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </section>
+
+            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
               <TopMetricCard
                 title="Online Agents"
                 value={formatCount(activeAgentsMetric)}
@@ -926,7 +1139,7 @@ export default function DashboardPage() {
               <TopMetricCard
                 title="Error Rate"
                 value={formatPercent(errorRateMetric)}
-                secondary={`${formatCount(Number(latestThroughputPoint?.value ?? 0))} completed (latest)`}
+                secondary={`${formatCount(Number(latestThroughputPoint?.value ?? 0))} completed latest`}
                 icon={<Activity className="h-4 w-4" />}
                 accent="violet"
               />
@@ -940,11 +1153,8 @@ export default function DashboardPage() {
               />
             </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-3">
-              <InfoBlock
-                title="Workload"
-                rows={workloadRows}
-              />
+            <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-3">
+              <InfoBlock title="Workload" rows={workloadRows} />
               <InfoBlock
                 title="Throughput"
                 infoText={`All throughput values are calculated for ${DASHBOARD_RANGE_LABEL}`}
@@ -960,12 +1170,17 @@ export default function DashboardPage() {
               />
             </div>
 
-            <section className="mt-4 rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <h3 className="text-lg font-semibold text-slate-900">Pending Approvals</h3>
+            <section className="galaxy-card mt-6 rounded-[30px] p-5 md:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                    Approval Queue
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold text-white">Pending Approvals</h3>
+                </div>
                 <Link
                   href="/approvals"
-                  className="inline-flex items-center gap-1 text-xs text-slate-500 transition hover:text-slate-700"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-medium text-slate-200 transition duration-300 hover:border-fuchsia-400/30 hover:bg-white/10 hover:text-white"
                 >
                   Open global approvals
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -973,69 +1188,76 @@ export default function DashboardPage() {
               </div>
 
               {!metrics && metricsQuery.isLoading ? (
-                <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">
+                <div className="galaxy-subcard rounded-[22px] p-4 text-sm text-slate-400">
                   Loading pending approvals...
                 </div>
               ) : !metrics && metricsQuery.error ? (
-                <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
+                <div className="rounded-[22px] border border-amber-400/25 bg-amber-500/10 p-4 text-sm text-amber-100">
                   Pending approvals are temporarily unavailable.
                 </div>
               ) : hasPendingApprovals ? (
-                <div className="space-y-2">
-                  <div className="divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white">
+                <div className="space-y-3">
+                  <div className="divide-y divide-white/6 overflow-hidden rounded-[24px] border border-white/8 bg-white/5">
                     {pendingApprovalItems.map((item) => (
                       <Link
                         key={item.approval_id}
                         href={`/boards/${item.board_id}/approvals`}
-                        className="flex items-center justify-between gap-3 px-3 py-2 transition hover:bg-slate-50"
+                        className="flex items-center justify-between gap-3 px-4 py-3 transition duration-300 hover:bg-white/6"
                       >
-                        <span className="min-w-0 text-sm text-slate-700">
-                          <span className="block truncate font-medium text-slate-800">
+                        <span className="min-w-0 text-sm text-slate-300">
+                          <span className="block truncate font-medium text-white">
                             {item.task_title || "Pending approval"}
                           </span>
-                          <span className="block truncate text-xs text-slate-500">
-                            {item.board_name} · {item.confidence}% score
+                          <span className="block truncate text-xs text-slate-400">
+                            {item.board_name} / {item.confidence}% score
                           </span>
                         </span>
-                        <span className="shrink-0 text-xs text-slate-500">
+                        <span className="shrink-0 text-xs text-slate-400">
                           {formatRelativeTimestamp(item.created_at)}
                         </span>
                       </Link>
                     ))}
                   </div>
                   {pendingApprovalsTotal > pendingApprovalItems.length ? (
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-400">
                       Showing latest {formatCount(pendingApprovalItems.length)} of{" "}
                       {formatCount(pendingApprovalsTotal)} pending approvals.
                     </p>
                   ) : null}
                 </div>
               ) : (
-                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+                <div className="rounded-[22px] border border-emerald-400/25 bg-emerald-500/10 p-4 text-sm text-emerald-100">
                   No pending approvals across your boards.
                 </div>
               )}
             </section>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold text-slate-900">Sessions</h3>
-                  <span className="text-xs text-slate-500">{formatCount(activeSessions)}</span>
+            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+              <section className="galaxy-card min-w-0 overflow-hidden rounded-[30px] p-5 md:p-6">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                      Session Lattice
+                    </p>
+                    <h3 className="mt-2 text-xl font-semibold text-white">Sessions</h3>
+                  </div>
+                  <span className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-xs text-slate-300">
+                    {formatCount(activeSessions)}
+                  </span>
                 </div>
-                <div className="max-h-[310px] space-y-2 overflow-x-hidden overflow-y-auto pr-1">
+                <div className="galaxy-scrollbar max-h-[340px] space-y-2 overflow-x-hidden overflow-y-auto pr-1">
                   {!hasConfiguredGateways ? (
-                    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">
+                    <div className="galaxy-subcard rounded-[22px] p-4 text-sm text-slate-400">
                       No gateways are configured for any board yet.
                     </div>
                   ) : gatewayStatusesQuery.isLoading ? (
-                    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">
+                    <div className="galaxy-subcard rounded-[22px] p-4 text-sm text-slate-400">
                       Loading sessions...
                     </div>
                   ) : sessionSummaries.length > 0 ? (
                     <>
                       {gatewayUnavailableCount > 0 ? (
-                        <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
+                        <div className="rounded-[22px] border border-amber-400/25 bg-amber-500/10 p-4 text-sm text-amber-100">
                           {formatCount(gatewayUnavailableCount)} gateway
                           {gatewayUnavailableCount === 1 ? "" : "s"} unavailable; showing sessions
                           from reachable gateways.
@@ -1044,22 +1266,24 @@ export default function DashboardPage() {
                       {sessionSummaries.map((session) => (
                         <div
                           key={session.key}
-                          className="overflow-hidden rounded-lg border border-slate-200 bg-white px-3 py-2"
+                          className="galaxy-subcard rounded-[22px] px-4 py-3 transition duration-300 hover:border-fuchsia-400/20 hover:bg-white/6"
                         >
                           <div className="flex items-center justify-between gap-3">
                             <div className="min-w-0 flex-1">
-                              <p className="truncate text-sm font-medium text-slate-900">
+                              <p className="truncate text-sm font-medium text-white">
                                 <span
                                   className={`mr-2 inline-block h-2 w-2 rounded-full ${
-                                    session.isMain ? "bg-emerald-500" : "bg-slate-400"
+                                    session.isMain ? "bg-emerald-400" : "bg-slate-500"
                                   }`}
                                 />
                                 {session.title}
                               </p>
-                              <p className="mt-0.5 truncate text-xs text-slate-500">{session.subtitle}</p>
+                              <p className="mt-0.5 truncate text-xs text-slate-400">
+                                {session.subtitle}
+                              </p>
                             </div>
                             <div className="min-w-0 max-w-[45%] text-right">
-                              <p className="truncate text-xs font-medium text-slate-700">
+                              <p className="truncate text-xs font-medium text-slate-200">
                                 {session.usage === DASH ? "Usage unavailable" : session.usage}
                               </p>
                               <p className="text-[11px] text-slate-500">
@@ -1073,29 +1297,34 @@ export default function DashboardPage() {
                       ))}
                     </>
                   ) : gatewayUnavailableCount === gatewayTargets.length ? (
-                    <div className="rounded-lg border border-rose-300 bg-rose-50 p-3 text-sm text-rose-700">
+                    <div className="rounded-[22px] border border-rose-400/25 bg-rose-500/10 p-4 text-sm text-rose-100">
                       Session data is unavailable for all configured gateways.
                     </div>
                   ) : (
-                    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">
+                    <div className="galaxy-subcard rounded-[22px] p-4 text-sm text-slate-400">
                       No active sessions detected.
                     </div>
                   )}
                 </div>
               </section>
 
-              <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold text-slate-900">Recent Activity</h3>
+              <section className="galaxy-card min-w-0 overflow-hidden rounded-[30px] p-5 md:p-6">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+                      Event Constellation
+                    </p>
+                    <h3 className="mt-2 text-xl font-semibold text-white">Recent Activity</h3>
+                  </div>
                   <Link
                     href={activityFeedHref}
-                    className="inline-flex items-center gap-1 text-xs text-slate-500 transition hover:text-slate-700"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-medium text-slate-200 transition duration-300 hover:border-sky-400/30 hover:bg-white/10 hover:text-white"
                   >
                     Open feed
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
-                <div className="max-h-[310px] space-y-2 overflow-x-hidden overflow-y-auto pr-1">
+                <div className="galaxy-scrollbar max-h-[340px] space-y-2 overflow-x-hidden overflow-y-auto pr-1">
                   {recentLogs.length > 0 ? (
                     recentLogs.map((event) => {
                       const eventHref = buildActivityEventHref(event);
@@ -1104,24 +1333,24 @@ export default function DashboardPage() {
                           key={event.id}
                           role="link"
                           tabIndex={0}
-                        aria-label={`Open related context for ${event.event_type} activity`}
+                          aria-label={`Open related context for ${event.event_type} activity`}
                           onClick={(interactionEvent) =>
                             handleLogRowClick(interactionEvent, eventHref)
                           }
                           onKeyDown={(interactionEvent) =>
                             handleLogRowKeyDown(interactionEvent, eventHref)
                           }
-                          className="cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white px-3 py-2 transition hover:border-slate-300 focus-visible:border-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+                          className="galaxy-subcard cursor-pointer rounded-[22px] px-4 py-3 transition duration-300 hover:border-fuchsia-400/25 hover:bg-white/6 focus-visible:border-fuchsia-300/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/30"
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0 flex-1 overflow-hidden">
-                              <div className="break-words text-sm font-medium text-slate-900 [&_ol]:mb-0 [&_p]:mb-0 [&_pre]:my-1 [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_ul]:mb-0">
+                              <div className="break-words text-sm font-medium text-slate-100 [&_ol]:mb-0 [&_p]:mb-0 [&_pre]:my-1 [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_ul]:mb-0">
                                 <Markdown
                                   content={event.message?.trim() || event.event_type}
                                   variant="comment"
                                 />
                               </div>
-                              <p className="mt-0.5 text-xs uppercase tracking-wider text-slate-500">
+                              <p className="mt-1 text-[11px] uppercase tracking-[0.26em] text-slate-500">
                                 {event.event_type}
                               </p>
                             </div>
@@ -1134,10 +1363,12 @@ export default function DashboardPage() {
                       );
                     })
                   ) : (
-                    <div className="flex h-[240px] flex-col items-center justify-center rounded-lg border border-slate-200 bg-white text-sm text-slate-500">
-                      <Shield className="mb-2 h-5 w-5 text-slate-400" />
+                    <div className="galaxy-subcard flex h-[240px] flex-col items-center justify-center rounded-[24px] text-sm text-slate-400">
+                      <Shield className="mb-2 h-5 w-5 text-slate-500" />
                       No activity yet
-                      <p className="mt-1 text-xs text-slate-500">Activity appears here when events are emitted.</p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        Activity appears here when events are emitted.
+                      </p>
                     </div>
                   )}
                 </div>

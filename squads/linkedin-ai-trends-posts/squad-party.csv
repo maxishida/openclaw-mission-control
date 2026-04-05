@@ -1,0 +1,6 @@
+id,displayName,icon,path
+trend-scout,Trend Scout,🔎,./agents/trend-scout.agent.md
+linkedin-strategist,LinkedIn Strategist,🧭,./agents/linkedin-strategist.agent.md
+linkedin-writer,LinkedIn Writer,✍️,./agents/linkedin-writer.agent.md
+quality-reviewer,Quality Reviewer,✅,./agents/quality-reviewer.agent.md
+linkedin-publisher,LinkedIn Publisher,📲,./agents/linkedin-publisher.agent.md

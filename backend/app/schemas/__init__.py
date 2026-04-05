@@ -33,6 +33,7 @@ from app.schemas.organizations import (
     OrganizationMemberUpdate,
     OrganizationRead,
 )
+from app.schemas.opensquad_sync import OpenSquadBoardSyncRead, OpenSquadSyncStatusRead
 from app.schemas.skills_marketplace import (
     MarketplaceSkillActionResponse,
     MarketplaceSkillCardRead,
@@ -89,6 +90,8 @@ __all__ = [
     "OrganizationMemberRead",
     "OrganizationMemberUpdate",
     "OrganizationRead",
+    "OpenSquadBoardSyncRead",
+    "OpenSquadSyncStatusRead",
     "SoulsDirectoryMarkdownResponse",
     "SoulsDirectorySearchResponse",
     "SoulsDirectorySoulRef",

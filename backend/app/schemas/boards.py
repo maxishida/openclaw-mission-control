@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Self
+from typing import Literal, Self
 from uuid import UUID
 
 from pydantic import model_validator
@@ -102,5 +102,8 @@ class BoardRead(BoardBase):
 
     id: UUID
     organization_id: UUID
+    sync_source: Literal["mission_control", "opensquad"] = "mission_control"
+    sync_state: Literal["healthy", "stale", "error"] | None = None
+    last_synced_at: datetime | None = None
     created_at: datetime
     updated_at: datetime

@@ -28,6 +28,7 @@ from app.models.board_memory import BoardMemory
 from app.schemas.board_memory import BoardMemoryCreate, BoardMemoryRead
 from app.schemas.pagination import DefaultLimitOffsetPage
 from app.services.mentions import extract_mentions, matches_agent_mention
+from app.services.opensquad_sync import get_opensquad_sync_service
 from app.services.openclaw.gateway_dispatch import GatewayDispatchService
 from app.services.openclaw.gateway_rpc import GatewayConfig as GatewayClientConfig
 
@@ -216,6 +217,31 @@ async def _notify_chat_targets(
             continue
 
 
+async def _write_opensquad_memory_command(
+    *,
+    board: Board,
+    memory: BoardMemory,
+    actor: ActorContext,
+) -> None:
+    if actor.actor_type != "user" or board.goal_source != "opensquad-sync":
+        return
+    service = get_opensquad_sync_service()
+    if service is None:
+        return
+    command_type = "operator.command" if memory.is_chat else "context.note"
+    await service.append_control_command(
+        board_slug=board.slug,
+        payload={
+            "type": command_type,
+            "memory_id": str(memory.id),
+            "content": memory.content,
+            "tags": memory.tags or [],
+            "is_chat": memory.is_chat,
+            "source": memory.source,
+        },
+    )
+
+
 @router.get("", response_model=DefaultLimitOffsetPage[BoardMemoryRead])
 async def list_board_memory(
     *,
@@ -296,6 +322,14 @@ async def create_board_memory(
     session.add(memory)
     await session.commit()
     await session.refresh(memory)
+    try:
+        await _write_opensquad_memory_command(
+            board=board,
+            memory=memory,
+            actor=actor,
+        )
+    except Exception:
+        pass
     if is_chat:
         await _notify_chat_targets(
             session=session,

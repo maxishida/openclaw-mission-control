@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { BoardReadSuccessMetrics } from "./boardReadSuccessMetrics";
+import type { BoardReadSyncSource } from "./boardReadSyncSource";
 
 /**
  * Board payload returned from read endpoints.
@@ -20,6 +21,7 @@ export interface BoardRead {
   goal_confirmed?: boolean;
   goal_source?: string | null;
   id: string;
+  last_synced_at?: string | null;
   /** @minimum 0 */
   max_agents?: number;
   name: string;
@@ -30,6 +32,8 @@ export interface BoardRead {
   require_review_before_done?: boolean;
   slug: string;
   success_metrics?: BoardReadSuccessMetrics;
+  sync_source?: BoardReadSyncSource;
+  sync_state?: "healthy" | "stale" | "error" | null;
   target_date?: string | null;
   updated_at: string;
 }

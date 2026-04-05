@@ -1,0 +1,27 @@
+code: linkedin-ai-trends-posts
+name: LinkedIn AI Trends Posts
+description: >
+  Squad para pesquisar tendencias de IA, selecionar um angulo relevante
+  para LinkedIn, escrever o post e revisar o material final.
+skills:
+  - web_search
+  - web_fetch
+  - linkedin-publisher
+data:
+  - pipeline/data/research-brief.md
+  - pipeline/data/domain-framework.md
+  - pipeline/data/quality-criteria.md
+  - pipeline/data/output-examples.md
+  - pipeline/data/anti-patterns.md
+  - pipeline/data/tone-of-voice.md
+pipeline:
+  steps:
+    - pipeline/steps/step-01-scout-trends.md
+    - pipeline/steps/step-02-build-post-brief.md
+    - pipeline/steps/step-03-approve-brief.md
+    - pipeline/steps/step-04-write-linkedin-post.md
+    - pipeline/steps/step-05-review-post.md
+    - pipeline/steps/step-06-approve-final.md
+    - pipeline/steps/step-07-dry-run-publish.md
+    - pipeline/steps/step-08-confirm-live-publish.md
+    - pipeline/steps/step-09-live-publish.md

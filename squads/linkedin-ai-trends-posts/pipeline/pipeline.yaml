@@ -1,0 +1,16 @@
+name: LinkedIn AI Trends Posts
+description: Pipeline para transformar tendencias de IA em posts fortes para LinkedIn.
+steps:
+  - step-01-scout-trends.md
+  - step-02-build-post-brief.md
+  - step-03-approve-brief.md
+  - step-04-write-linkedin-post.md
+  - step-05-review-post.md
+  - step-06-approve-final.md
+  - step-07-dry-run-publish.md
+  - step-08-confirm-live-publish.md
+  - step-09-live-publish.md
+checkpoints:
+  - step-03-approve-brief.md
+  - step-06-approve-final.md
+  - step-08-confirm-live-publish.md

@@ -1,0 +1,9 @@
+id,displayName,icon,path
+chief-agent,Chief Agent,🧭,./agents/chief-agent.agent.md
+video-intake-analyst,Video Intake Analyst,🎥,./agents/video-intake-analyst.agent.md
+clip-strategist,Clip Strategist,🧠,./agents/clip-strategist.agent.md
+hook-writer,Hook Writer,✍️,./agents/hook-writer.agent.md
+seo-strategist,SEO Strategist,🔎,./agents/seo-strategist.agent.md
+clip-editor,Clip Editor,✂️,./agents/clip-editor.agent.md
+quality-reviewer,Quality Reviewer,✅,./agents/quality-reviewer.agent.md
+clip-publisher,Clip Publisher,📲,./agents/clip-publisher.agent.md
