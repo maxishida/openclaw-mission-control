@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { extname } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import dotenv from 'dotenv';
+import { loadEnvFiles } from '../../shared/load-env.js';
 
-dotenv.config({ path: resolve(process.cwd(), '.env.local') });
-dotenv.config({ path: resolve(process.cwd(), '.env') });
+loadEnvFiles([resolve(process.cwd(), '.env.local'), resolve(process.cwd(), '.env')]);
 
 export const LINKEDIN_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 export const LINKEDIN_POSTS_URL = 'https://api.linkedin.com/rest/posts';
@@ -66,7 +65,7 @@ export function parsePostText(filePath) {
 
 export function updateEnvLocal(key, value) {
   const envPath = resolve(process.cwd(), '.env.local');
-  const current = readFileSync(envPath, 'utf8');
+  const current = existsSync(envPath) ? readFileSync(envPath, 'utf8') : '';
   const line = `${key}="${String(value).replaceAll('"', '\\"')}"`;
   const pattern = new RegExp(`^${key}=.*$`, 'm');
   const next = pattern.test(current) ? current.replace(pattern, line) : `${current.trimEnd()}\n${line}\n`;

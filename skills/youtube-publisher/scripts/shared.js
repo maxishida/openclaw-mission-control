@@ -4,10 +4,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { execFile } = require("node:child_process");
 const { promisify } = require("node:util");
-const dotenv = require("dotenv");
+const { loadEnvFiles } = require("../../../scripts/shared/load-env.cjs");
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env.local"), quiet: true });
-dotenv.config({ path: path.resolve(process.cwd(), ".env"), quiet: true });
+loadEnvFiles([path.resolve(process.cwd(), ".env.local"), path.resolve(process.cwd(), ".env")]);
 
 const execFileAsync = promisify(execFile);
 

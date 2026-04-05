@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "name": "prompthub-hybrid-ops-runner",
+  "entrypoint": "npm run ops:run -- --action <action>",
+  "modes": ["simulate", "dry-run", "live"],
+  "actions": {
+    "simulate": {
+      "required_args": ["squad"],
+      "optional_args": ["step-ms", "checkpoint-ms"],
+      "writes": ["squads/<slug>/state.json"]
+    },
+    "reset": {
+      "required_args": [],
+      "optional_args": ["squad"],
+      "writes": ["squads/<slug>/state.json"]
+    },
+    "linkedin-publish": {
+      "required_args": ["text-file"],
+      "optional_args": ["images", "alt-texts-file", "mode", "squad"],
+      "writes": [".context/ops-runs/**", ".context/linkedin-carousel/**", "squads/<slug>/output/**"]
+    },
+    "instagram-workflow": {
+      "required_args": [],
+      "optional_args": [
+        "workflow-mode",
+        "output-dir",
+        "package-file",
+        "prompt-file",
+        "ref-dir",
+        "mode",
+        "compose-only",
+        "squad"
+      ],
+      "writes": [".context/ops-runs/**", ".context/instagram-orchestrator/**", ".context/instagram-infographic/**"]
+    },
+    "instagram-publish": {
+      "required_args": ["images"],
+      "optional_args": ["caption", "caption-file", "mode", "force", "publish-at", "schedule-at", "squad"],
+      "writes": [".context/ops-runs/**", ".context/instagram-publisher/**", ".context/social-scheduler/**"]
+    },
+    "youtube-ingest": {
+      "required_args": ["youtube-url"],
+      "optional_args": ["squad", "skip-video"],
+      "writes": [".context/ops-runs/**", "squads/youtube-viral-clips/input/**", "squads/youtube-viral-clips/output/**"]
+    },
+    "youtube-auto-plan": {
+      "required_args": [],
+      "optional_args": ["squad", "video-id", "max-clips"],
+      "writes": [".context/ops-runs/**", "squads/youtube-viral-clips/output/**"]
+    },
+    "youtube-render": {
+      "required_args": [],
+      "optional_args": ["squad", "spec", "source"],
+      "writes": [".context/ops-runs/**", "squads/youtube-viral-clips/output/**"]
+    },
+    "youtube-prepare-publish": {
+      "required_args": [],
+      "optional_args": ["squad", "manifest", "render-result"],
+      "writes": [".context/ops-runs/**", "squads/youtube-viral-clips/output/**"]
+    },
+    "youtube-publish": {
+      "required_args": [],
+      "optional_args": [
+        "spec-file",
+        "video-file",
+        "title",
+        "description",
+        "description-file",
+        "tags",
+        "privacy-status",
+        "category-id",
+        "playlist-id",
+        "output-file",
+        "schedule-at",
+        "publish-at",
+        "notify-subscribers",
+        "made-for-kids",
+        "mode",
+        "squad"
+      ],
+      "writes": [".context/ops-runs/**", "squads/youtube-viral-clips/output/**", ".context/social-scheduler/**"]
+    }
+  },
+  "read_targets": [".env", ".env.local", ".context/**", "output/**", "squads/**", "ai/ref/**"],
+  "write_targets": [".context/**", "output/**", "squads/*/output/**", "squads/*/state.json"],
+  "result_contract": {
+    "status": "ok | error",
+    "action": "string",
+    "channel": "linkedin | instagram | youtube | ops",
+    "mode": "simulate | dry-run | live",
+    "squad": "string | null",
+    "command": "string",
+    "artifact_paths": ["string"],
+    "publish_result_path": "string | null",
+    "sync_hint_paths": ["string"],
+    "logs_path": "string",
+    "result_path": "string",
+    "allowed_env_files": ["string"],
+    "allowed_write_targets": ["string"],
+    "allowed_read_targets": ["string"],
+    "exit_code": "number"
+  }
+}

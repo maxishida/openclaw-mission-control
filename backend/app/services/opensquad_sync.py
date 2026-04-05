@@ -152,10 +152,23 @@ def _max_datetime(*values: datetime | None) -> datetime | None:
     return max(resolved)
 
 
-def _read_text_excerpt(path: Path, *, max_lines: int = 10, max_chars: int = 1200) -> str:
+def _read_text_file(path: Path) -> str:
     try:
-        raw = path.read_text(encoding="utf-8")
+        raw = path.read_bytes()
     except OSError:
+        return ""
+
+    for encoding in ("utf-8", "utf-8-sig", "utf-16", "utf-16-le", "utf-16-be"):
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
+def _read_text_excerpt(path: Path, *, max_lines: int = 10, max_chars: int = 1200) -> str:
+    raw = _read_text_file(path)
+    if not raw:
         return ""
     lines: list[str] = []
     for raw_line in raw.splitlines():
@@ -176,9 +189,8 @@ def _read_text_excerpt(path: Path, *, max_lines: int = 10, max_chars: int = 1200
 def _read_markdown_summary(path: Path, *, source: str, key: str, tag: str) -> list["ParsedMemory"]:
     if not path.is_file():
         return []
-    try:
-        raw = path.read_text(encoding="utf-8")
-    except OSError:
+    raw = _read_text_file(path)
+    if not raw:
         return []
     lines = [line.strip() for line in raw.splitlines() if line.strip()]
     if not lines:

@@ -7,13 +7,12 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
-import dotenv from 'dotenv';
+import { loadEnvFiles } from '../../shared/load-env.js';
 
 const require = createRequire(import.meta.url);
 const { createScheduledJob, normalizeDateString } = require('../../../scripts/social-scheduler/lib.js');
 
-dotenv.config({ path: resolve(process.cwd(), '.env.local'), quiet: true });
-dotenv.config({ path: resolve(process.cwd(), '.env'), quiet: true });
+loadEnvFiles([resolve(process.cwd(), '.env.local'), resolve(process.cwd(), '.env')]);
 
 export function parseArgs(argv) {
   const args = { images: [], caption: '', dryRun: false, force: false };

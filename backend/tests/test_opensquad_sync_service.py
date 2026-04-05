@@ -104,7 +104,7 @@ def _write_workspace(root: Path) -> None:
     )
     (squad_dir / "memories.md").write_text(
         "# Memory\n\nAngle brief approved.\n\nKeep the hook anchored on the market shock headline.\n",
-        encoding="utf-8",
+        encoding="utf-16",
     )
     (squad_dir / "runs.md").write_text(
         "# Runs\n\nRun 001 closed after review checkpoint.\n",

@@ -3,8 +3,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
-const sharp = require("sharp");
-const dotenv = require("dotenv");
+const { loadEnvFiles } = require("../shared/load-env.cjs");
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
@@ -121,8 +120,23 @@ const INFOGRAPHIC_THEMES = {
   },
 };
 
-dotenv.config({ path: path.resolve(".env.local") });
-dotenv.config({ path: path.resolve(".env") });
+loadEnvFiles([path.resolve(".env.local"), path.resolve(".env")]);
+
+let sharpModule = null;
+
+function getSharp() {
+  if (sharpModule) return sharpModule;
+  try {
+    // Only required for infographic composition; carousel mode must stay dependency-light.
+    sharpModule = require("sharp");
+    return sharpModule;
+  } catch (error) {
+    throw new Error(
+      "O fluxo infographic precisa da dependencia opcional 'sharp'. " +
+        "O modo carousel continua disponivel sem ela.",
+    );
+  }
+}
 
 function parseArgs(argv) {
   const args = {};
@@ -657,6 +671,7 @@ function buildOverlaySvg(packageData, referenceSelection) {
 
 async function renderFinalOutputs({ manifest, packageData, referenceSelection }) {
   const overlaySvg = buildOverlaySvg(packageData, referenceSelection);
+  const sharp = getSharp();
   const baseBuffer = await sharp(manifest.files.baseImage)
     .resize(WIDTH, HEIGHT, { fit: "cover" })
     .png()

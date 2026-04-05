@@ -110,8 +110,13 @@ export function DashboardShell({ children }: { children: ReactNode }) {
                 {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             ) : null}
-            <div className="rounded-[26px] border border-white/10 bg-white/5 px-4 py-3 shadow-[0_18px_45px_rgba(3,7,24,0.28)] backdrop-blur-xl">
-              <BrandMark />
+            <div className="rounded-[26px] border border-fuchsia-400/20 bg-[linear-gradient(180deg,rgba(44,17,74,0.75),rgba(17,10,34,0.82))] px-4 py-3 shadow-[0_18px_45px_rgba(104,35,176,0.32)] backdrop-blur-xl">
+              <BrandMark
+                variant="prompthub"
+                title="PROMPTHUB"
+                subtitle="Neon Ops"
+                tileLabel="PH"
+              />
             </div>
           </div>
           <SignedIn>
@@ -132,14 +137,14 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           </SignedIn>
           <SignedIn>
             <div className="ml-auto flex items-center gap-3">
-              <div className="galaxy-chip hidden rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-violet-100 xl:block">
-                Galaxy relay online
+              <div className="hidden rounded-full border border-fuchsia-400/25 bg-[linear-gradient(180deg,rgba(153,39,255,0.16),rgba(107,33,168,0.16))] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-fuchsia-100 shadow-[0_0_20px_rgba(162,59,255,0.18)] xl:block">
+                Prompthub relay online
               </div>
               <div className="hidden text-right lg:block">
                 <p className="text-sm font-semibold text-slate-50">
                   {displayName}
                 </p>
-                <p className="text-xs text-slate-400">Command operator</p>
+                <p className="text-xs text-fuchsia-200/70">Hybrid ops control</p>
               </div>
               <UserMenu displayName={displayName} displayEmail={displayEmail} />
             </div>
